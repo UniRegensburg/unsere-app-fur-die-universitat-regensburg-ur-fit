@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     width: window.innerWidth * 0.7,
   },
 
-  listicon: {
+  listIcon: {
     color: "black",
   },
 
@@ -82,7 +82,7 @@ export default function AppBarDrawer(props) {
                   key={index}
                   data-testid="drawer-listitem"
                 >
-                  <ListItemIcon className={classes.listicon}>
+                  <ListItemIcon className={classes.listIcon}>
                     {page.icon}
                   </ListItemIcon>
                   <ListItemText>{page.title}</ListItemText>
@@ -106,7 +106,7 @@ export default function AppBarDrawer(props) {
                   key={index}
                   data-testid="drawer-listitem"
                 >
-                  <ListItemIcon className={classes.listicon}>
+                  <ListItemIcon className={classes.listIcon}>
                     {page.icon}
                   </ListItemIcon>
                   <ListItemText>{page.title}</ListItemText>
