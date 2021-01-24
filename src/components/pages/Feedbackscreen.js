@@ -49,13 +49,13 @@ class Feedbackscreen extends React.Component {
         const { classes } = this.props;
         return (
             <div className="Feedbackscreen">
-                <TopAppBar title={"Feedback"}/>
+                <TopAppBar data-testid="appbar" title={"Feedback"}/>
                 <div className={classes.container}>
-                    <p className={classes.text}>Sie können Ihr Feedback per eMail an <a href="mailto:abc@example.com">xy@ur.de</a> oder direkt hier in der App senden.</p>
+                    <p data-testid="feedback-text" className={classes.text}>Sie können Ihr Feedback per eMail an <a href="mailto:abc@example.com">xy@ur.de</a> oder direkt hier in der App senden.</p>
                     <form>
-                        <textarea className={classes.textarea} value={this.state.value} onChange={this.handleChange} rows="10" />
+                        <textarea data-testid="feedback-textarea" className={classes.textarea} value={this.state.value} onChange={this.handleChange} rows="10" />
                     </form>
-                    <Button className={classes.button} onClick={this.handleSubmit}>Senden</Button>
+                    <Button data-testid="feedback-button" className={classes.button} onClick={this.handleSubmit}>Senden</Button>
                 </div>
             </div>
         );
