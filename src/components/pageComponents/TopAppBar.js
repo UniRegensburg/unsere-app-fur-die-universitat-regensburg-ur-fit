@@ -50,11 +50,11 @@ class TopAppBar extends React.Component {
 
   render() {
     const { classes } = this.props;
-    let title;
+    let header;
     if (this.props.title === "URfit") {
-      title = <AppBarLogo class={classes.logo} />;
+      header = <AppBarLogo class={classes.logo} />;
     } else {
-      title = <AppBarTitle class={classes.title} title={this.props.title} />;
+      header = <AppBarTitle class={classes.title} title={this.props.title} />;
     }
     return (
       <AppBar data-testid="appbar" className={classes.appBar}>
@@ -75,7 +75,7 @@ class TopAppBar extends React.Component {
                 <BurgerMenu fontSize="large" />
               </IconButton>
             </Grid>
-            {title}
+            {header}
             <Grid item xs={1} />
           </Grid>
         </Toolbar>
@@ -94,7 +94,7 @@ class AppBarLogo extends React.Component {
   render() {
     return (
       <Grid item xs={5}>
-              <Paper data-testid="appbar-logo" elevation={0}>
+              <Paper data-testid="appbar-header" elevation={0}>
                 <img src={Logo} alt="AppBarLogo" className={ this.props.class } />
               </Paper>
             </Grid>
@@ -106,7 +106,7 @@ class AppBarTitle extends React.Component {
   render() {
     return (
       <Grid item xs={5}>
-        <h2 className={ this.props.class }>{this.props.title}</h2>
+        <h2 data-testid="appbar-header" className={ this.props.class }>{this.props.title}</h2>
       </Grid>
     );
   }

@@ -9,18 +9,18 @@ it("check if appbar displays", () => {
   const { getByTestId } = render(<TopAppBar />);
   const appbar = getByTestId("appbar");
   const drawerButton = getByTestId("burgermenu-button");
-  const logo = getByTestId("appbar-logo");
+  const header = getByTestId("appbar-header");
 
   expect(appbar).toBeInTheDocument();
   expect(drawerButton).toBeInTheDocument();
-  expect(logo).toBeInTheDocument();
+  expect(header).toBeInTheDocument();
 });
 
 it("check if drawer displays when button is clicked", () => {
   const { getByTestId } = render(<TopAppBar />);
   const appbar = getByTestId("appbar");
   const drawerButton = getByTestId("burgermenu-button");
-  const logo = getByTestId("appbar-logo");
+  const header = getByTestId("appbar-header");
 
   fireEvent.click(drawerButton);
 
@@ -29,7 +29,7 @@ it("check if drawer displays when button is clicked", () => {
   expect(drawer).toBeInTheDocument();
   expect(appbar).toBeInTheDocument();
   expect(drawerButton).toBeInTheDocument();
-  expect(logo).toBeInTheDocument();
+  expect(header).toBeInTheDocument();
 });
 
 it("check if drawer displays", () => {
