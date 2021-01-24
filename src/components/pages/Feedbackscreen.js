@@ -5,8 +5,6 @@ import {
 } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 
-// todo: topappbar should not always display logo
-
 const styles = (theme) => ({
     container: {
         marginStart: "16px",
@@ -33,7 +31,7 @@ const styles = (theme) => ({
 class Feedbackscreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { value: 'Bitte geben Sie hier Ihr Feedback ein.' };
+        this.state = { value: "Bitte geben Sie hier Ihr Feedback ein." };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -51,7 +49,7 @@ class Feedbackscreen extends React.Component {
         const { classes } = this.props;
         return (
             <div className="Feedbackscreen">
-                <TopAppBar />
+                <TopAppBar title={"Feedback"}/>
                 <div className={classes.container}>
                     <p className={classes.text}>Sie können Ihr Feedback per eMail an <a href="mailto:abc@example.com">xy@ur.de</a> oder direkt hier in der App senden.</p>
                     <form>

@@ -6,7 +6,7 @@ class Homescreen extends React.Component {
   render() {
     return (
       <div className="Homescreen">
-        <TopAppBar />
+        <TopAppBar title={"URfit"}/>
         <p>Homescreen content</p>
       </div>
     );

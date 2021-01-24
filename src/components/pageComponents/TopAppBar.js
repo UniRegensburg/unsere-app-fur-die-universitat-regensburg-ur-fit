@@ -8,7 +8,6 @@ import {
   Grid,
 } from "@material-ui/core/";
 import { Menu as BurgerMenu } from "@material-ui/icons";
-
 import AppBarDrawer from "./AppBarDrawer";
 import Logo from "../../assets/images/URFitLogo.png";
 
@@ -30,6 +29,10 @@ const styles = (theme) => ({
     width: "62px",
     height: "37px",
   },
+
+  title: {
+    color: "#2E303C",
+  },
 });
 
 class TopAppBar extends React.Component {
@@ -37,7 +40,7 @@ class TopAppBar extends React.Component {
     super(props);
     this.state = {
       open: false,
-    };
+    };    
   }
   toggleDrawer() {
     this.setState({
@@ -47,6 +50,12 @@ class TopAppBar extends React.Component {
 
   render() {
     const { classes } = this.props;
+    let title;
+    if (this.props.title === "URfit") {
+      title = <AppBarLogo class={classes.logo} />;
+    } else {
+      title = <AppBarTitle class={classes.title} title={this.props.title} />;
+    }
     return (
       <AppBar data-testid="appbar" className={classes.appBar}>
         <Toolbar>
@@ -66,11 +75,7 @@ class TopAppBar extends React.Component {
                 <BurgerMenu fontSize="large" />
               </IconButton>
             </Grid>
-            <Grid item xs={5}>
-              <Paper data-testid="appbar-logo" elevation={0}>
-                <img src={Logo} alt="AppBarLogo" className={classes.logo} />
-              </Paper>
-            </Grid>
+            {title}
             <Grid item xs={1} />
           </Grid>
         </Toolbar>
@@ -84,3 +89,25 @@ class TopAppBar extends React.Component {
 }
 
 export default withStyles(styles)(TopAppBar);
+
+class AppBarLogo extends React.Component {
+  render() {
+    return (
+      <Grid item xs={5}>
+              <Paper data-testid="appbar-logo" elevation={0}>
+                <img src={Logo} alt="AppBarLogo" className={ this.props.class } />
+              </Paper>
+            </Grid>
+    );
+  }
+}
+
+class AppBarTitle extends React.Component {
+  render() {
+    return (
+      <Grid item xs={5}>
+        <h2 className={ this.props.class }>{this.props.title}</h2>
+      </Grid>
+    );
+  }
+}
