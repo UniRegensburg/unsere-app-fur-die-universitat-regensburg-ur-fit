@@ -9,7 +9,7 @@ import {
   List,
   Drawer,
 } from "@material-ui/core/";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 
 import Logo from "../../assets/images/URFitLogo.png";
 import * as Constants from "../../constants/constants.js";
