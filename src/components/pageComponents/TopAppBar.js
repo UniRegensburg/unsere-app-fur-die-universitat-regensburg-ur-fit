@@ -60,9 +60,9 @@ class TopAppBar extends React.Component {
       <AppBar data-testid="appbar" className={classes.appBar}>
         <Toolbar>
           <Grid
-            justify={"space-between"}
-            direction={"row"}
-            alignItems={"center"}
+            justify="space-between"
+            direction="row"
+            alignItems="center"
             container
           >
             <Grid item xs={1}>

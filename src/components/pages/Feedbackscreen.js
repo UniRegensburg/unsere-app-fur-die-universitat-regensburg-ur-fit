@@ -49,7 +49,7 @@ class Feedbackscreen extends React.Component {
         const { classes } = this.props;
         return (
             <div className="Feedbackscreen">
-                <TopAppBar data-testid="appbar" title={"Feedback"}/>
+                <TopAppBar data-testid="appbar" title="Feedback" />
                 <div className={classes.container}>
                     <p data-testid="feedback-text" className={classes.text}>Sie können Ihr Feedback per eMail an <a href="mailto:abc@example.com">xy@ur.de</a> oder direkt hier in der App senden.</p>
                     <form>
