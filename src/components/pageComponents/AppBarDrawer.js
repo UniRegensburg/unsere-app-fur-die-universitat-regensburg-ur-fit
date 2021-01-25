@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AppBarDrawer(props) {
   const classes = useStyles();
   return (
-    <Router>
       <Drawer
         variant="temporary"
         onClose={props.onToggleDrawer}
@@ -118,6 +117,5 @@ export default function AppBarDrawer(props) {
           <Grid item xs></Grid>
         </Grid>
       </Drawer>
-    </Router>
   );
 }
