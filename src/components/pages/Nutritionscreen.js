@@ -3,16 +3,16 @@ import React from "react";
 import TopAppBar from "../pageComponents/TopAppBar";
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 
-class Homescreen extends React.Component {
+class Nutritionscreen extends React.Component {
   render() {
     return (
-      <div className="Homescreen">
+      <div className="Nutrition">
         <TopAppBar title="URfit" />
-        <p>Homescreen content</p>
+        <p>Nutrition content</p>
         <BottomNavigationBar />
       </div>
     );
   }
 }
 
-export default Homescreen;
+export default Nutritionscreen;
