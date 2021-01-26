@@ -72,3 +72,11 @@ export const pages = [
     icon: <Logout />,
   },
 ];
+
+export const week = ["mo", "di", "mi", "do", "fr"];
+
+export const meals = {
+  mainDish: "H",
+  garnish: "B",
+  dessert: "N",
+};
