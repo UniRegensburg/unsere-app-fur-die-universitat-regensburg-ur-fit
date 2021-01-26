@@ -8,23 +8,21 @@ const style = (theme) => ({
     grid:{
         width: '100%',
         height: '100%',
-        margin: '0px'
     },
     textFields:{
-        width: '80%',
-        margin: '50px 0px 0px 50px'
+        marginTop: '20px',
+        marginRight: '5px',
+        marginBottom:'20px',
+        marginLeft: '5px'
     },
     button:{
-        margin: '50px 0px 0px 50px'
     },
     paper:{
-        margin: '20px',
-        padding: theme.spacing(2),
+        padding: theme.spacing(4),
     },
     logo:{
         width: "124px",
         height: "74px",
-        padding: '0 50px'
     }
 
   });
@@ -37,16 +35,22 @@ class Loginscreen extends React.Component{
         const { classes } = this.props;
         return (
             <div className="Loginscreen">
-                <Grid className={ classes.grid } container spacing={2} justify='center' alignItems='center' direction='column'>
-                    <Grid item xs={6}>
-                        <Paper className={ classes.paper }>
-                            <img src={Logo} alt="AppBarLogo" className={classes.logo} />                              
+                <Paper className={ classes.paper }>
+                    <Grid className={ classes.grid } container justify='space-between' alignItems='center' direction='column'>
+                        <Grid item xs={12}>                     
+                            <img src={Logo} alt="AppBarLogo" className={classes.logo} /> 
+                        </Grid>  
+                        <Grid item xs={12}>                            
                         <TextField className={ classes.textFields } label='E-Mail Adresse' required={true} type='email' size='medium' variant='standard' />
+                        </Grid>
+                        <Grid item xs={12}> 
                         <TextField className={ classes.textFields } label='Passwort' required={true} type='password' size='medium' variant='standard' />
+                        </Grid>
+                        <Grid item xs={12}>
                         <Button className={ classes.button } variant='contained' color='default' href='\'>LogIn</Button>
-                        </Paper>
+                        </Grid>
                     </Grid>
-                </Grid>
+                </Paper>
             </div>
         );
     }
