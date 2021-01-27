@@ -36,15 +36,18 @@ class Homescreen extends React.Component {
     // testdata ist not tested for favorite=true (because it is dummy data)
     let testdata = TestContent.data;
     const { classes } = this.props;
+
     return (
       <div className="Homescreen">
-        <TopAppBar title="URfit" />
+        <TopAppBar data-testid="appbar" title="URfit" />
         <div className={classes.container}>
-          <h3 className={classes.text}>Meine Lieblingsübungen</h3>
-          <ContentCard data={testdata.test1} />
-          <ContentCard data={testdata.test2} />
-          <ContentCard data={testdata.test3} />
-          <ContentCard data={testdata.test4} />
+          <h3 data-testid="title" className={classes.text}>
+            Meine Lieblingsübungen
+          </h3>
+          <ContentCard data-testid="content-item" data={testdata.test1} />
+          <ContentCard data-testid="content-item" data={testdata.test2} />
+          <ContentCard data-testid="content-item" data={testdata.test3} />
+          <ContentCard data-testid="content-item" data={testdata.test4} />
         </div>
 
         <SimpleBottomNavigation
@@ -66,8 +69,13 @@ class SimpleBottomNavigation extends React.Component {
       nutrition = ConstantPages.pages.nutrition;
 
     return (
-      <BottomNavigation showLabels className={this.props.class}>
+      <BottomNavigation
+        data-testid="bottomnavigation"
+        showLabels
+        className={this.props.class}
+      >
         <BottomNavigationAction
+          data-testid="navigation-relaxation"
           className={this.props.icon}
           label={relaxation.title}
           icon={relaxation.icon}
@@ -75,6 +83,7 @@ class SimpleBottomNavigation extends React.Component {
           to={relaxation.value}
         />
         <BottomNavigationAction
+          data-testid="navigation-fitness"
           className={this.props.icon}
           label={fitness.title}
           icon={fitness.icon}
@@ -82,6 +91,7 @@ class SimpleBottomNavigation extends React.Component {
           to={fitness.value}
         />
         <BottomNavigationAction
+          data-testid="navigation-wellbeing"
           className={this.props.icon}
           label={wellbeing.title}
           icon={wellbeing.icon}
@@ -89,6 +99,7 @@ class SimpleBottomNavigation extends React.Component {
           to={wellbeing.value}
         />
         <BottomNavigationAction
+          data-testid="navigation-nutrition"
           className={this.props.icon}
           label={nutrition.title}
           icon={nutrition.icon}

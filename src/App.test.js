@@ -4,6 +4,6 @@ import App from "./App";
 
 test("example test", () => {
   render(<App />);
-  const linkElement = screen.getByText("Homescreen content");
+  const linkElement = screen.getByText("Meine Lieblingsübungen");
   expect(linkElement).toBeInTheDocument();
 });
