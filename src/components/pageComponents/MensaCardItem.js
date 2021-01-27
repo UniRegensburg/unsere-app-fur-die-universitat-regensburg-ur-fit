@@ -6,11 +6,9 @@ import {
   Grid,
 } from "@material-ui/core/";
 
-import * as Constants from "../../constants/constants.js";
-
 const useStyles = makeStyles((theme) => ({
   cardItem: {
-    margin: "10px",
+    margin: "20px",
     boxShadow: "none",
     borderStyle: "solid",
     borderWidth: "1px",
@@ -32,21 +30,28 @@ const useStyles = makeStyles((theme) => ({
 export default function MensaCard(props) {
   const classes = useStyles();
   return (
-    <Card className={classes.cardItem}>
+    <Card data-testid="card-item" className={classes.cardItem}>
       <Grid container direction="row">
         <Grid item xs={8}>
           <CardContent>
-            <Typography className={classes.cardTitle}>{props.title}</Typography>
+            <Typography data-testid="card-title" className={classes.cardTitle}>
+              {props.title}
+            </Typography>
           </CardContent>
           <CardContent>
-            <Typography className={classes.cardSubtitle}>
-              Preis: {props.price}€
+            <Typography
+              data-testid="card-subtitle"
+              className={classes.cardSubtitle}
+            >
+              {props.price}€
             </Typography>
           </CardContent>
         </Grid>
         <Grid item xs={4}>
           <CardContent>
-            <Typography className={classes.label}>{props.labels[0]}</Typography>
+            <Typography data-testid="card-label" className={classes.label}>
+              {props.labels[0]}
+            </Typography>
           </CardContent>
         </Grid>
       </Grid>

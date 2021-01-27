@@ -1,4 +1,4 @@
-export default function addCategories(mensaData) {
+export function addCategories(mensaData) {
   for (let day in mensaData) {
     for (let meal in mensaData[day]["data"]) {
       mensaData[day]["data"][meal].labels = mensaData[day]["data"][
@@ -40,4 +40,17 @@ export default function addCategories(mensaData) {
     }
   }
   return mensaData;
+}
+
+export function filterMensaData(mensaData, day, meal) {
+  return mensaData
+    .find((item) => {
+      return item.day === day;
+    })
+    .data.filter((item) => {
+      if (item.category.charAt(0) === meal) {
+        return item;
+      }
+      return null;
+    });
 }

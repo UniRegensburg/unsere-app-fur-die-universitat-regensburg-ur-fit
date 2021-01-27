@@ -11,7 +11,7 @@ import TopAppBar from "../pageComponents/TopAppBar";
 import getMensaData from "../services/retrieveMensaData";
 import * as Constants from "../../constants/constants";
 import MensaCardItem from "../pageComponents/MensaCardItem";
-import addCategories from "../models/MensaData";
+import { addCategories, filterMensaData } from "../services/sortMensaData";
 
 const styles = (theme) => ({
   weekRow: {
@@ -34,7 +34,7 @@ const styles = (theme) => ({
   },
 });
 
-class Mensascreen extends React.Component {
+export class Mensascreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,14 +59,14 @@ class Mensascreen extends React.Component {
     const { classes } = this.props;
     if (this.state.mensaPlan === null) {
       return (
-        <div className="Mensascreen">
+        <div className="Spinnerscreen">
           <TopAppBar title="URfit" />
-          <CircularProgress />
+          <CircularProgress data-testid="spinner" />
         </div>
       );
     } else {
       return (
-        <div className="Mensascreen">
+        <div data-testid="mensa-appBar" className="Mensascreen">
           <TopAppBar title="URfit" />
           <Grid container direction="column">
             <Grid
@@ -96,66 +96,66 @@ class Mensascreen extends React.Component {
               <Typography className={classes.categoryTitle}>
                 Beilagen
               </Typography>
-              {this.state.mensaPlan
-                .find((item) => {
-                  return item.day === this.state.day;
-                })
-                .data.filter((item) => {
-                  if (item.category.charAt(0) === Constants.meals.garnish) {
-                    return item;
+              {filterMensaData(
+                this.state.mensaPlan,
+                this.state.day,
+                Constants.meals.garnish
+              ).map((meal, index) => (
+                <MensaCardItem
+                  className={classes.mensaCard}
+                  title={meal.title}
+                  price={
+                    meal.studCost +
+                    "€ / " +
+                    meal.empCost +
+                    "€ / " +
+                    meal.guestCost
                   }
-                  return null;
-                })
-                .map((meal, index) => (
-                  <MensaCardItem
-                    className={classes.mensaCard}
-                    title={meal.title}
-                    price={meal.studCost}
-                    labels={meal.labels}
-                  />
-                ))}
+                  labels={meal.labels}
+                />
+              ))}
               <Typography className={classes.categoryTitle}>
                 Hauptgerichte
               </Typography>
-              {this.state.mensaPlan
-                .find((item) => {
-                  return item.day === this.state.day;
-                })
-                .data.filter((item) => {
-                  if (item.category.charAt(0) === Constants.meals.mainDish) {
-                    return item;
+              {filterMensaData(
+                this.state.mensaPlan,
+                this.state.day,
+                Constants.meals.mainDish
+              ).map((meal, index) => (
+                <MensaCardItem
+                  className={classes.mensaCard}
+                  title={meal.title}
+                  price={
+                    meal.studCost +
+                    "€ / " +
+                    meal.empCost +
+                    "€ / " +
+                    meal.guestCost
                   }
-                  return null;
-                })
-                .map((meal, index) => (
-                  <MensaCardItem
-                    className={classes.mensaCard}
-                    title={meal.title}
-                    price={meal.studCost}
-                    labels={meal.labels}
-                  />
-                ))}
+                  labels={meal.labels}
+                />
+              ))}
               <Typography className={classes.categoryTitle}>
                 Desserts
               </Typography>
-              {this.state.mensaPlan
-                .find((item) => {
-                  return item.day === this.state.day;
-                })
-                .data.filter((item) => {
-                  if (item.category.charAt(0) === Constants.meals.dessert) {
-                    return item;
+              {filterMensaData(
+                this.state.mensaPlan,
+                this.state.day,
+                Constants.meals.dessert
+              ).map((meal, index) => (
+                <MensaCardItem
+                  className={classes.mensaCard}
+                  title={meal.title}
+                  price={
+                    meal.studCost +
+                    "€ / " +
+                    meal.empCost +
+                    "€ / " +
+                    meal.guestCost
                   }
-                  return null;
-                })
-                .map((meal, index) => (
-                  <MensaCardItem
-                    className={classes.mensaCard}
-                    title={meal.title}
-                    price={meal.studCost}
-                    labels={meal.labels}
-                  />
-                ))}
+                  labels={meal.labels}
+                />
+              ))}
             </Grid>
           </Grid>
         </div>

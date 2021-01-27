@@ -10,7 +10,7 @@ import Mensascreen from "./components/pages/Mensascreen";
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div data-testid="app" className="App">
         <Switch>
           {/* This will be the login screen */}
           <Route exact path="/" component={Mensascreen} />
