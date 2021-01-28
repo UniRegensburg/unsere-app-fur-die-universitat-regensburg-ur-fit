@@ -72,3 +72,84 @@ export const pages = [
     icon: <Logout />,
   },
 ];
+
+export const relaxation_categories = [
+  {
+    title: "Achtsamkeit",
+    text: "kjhfas sdfh asdf adf af dsfjh sdfiu af kjdsfh vj jh fashd adjfh ala",
+  },
+  {
+    title: "Meditation",
+    text: "kjhfas sdfh asdf adf af dsfjh sdfiu af kjdsf",
+  },
+  {
+    title: "Yoga",
+    text: "test tes jkhdf dfkjh nbvja jhdfnc kajsd ivh dksfjh  kjvhds kjdh",
+  },
+  {
+    title: "PMR",
+    text: "jhf asdjfh akjdfh nueui  kjdfhiu eiur wiu skjdf ieu",
+  },
+  {
+    title: "Autogenes Training",
+    text:
+      "kjdsfh jd fnkjh akh h qwiuez kjdfh nbdfj kjhdf njkdf skdjfh ne fkjhdf jdhf",
+  },
+  {
+    title: "Körperreisen",
+    text: "hdf kjdsfh kjshd asdj dnjfk dsfjh dfks",
+  },
+  {
+    title: "Qi Gong",
+    text: "djhf sdkfjh njkd",
+  },
+];
+
+export const fitness_categories = [
+  {
+    title: "Workouts",
+    text: "kjhdf kjshd  hkjdf kjhdf",
+  },
+  {
+    title: "Yoga",
+    text: "kjhdfjf jdhf kjhd asdjh  kjhf kjh kjh kjhkjh kjh asdjh kjh sd",
+  },
+  {
+    title: "Gesundheit",
+    text: "jsdhf kjdhf ksjhd kjhd ddhhdsj akjs",
+  },
+];
+
+export const wellbeing_categories = [
+  {
+    title: "Schlaf",
+    text: "hdf kj",
+  },
+  {
+    title: "Entspannung",
+    text: "kjd kjhd kjhkj asd asd asdjh  asdkj asdjh da",
+  },
+  {
+    title: "Zeitmanagement",
+    text: "df lkjdf sdfkj sdflkj sdflkj dsf",
+  },
+  {
+    title: "Methoden",
+    text: "dsjf lkjdsf lkjdsf",
+  },
+];
+
+export const nutrition_categories = [
+  {
+    title: "Mensa",
+    text: "lkjdf lkjdsf",
+  },
+  {
+    title: "Infobereich",
+    text: "ljdf lkjdf lkjsd lkjdf",
+  },
+  {
+    title: "Mythencheck",
+    text: "dfkjsdf lkdf slkf",
+  },
+];
