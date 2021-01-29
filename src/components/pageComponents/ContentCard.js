@@ -14,6 +14,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "16px",
   },
 
+  cardContent: {
+    "&:last-child": {
+      paddingBottom: "16px",
+    },
+  },
+
   typeIcon: {
     float: "left",
     marginRight: "8px",
@@ -41,13 +47,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ContentCard(props) {
   const classes = useStyles();
   const { data } = props;
-  let typeIcon, heartIcon;
-
-  if (data.favorite) {
-    heartIcon = <FavoriteIcon />;
-  } else {
-    heartIcon = <FavoriteOutlinedIcon />;
-  }
+  let typeIcon;
 
   switch (data.type) {
     case "Video":
@@ -65,20 +65,7 @@ export default function ContentCard(props) {
 
   return (
     <Card variant="outlined" className={classes.card}>
-      <CardContent
-      /* this doesn't work -> any help appreciated on how to get rid of this damn padding   
-
-        overrides={{
-          MuiCardContent: {
-            root: {
-              "&:last-child": {
-                padding: 0,
-              },
-            },
-          },
-        }}
-        */
-      >
+      <CardContent className={classes.cardContent}>
         <div className={classes.text}>
           {typeIcon}
           <span className={classes.text}>{data.type}</span>
@@ -86,15 +73,15 @@ export default function ContentCard(props) {
         </div>
         <p className={classes.title}>{data.title}</p>
         <div className={classes.text}>
-          {data.tags.map((el, i) => {
+          {data.tags.map((tag, index) => {
             return (
-              <span className={classes.text} key={i}>
-                {el}
+              <span className={classes.text} key={index}>
+                {tag}
               </span>
             );
           })}
           <IconButton size="small" className={classes.heartButton}>
-            {heartIcon}
+            {data.favorite ? <FavoriteIcon /> : <FavoriteOutlinedIcon />}
           </IconButton>
         </div>
       </CardContent>
