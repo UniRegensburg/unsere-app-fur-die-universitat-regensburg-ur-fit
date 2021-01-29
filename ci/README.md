@@ -55,7 +55,7 @@ module.exports = {
     {
       name: "ur-fit-prod",
       script: "npm",
-      args: "run build",
+      args: "run publish",
     }
   ]
 }
@@ -75,32 +75,62 @@ The three node servers differentiate themselfs by using different ports on local
 - `localhost:5000/`: production server (process: ur-fit-prod)
 
 > Important: Using one host (in this case `urfit.software-engineering.education`) for two react apps is not possible because of webpack. Webpack will bundle files to be served from root. As a result, the developement and production server cannot be accessed from the same host, because the reverse proxy well not work. (This is probably solvable with a more sofiticated configuration.)
+> Notice: Second gotcha is that create-app-app uses websocket to serve the site, therefore the http connection needs to be able to upgrade to a websocket connection.
 
 ### Nginx configuration file: `/etc/nginx/sites-available/urfit.software-engineering.education`
 ```nginx
+upstream ciserver {
+        server 127.0.0.1:3330;
+        }
+
+upstream devserver {
+        server 127.0.0.1:3000;
+}
+
 server {
         listen 80;
-        server_name urfit.software-engineering.education;
-        return 301 https://urfit.software-engineering.education$request_uri;
+        server_name review.software-engineering.education;
+        return 301 https://review.software-engineering.education$request_uri;
 }
 
 server {
         listen 443 ssl;
         listen [::]:443 ssl;
-        server_name urfit.software-engineering.education;
+        server_name review.software-engineering.education;
 
-        ssl_certificate /etc/letsencrypt/live/urfit.software-engineering.education/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/urfit.software-engineering.education/privkey.pem;
+        ssl_certificate /etc/letsencrypt/live/review.software-engineering.education/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/review.software-engineering.education/privkey.pem;
 
         location /ci/ {
-                proxy_pass http://127.0.0.1:3330/;
+                proxy_pass http://ciserver;
         }
 
         location / {
-                proxy_pass http://127.0.0.1:3000/;
+                proxy_pass http://devserver;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection $connection_upgrade;
+                proxy_set_header Host $host;
         }
 }
 ```
+
+## Nginx configuration: `nginx.conf`
+```nginx
+http {
+        [...other stuff...]
+        ##
+        # Websocket Settings
+        ##
+
+        map $http_upgrade $connection_upgrade {
+                default upgrade;
+                '' close;
+        }
+}
+```
+
+
 ## Github Webhooks configuration
 
 Lets look at the github.com webhooks page then.
@@ -108,8 +138,6 @@ Here the ci updates are triggered on every push event. This can be configured to
 We need to specify the correct payload URL and content type. Content type must be `application/json`.
 To reach the ci server we use the url specified in nginx -- `https://review.software-engineering.education/ci/` -- with the endpoint `postrecieve`.
 This Endpoint needs to be specified in the `ci-server.config` as well.
-
-![setup screenshot](assets/github_webhooks_setup.png)
 
 ## CI server configuration
 
