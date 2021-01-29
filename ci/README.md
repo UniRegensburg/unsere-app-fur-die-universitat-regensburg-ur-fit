@@ -81,7 +81,7 @@ The three node servers differentiate themselfs by using different ports on local
 ```nginx
 upstream ciserver {
         server 127.0.0.1:3330;
-        }
+}
 
 upstream devserver {
         server 127.0.0.1:3000;
@@ -89,20 +89,20 @@ upstream devserver {
 
 server {
         listen 80;
-        server_name review.software-engineering.education;
-        return 301 https://review.software-engineering.education$request_uri;
+        server_name urfit.software-engineering.education;
+        return 301 https://urfit.software-engineering.education$request_uri;
 }
 
 server {
         listen 443 ssl;
         listen [::]:443 ssl;
-        server_name review.software-engineering.education;
+        server_name urfit.software-engineering.education;
 
-        ssl_certificate /etc/letsencrypt/live/review.software-engineering.education/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/review.software-engineering.education/privkey.pem;
+        ssl_certificate /etc/letsencrypt/live/urfit.software-engineering.education/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/urfit.software-engineering.education/privkey.pem;
 
         location /ci/ {
-                proxy_pass http://ciserver;
+                proxy_pass http://ciserver/;
         }
 
         location / {

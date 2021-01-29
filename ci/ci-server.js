@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 });
 
 let server = app.listen(port, () => {
-  console.log('Continous Integration Server listening at ' + `http://localhost:${port}`.green);
+  console.log(`Continous Integration Server listening at http://localhost:${port}`);
 });
 
 process.on('SIGINT', () => {
@@ -48,10 +48,10 @@ process.on('SIGINT', () => {
 })
 
 function runUpdate(githubPayload) {
-    console.log('--- running update for ' + `${githubPayload.pusher.name}`.yellow + ' with ' +`${githubPayload.commits.length} commits`.yellow + ' ---')
+    console.log('--- integrating update from ' + `${githubPayload.pusher.name}`.yellow + ' at ' + `${githubPayload.head_commit.timestamp}`.yellow + ' ---')
     let modifiedFiles = githubPayload.commits.map(obj => obj.modified).flat();
 
-    pullContents(config.git.remote, config.git.ref);
+    pullContents(config.git.remote, config.git.ref, githubPayload.commits.length);
 
     // Check if new dependencies need to be installed
     if (micromatch.some(modifiedFiles, config.requireInstall)) {
@@ -66,7 +66,7 @@ function runUpdate(githubPayload) {
         }
     }
     
-    console.log('--- ' + 'ran update successfully'.green + ' ---');
+    console.log('--- ' + 'update successful'.green + ' ---');
     
     // restart itself if necessary
     // pm2 will automatically restart the server upon exit
@@ -77,8 +77,8 @@ function runUpdate(githubPayload) {
 }
 
 
-function pullContents(remote, ref) {
-    console.log('pulling contents from ' + `${remote}`.yellow + ' on '+ `${ref}`.yellow);
+function pullContents(remote, ref, numCommits) {
+    console.log('pulling ' + `${numCommits} commits`.yellow + ' from ' + `${remote}`.yellow + ' on '+ `${ref}`.yellow);
     if (shell.exec(`git pull ${remote} ${ref}`).code !== 0) {
         console.log('Error: Git pull failed'.red);
         process.exit(1);
