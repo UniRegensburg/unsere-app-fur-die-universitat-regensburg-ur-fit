@@ -10,68 +10,68 @@ import {
   ExitToAppOutlined as Logout,
 } from "@material-ui/icons";
 
-export const pages = [
-  {
+export const pages = {
+  home: {
     key: "MY_PAGE",
     value: "/",
     title: "Meine Seite",
     icon: <Heart />,
   },
-  {
+  relaxation: {
     key: "RELAXATION_PAGE",
     value: "/relaxation",
     title: "Entspannung",
     icon: <Relaxation />,
   },
-  {
+  fitness: {
     key: "FITNESS_PAGE",
     value: "/fitness",
     title: "Fitness",
     icon: <Sport />,
   },
-  {
+  wellbeing: {
     key: "WELL_BEING_PAGE",
     value: "/wellbeing",
     title: "Wohlbefinden",
     icon: <WellBeing />,
   },
-  {
+  nutrition: {
     key: "NUTRITION_PAGE",
     value: "/nutrition",
     title: "Ernährung",
     icon: <Nutrition />,
   },
-  {
+  settings: {
     key: "SETTINGS_PAGE",
     value: "/settings",
     title: "Einstellungen",
     icon: <Settings />,
   },
-  {
+  feedback: {
     key: "FEEDBACK_PAGE",
     value: "/feedback",
     title: "Feedback",
     icon: <Feedback />,
   },
-  {
+  imprint: {
     key: "IMPRINT_PAGE",
     value: "/imprint",
     title: "Impressum",
     icon: <Conditions />,
   },
-  {
+  conditions: {
     key: "CONDITIONS_PAGE",
     value: "/conditions",
     title: "AGB",
     icon: <Conditions />,
   },
-  {
+  logout: {
     key: "LOGOUT_PAGE",
     value: "/logout",
     title: "Abmelden",
     icon: <Logout />,
   },
-];
+};
 
 export const relaxation_categories = [
   {
@@ -153,3 +153,4 @@ export const nutrition_categories = [
     text: "dfkjsdf lkdf slkf",
   },
 ];
+
