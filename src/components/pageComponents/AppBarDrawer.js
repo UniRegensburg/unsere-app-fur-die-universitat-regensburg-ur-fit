@@ -9,7 +9,7 @@ import {
   List,
   Drawer,
 } from "@material-ui/core/";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Logo from "../../assets/images/URFitLogo.png";
 import * as Constants from "../../constants/constants.js";
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AppBarDrawer(props) {
   const classes = useStyles();
   return (
-    <Router>
       <Drawer
         variant="temporary"
         onClose={props.onToggleDrawer}
@@ -118,6 +117,5 @@ export default function AppBarDrawer(props) {
           <Grid item xs></Grid>
         </Grid>
       </Drawer>
-    </Router>
   );
 }

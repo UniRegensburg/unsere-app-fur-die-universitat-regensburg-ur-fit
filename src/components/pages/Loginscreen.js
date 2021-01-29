@@ -6,33 +6,50 @@ import Logo from "../../assets/images/URFitLogo.png";
 const style = (theme) => ({
 
     grid:{
-        width: '100%',
-        height: '100%',
     },
     textFields:{
-        margin: '5px'
+        margin: '8px'
     },
     button:{
-        margin: '20px'
+        margin: '16px'
     },
     paper:{
-        margin: '10px',
+        margin: '8px',
     },
     form:{
-        margin: '40px',
+        margin: '32px',
     },
     logo:{
         width: "124px",
         height: "74px",
-        marginBottom: '40px',
+        marginBottom: '32px',
     }
 
   });
 
 class Loginscreen extends React.Component{
-    state = {
-        searchNodes: ""
-      };
+    constructor(props) {
+        super(props);
+        this.state = { valueEMail: "", valuePassword: "", validEMail: true, validPassword: true, initialEMail: true, initialPassword: true};
+        this.handleChangeEMail = this.handleChangeEMail.bind(this);
+        this.handleChangePassword = this.handleChangePassword.bind(this);
+    }
+
+    handleChangeEMail(event){
+        const re = /\S+@\S+\.\S+/; //Regular expression to test email value
+        this.setState({ 
+            valueEMail: event.target.value, 
+            validEMail: (re.test(event.target.value) ? true : false),
+            initialEMail: false});           
+    }
+
+    handleChangePassword(event){
+        this.setState({ 
+            valuePassword: event.target.value, 
+            validPassword: (event.target.value.length > 0 ? true : false),
+            initialPassword: false});
+    }
+    
     render(){
         const { classes } = this.props;
         return (
@@ -43,21 +60,48 @@ class Loginscreen extends React.Component{
                             <img src={Logo} alt="AppBarLogo" className={classes.logo} /> 
                         </Grid>  
                         <Grid item xs={12}>                            
-                            <TextField className={ classes.textFields } label='E-Mail Adresse' required={true} type='email' size='medium' variant='standard'/>
+                            <TextField 
+                                className={ classes.textFields } 
+                                id='inputEMail' onChange={this.handleChangeEMail} 
+                                value={this.state.valueEMail} 
+                                error={!this.state.validEMail} 
+                                label='E-Mail Adresse' 
+                                required={true} 
+                                type='email'
+                                size='medium' 
+                                variant='standard'/>
                         </Grid>
                         <Grid item xs={12}> 
-                            <TextField className={ classes.textFields } label='Passwort' required={true} type='password' size='medium' variant='standard' />
+                            <TextField 
+                                className={ classes.textFields } 
+                                id='inputPassword' 
+                                onChange={this.handleChangePassword} 
+                                value={this.state.valuePassword} 
+                                error={!this.state.validPassword && !this.state.initialPassword} 
+                                label='Passwort' 
+                                required={true} 
+                                type='password' 
+                                size='medium' 
+                                variant='standard' />
                         </Grid>
                         <Grid item xs={12}>
                             <FormControlLabel
                                 className={ classes.form }
                                 value='start'
                                 control={<Checkbox color='primary'/>}
-                                label='Ich habe die Nutzungsbedingungen gelesen und bin damit einverstanden.'
+                                label='Eingeloggt bleiben?'
                                 labelPlacement='start'/>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button className={ classes.button } variant='contained' disabled={true} color='default' href='\'>LogIn</Button>
+                            <Button 
+                                className={ classes.button } 
+                                id='buttonLogin' 
+                                variant='contained' 
+                                disabled={!(this.state.validEMail && this.state.validPassword) || this.state.initialEMail || this.state.initialPassword } 
+                                color='default' 
+                                href='\'>
+                                    LogIn
+                            </Button>
                         </Grid>
                     </Grid>
                 </Paper>

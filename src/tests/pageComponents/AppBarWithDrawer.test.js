@@ -4,23 +4,28 @@ import "@testing-library/jest-dom/extend-expect";
 
 import TopAppBar from "../../components/pageComponents/TopAppBar";
 import AppBarDrawer from "../../components/pageComponents/AppBarDrawer";
+import { BrowserRouter as Router } from "react-router-dom";
+
 
 it("check if appbar displays", () => {
   const { getByTestId } = render(<TopAppBar />);
   const appbar = getByTestId("appbar");
   const drawerButton = getByTestId("burgermenu-button");
-  const logo = getByTestId("appbar-logo");
+  const header = getByTestId("appbar-header");
 
   expect(appbar).toBeInTheDocument();
   expect(drawerButton).toBeInTheDocument();
-  expect(logo).toBeInTheDocument();
+  expect(header).toBeInTheDocument();
 });
 
 it("check if drawer displays when button is clicked", () => {
-  const { getByTestId } = render(<TopAppBar />);
+  const { getByTestId } = render(
+    <Router>
+     <TopAppBar />
+    </Router>);
   const appbar = getByTestId("appbar");
   const drawerButton = getByTestId("burgermenu-button");
-  const logo = getByTestId("appbar-logo");
+  const header = getByTestId("appbar-header");
 
   fireEvent.click(drawerButton);
 
@@ -29,11 +34,15 @@ it("check if drawer displays when button is clicked", () => {
   expect(drawer).toBeInTheDocument();
   expect(appbar).toBeInTheDocument();
   expect(drawerButton).toBeInTheDocument();
-  expect(logo).toBeInTheDocument();
+  expect(header).toBeInTheDocument();
 });
 
 it("check if drawer displays", () => {
-  const { getByTestId, getAllByTestId } = render(<AppBarDrawer open={true} />);
+  const { getByTestId, getAllByTestId } = render(
+      <Router>
+        <AppBarDrawer open={true} />
+      </Router>
+  );
   const drawer = getByTestId("appbar-drawer");
   const logo = getByTestId("drawer-logo");
   const divider = getByTestId("drawer-divider");
