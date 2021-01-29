@@ -10,6 +10,7 @@ import {
 import { ExpandLess, ExpandMore } from "@material-ui/icons/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import * as Categories from "../../constants/constants";
+import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 
 const styles = (theme) => ({
   container: {
@@ -79,6 +80,7 @@ class CategoryList extends React.Component {
             ))}
           </List>
         </div>
+        <BottomNavigationBar />
       </div>
     );
   }

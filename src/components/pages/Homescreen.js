@@ -4,6 +4,7 @@ import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
 
 import * as TestContent from "../../constants/testContent.js";
+import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 
 const styles = (theme) => ({
   container: {
@@ -35,6 +36,7 @@ class Homescreen extends React.Component {
           <ContentCard data-testid="content-item" data={testdata.test3} />
           <ContentCard data-testid="content-item" data={testdata.test4} />
         </div>
+        <BottomNavigationBar />
       </div>
     );
   }
