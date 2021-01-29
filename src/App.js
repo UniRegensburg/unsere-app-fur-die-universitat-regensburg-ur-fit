@@ -3,10 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
 import { ProtectedRoute } from "./components/navigation/ProtectedRoute";
-import Relaxationscreen from "./components/pages/Relaxationscreen";
-import Fitnessscreen from "./components/pages/Fitnessscreen";
-import Wellbeingscreen from "./components/pages/Wellbeingscreen";
-import Nutritionscreen from "./components/pages/Nutritionscreen";
+import CategoryList from "./components/pages/CategoryList";
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 
@@ -19,14 +16,10 @@ function App() {
           <Route exact path="/" component={Homescreen} />
           <ProtectedRoute exact path="/home" component={Homescreen} />
           <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
-          <ProtectedRoute
-            exact
-            path="/relaxation"
-            component={Relaxationscreen}
-          />
-          <ProtectedRoute exact path="/fitness" component={Fitnessscreen} />
-          <ProtectedRoute exact path="/wellbeing" component={Wellbeingscreen} />
-          <ProtectedRoute exact path="/nutrition" component={Nutritionscreen} />
+          <ProtectedRoute exact path="/relaxation" component={CategoryList} />
+          <ProtectedRoute exact path="/fitness" component={CategoryList} />
+          <ProtectedRoute exact path="/wellbeing" component={CategoryList} />
+          <ProtectedRoute exact path="/nutrition" component={CategoryList} />
         </Switch>
       </div>
     </Router>
