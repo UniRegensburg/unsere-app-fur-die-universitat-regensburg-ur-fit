@@ -15,16 +15,6 @@ const styles = (theme) => ({
     color: "#2E303C",
     textAlign: "start",
   },
-
-  bottomNavigation: {
-    position: "sticky",
-    bottom: "0",
-    width: "99%",
-  },
-
-  icon: {
-    color: "black",
-  },
 });
 
 class Homescreen extends React.Component {
