@@ -13,7 +13,7 @@ module.exports = {
     {
       name: "ur-fit-prod",
       script: "npm",
-      args: "run build",
+      args: "run publish",
     }
   ]
 }
