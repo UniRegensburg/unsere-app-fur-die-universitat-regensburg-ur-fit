@@ -33,18 +33,42 @@ export default function BottomNavigationBar() {
       className={classes.bottomNavBar}
       data-testid="bottomNavigationBar"
     >
-      {Constants.pages.slice(1, 5).map((page, index) => (
-        <BottomNavigationAction
-          label={page.title}
-          className={classes.bottomNavBarItem}
-          icon={page.icon}
-          component={Link}
-          value={page.value}
-          to={page.value}
-          key={index}
-          data-testid={"bottomNavigationBarItem" + index}
-        />
-      ))}
+      <BottomNavigationAction
+        label={Constants.pages.relaxation.title}
+        className={classes.bottomNavBarItem}
+        icon={Constants.pages.relaxation.icon}
+        component={Link}
+        value={Constants.pages.relaxation.value}
+        to={Constants.pages.relaxation.value}
+        data-testid={"navigation-relaxation"}
+      />
+      <BottomNavigationAction
+        label={Constants.pages.fitness.title}
+        className={classes.bottomNavBarItem}
+        icon={Constants.pages.fitness.icon}
+        component={Link}
+        value={Constants.pages.fitness.value}
+        to={Constants.pages.fitness.value}
+        data-testid={"navigation-fitness"}
+      />
+      <BottomNavigationAction
+        label={Constants.pages.wellbeing.title}
+        className={classes.bottomNavBarItem}
+        icon={Constants.pages.wellbeing.icon}
+        component={Link}
+        value={Constants.pages.wellbeing.value}
+        to={Constants.pages.wellbeing.value}
+        data-testid={"navigation-wellbeing"}
+      />
+      <BottomNavigationAction
+        label={Constants.pages.nutrition.title}
+        className={classes.bottomNavBarItem}
+        icon={Constants.pages.nutrition.icon}
+        component={Link}
+        value={Constants.pages.nutrition.value}
+        to={Constants.pages.nutrition.value}
+        data-testid={"navigation-nutrition"}
+      />
     </BottomNavigation>
   );
 }
