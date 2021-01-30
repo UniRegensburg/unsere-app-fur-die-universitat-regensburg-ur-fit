@@ -47,75 +47,90 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AppBarDrawer(props) {
   const classes = useStyles();
+  let contentPages = [
+      Constants.pages.home,
+      Constants.pages.relaxation,
+      Constants.pages.fitness,
+      Constants.pages.wellbeing,
+      Constants.pages.nutrition,
+    ],
+    otherPages = [
+      Constants.pages.settings,
+      Constants.pages.feedback,
+      Constants.pages.imprint,
+      Constants.pages.conditions,
+      Constants.pages.logout,
+    ];
+
   return (
-      <Drawer
-        variant="temporary"
-        onClose={props.onToggleDrawer}
-        open={props.open}
-        data-testid="appbar-drawer"
+    <Drawer
+      variant="temporary"
+      onClose={props.onToggleDrawer}
+      open={props.open}
+      data-testid="appbar-drawer"
+    >
+      <Grid
+        direction={"column"}
+        justify={"space-around"}
+        className={classes.grid}
+        container
       >
-        <Grid
-          direction={"column"}
-          justify={"space-around"}
-          className={classes.grid}
-          container
-        >
-          <Grid item xs></Grid>
-          <Grid item xs={1}>
-            <Paper elevation={0}>
-              <img
-                src={Logo}
-                alt="AppBarLogo"
-                data-testid="drawer-logo"
-                className={classes.logo}
-              />
-            </Paper>
-          </Grid>
-          <Grid className={classes.list} item xs={9}>
-            <List>
-              {Constants.pages.slice(0, 5).map((page, index) => (
-                <ListItem
-                  button
-                  component={Link}
-                  to={page.value}
-                  onClick={props.onToggleDrawer}
-                  key={index}
-                  data-testid="drawer-listitem"
-                >
-                  <ListItemIcon className={classes.listIcon}>
-                    {page.icon}
-                  </ListItemIcon>
-                  <ListItemText>{page.title}</ListItemText>
-                </ListItem>
-              ))}
-            </List>
-            <Divider
-              variant="middle"
-              data-testid="drawer-divider"
-              className={classes.divider}
+        <Grid item xs></Grid>
+        <Grid item xs={1}>
+          <Paper elevation={0}>
+            <img
+              src={Logo}
+              alt="AppBarLogo"
+              data-testid="drawer-logo"
+              className={classes.logo}
             />
-          </Grid>
-          <Grid className={classes.list} item xs={9}>
-            <List>
-              {Constants.pages.slice(5).map((page, index) => (
-                <ListItem
-                  button
-                  component={Link}
-                  to={page.value}
-                  onClick={props.onToggleDrawer}
-                  key={index}
-                  data-testid="drawer-listitem"
-                >
-                  <ListItemIcon className={classes.listIcon}>
-                    {page.icon}
-                  </ListItemIcon>
-                  <ListItemText>{page.title}</ListItemText>
-                </ListItem>
-              ))}
-            </List>
-          </Grid>
-          <Grid item xs></Grid>
+          </Paper>
         </Grid>
-      </Drawer>
+        <Grid className={classes.list} item xs={9}>
+          <List>
+            {contentPages.map((item, index) => (
+              <ListItem
+                button
+                component={Link}
+                to={item.value}
+                onClick={props.onToggleDrawer}
+                key={index}
+                data-testid="drawer-listitem"
+              >
+                <ListItemIcon className={classes.listIcon}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText>{item.title}</ListItemText>
+              </ListItem>
+            ))}
+          </List>
+          <Divider
+            variant="middle"
+            data-testid="drawer-divider"
+            className={classes.divider}
+          />
+        </Grid>
+        <Grid className={classes.list} item xs={9}>
+          <List>
+            {otherPages.map((item, index) => (
+              <ListItem
+                button
+                component={Link}
+                to={item.value}
+                onClick={props.onToggleDrawer}
+                key={index}
+                data-testid="drawer-listitem"
+              >
+                <ListItemIcon className={classes.listIcon}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText>{item.title}</ListItemText>
+              </ListItem>
+            ))}
+          </List>
+        </Grid>
+        <Grid item xs></Grid>
+      </Grid>
+    </Drawer>
   );
 }
