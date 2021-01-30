@@ -75,6 +75,7 @@ export default function MensaCard(props) {
             <IconButton
               className={classes.iconButton}
               onClick={() => setOpen(!open)}
+              data-testid="card-button"
             >
               <ExpandMoreIcon />
             </IconButton>
@@ -87,7 +88,7 @@ export default function MensaCard(props) {
           <CardContent className={classes.cardContent}>
             <Grid item>
               <Typography
-                data-testid="card-subtitle"
+                data-testid="ingredients-subtitle"
                 className={classes.cardSubtitle}
               >
                 Inhaltstoffe:
@@ -98,7 +99,7 @@ export default function MensaCard(props) {
             </Grid>
             <Grid item>
               <Typography
-                data-testid="card-subtitle"
+                data-testid="price-subtitle"
                 className={classes.cardSubtitle}
               >
                 {"\n"}Preis: {props.price}€

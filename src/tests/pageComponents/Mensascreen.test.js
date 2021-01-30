@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 import Mensascreen from "../../components/pages/Mensascreen";
@@ -7,20 +7,31 @@ import MensaCardItem from "../../components/pageComponents/MensaCardItem";
 
 it("check if mensaCardItem content displays", () => {
   const { getByTestId } = render(
-    <MensaCardItem title="test" price="test" labels={["test", "test2"]} />
+    <MensaCardItem
+      title="test"
+      price="test"
+      labels={["test", "test2"]}
+      contentInfo={["testInfo"]}
+    />
   );
   const cardItem = getByTestId("card-item");
   const cardTitle = getByTestId("card-title");
-  const cardSubtitle = getByTestId("card-subtitle");
   const cardLabel = getByTestId("card-label");
+  const cardButton = getByTestId("card-button");
+
+  fireEvent.click(cardButton);
+
+  const ingredientsSubtitle = getByTestId("ingredients-subtitle");
+  const priceSubtitle = getByTestId("price-subtitle");
 
   expect(cardItem).toBeInTheDocument();
   expect(cardTitle).toBeInTheDocument();
-  expect(cardSubtitle).toBeInTheDocument();
+  expect(ingredientsSubtitle).toBeInTheDocument();
+  expect(priceSubtitle).toBeInTheDocument();
   expect(cardLabel).toBeInTheDocument();
 });
 
-it("check if mensascreen displays", (done) => {
+it("check if mensascreen displays", () => {
   let { getByTestId } = render(<Mensascreen />);
 
   const spinner = getByTestId("spinner");
