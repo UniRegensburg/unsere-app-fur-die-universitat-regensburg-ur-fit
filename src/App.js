@@ -13,8 +13,8 @@ function App() {
       <div data-testid="app" className="App">
         <Switch>
           {/* This will be the login screen */}
-          <Route exact path="/" component={Mensascreen} />
-          <ProtectedRoute exact path="/home" component={Homescreen} />
+          <Route exact path="/" component={Homescreen} />
+          <ProtectedRoute exact path="/home" component={Mensascreen} />
           <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
         </Switch>
       </div>
