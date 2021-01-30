@@ -112,6 +112,7 @@ export class Mensascreen extends React.Component {
                     meal.guestCost
                   }
                   labels={meal.labels}
+                  contentInfo={meal.contentInfo}
                 />
               ))}
               <Typography className={classes.categoryTitle}>
@@ -133,6 +134,7 @@ export class Mensascreen extends React.Component {
                     meal.guestCost
                   }
                   labels={meal.labels}
+                  contentInfo={meal.contentInfo}
                 />
               ))}
               <Typography className={classes.categoryTitle}>
@@ -154,6 +156,7 @@ export class Mensascreen extends React.Component {
                     meal.guestCost
                   }
                   labels={meal.labels}
+                  contentInfo={meal.contentInfo}
                 />
               ))}
             </Grid>
