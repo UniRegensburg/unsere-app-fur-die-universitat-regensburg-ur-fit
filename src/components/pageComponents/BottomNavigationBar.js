@@ -11,6 +11,7 @@ const useStyles = makeStyles({
     width: "100%",
     bottom: "0",
   },
+
   bottomNavBarItem: {
     padding: "0",
   },

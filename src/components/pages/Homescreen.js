@@ -10,6 +10,7 @@ const styles = (theme) => ({
   container: {
     marginStart: "16px",
     marginEnd: "16px",
+    marginBottom: "60px",
   },
 
   text: {
