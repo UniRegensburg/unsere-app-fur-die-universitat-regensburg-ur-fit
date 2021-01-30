@@ -1,6 +1,13 @@
 import React from 'react';
 
-import { Button, Checkbox, FormControlLabel, Grid, TextField, withStyles, Paper } from '@material-ui/core';
+import { 
+    Button, 
+    Checkbox, 
+    FormControlLabel, 
+    Grid, 
+    TextField,
+    Paper, 
+    withStyles } from '@material-ui/core';
 import Logo from "../../assets/images/URFitLogo.png";
 
 const style = (theme) => ({
@@ -57,7 +64,7 @@ class Loginscreen extends React.Component{
                 <Paper className={ classes.paper } data-testid='bgPaper'>
                     <Grid className={ classes.grid } container justify='space-between' alignItems='center' direction='column'>
                         <Grid item xs={12}>                     
-                            <img data-testid='logo' src={Logo} alt="AppBarLogo" className={classes.logo} /> 
+                            <img data-testid='logo' src={Logo} alt='AppBarLogo' className={classes.logo} /> 
                         </Grid>  
                         <Grid item xs={12}>                            
                             <TextField 
