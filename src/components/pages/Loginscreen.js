@@ -53,15 +53,16 @@ class Loginscreen extends React.Component{
     render(){
         const { classes } = this.props;
         return (
-            <div className="Loginscreen">
-                <Paper className={ classes.paper }>
+            <div className='Loginscreen'>
+                <Paper className={ classes.paper } data-testid='bgPaper'>
                     <Grid className={ classes.grid } container justify='space-between' alignItems='center' direction='column'>
                         <Grid item xs={12}>                     
-                            <img src={Logo} alt="AppBarLogo" className={classes.logo} /> 
+                            <img data-testid='logo' src={Logo} alt="AppBarLogo" className={classes.logo} /> 
                         </Grid>  
                         <Grid item xs={12}>                            
                             <TextField 
                                 className={ classes.textFields } 
+                                data-testid='inputEMail'
                                 id='inputEMail' onChange={this.handleChangeEMail} 
                                 value={this.state.valueEMail} 
                                 error={!this.state.validEMail} 
@@ -73,7 +74,8 @@ class Loginscreen extends React.Component{
                         </Grid>
                         <Grid item xs={12}> 
                             <TextField 
-                                className={ classes.textFields } 
+                                className={ classes.textFields }
+                                data-testid='inputPassword' 
                                 id='inputPassword' 
                                 onChange={this.handleChangePassword} 
                                 value={this.state.valuePassword} 
@@ -87,8 +89,9 @@ class Loginscreen extends React.Component{
                         <Grid item xs={12}>
                             <FormControlLabel
                                 className={ classes.form }
+                                data-testid='formLabel'
                                 value='start'
-                                control={<Checkbox color='primary'/>}
+                                control={<Checkbox data-testid='formCheckbox' color='primary'/>}
                                 label='Eingeloggt bleiben?'
                                 labelPlacement='start'/>
                         </Grid>
@@ -96,6 +99,7 @@ class Loginscreen extends React.Component{
                             <Button 
                                 className={ classes.button } 
                                 id='buttonLogin' 
+                                data-testid='buttonLogin'
                                 variant='contained' 
                                 disabled={!(this.state.validEMail && this.state.validPassword) || this.state.initialEMail || this.state.initialPassword } 
                                 color='default' 
