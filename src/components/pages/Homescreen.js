@@ -4,11 +4,13 @@ import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
 
 import * as TestContent from "../../constants/testContent.js";
+import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 
 const styles = (theme) => ({
   container: {
     marginStart: "16px",
     marginEnd: "16px",
+    marginBottom: "60px",
   },
 
   text: {
@@ -35,6 +37,7 @@ class Homescreen extends React.Component {
           <ContentCard data-testid="content-item" data={testdata.test3} />
           <ContentCard data-testid="content-item" data={testdata.test4} />
         </div>
+        <BottomNavigationBar />
       </div>
     );
   }
