@@ -1,3 +1,5 @@
+import FirebaseInit from "./services/firebase-initialisation"
+
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
@@ -7,6 +9,7 @@ import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 
 function App() {
+  FirebaseInit.init();
   return (
     <Router>
       <div className="App">
