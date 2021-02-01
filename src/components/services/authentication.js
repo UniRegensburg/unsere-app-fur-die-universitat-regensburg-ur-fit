@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import { Event, Observable } from "../utils/observable";
-import config from "../constants/authentication.config";
-import events from "../constants/events";
+import config from "../../constants/authentication.config";
+import events from "../../constants/events";
 
 async function requestAuthToken(username, password) {
   const response = await fetch(config.authUrl, {
@@ -55,10 +55,7 @@ function authenticate(username, password) {
 class Authentication extends Observable {
   constructor() {
     super();
-    this.setAuthenticationStateListener();
-  }
 
-  setAuthenticationStateListener() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
@@ -89,7 +86,7 @@ class Authentication extends Observable {
   }
 
   isAuthenticated() {
-    return firebase.auth().currentUser ? true : false;
+    return firebase.auth().currentUser !== null ? true : false;
   }
 }
 
