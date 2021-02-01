@@ -65,9 +65,10 @@ export const pages = {
     title: "AGB",
     icon: <Conditions />,
   },
+
   logout: {
-    key: "LOGOUT_PAGE",
-    value: "/logout",
+    key: "LOGIN_PAGE",
+    value: "/login",
     title: "Abmelden",
     icon: <Logout />,
   },
