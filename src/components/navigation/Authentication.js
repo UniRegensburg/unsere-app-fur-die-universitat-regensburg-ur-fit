@@ -1,6 +1,8 @@
 class Authentication {
   constructor() {
-    this.authenticated = false;
+
+    // this has to be set 'false' as soon as a login is implemented.
+    this.authenticated = true;
   }
 
   //needs to be reimplemented, when user authentification is possible

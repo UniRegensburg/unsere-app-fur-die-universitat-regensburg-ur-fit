@@ -1,5 +1,5 @@
 {
-  "name": "my_app",
+  "name": "ur-fit",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -29,8 +29,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "prepublish": "npm run build",
+    "publish": "npx serve build/",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "ci": "node ci/ci-server.js"
   },
   "eslintConfig": {
     "extends": [
@@ -49,5 +52,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "colors": "^1.4.0",
+    "express": "^4.17.1",
+    "micromatch": "^4.0.2",
+    "shelljs": "^0.8.4"
   }
 }
