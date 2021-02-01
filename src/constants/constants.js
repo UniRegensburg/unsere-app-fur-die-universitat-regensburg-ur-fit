@@ -66,7 +66,7 @@ export const pages = [
     icon: <Conditions />,
   },
   {
-    key: "LOGOUT_PAGE",
+    key: "LOGIN_PAGE",
     value: "/login",
     title: "Abmelden",
     icon: <Logout />,
