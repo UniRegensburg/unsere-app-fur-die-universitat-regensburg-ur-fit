@@ -22,7 +22,7 @@ function App() {
           <ProtectedRoute exact path="/relaxation" component={CategoryList} />
           <ProtectedRoute exact path="/fitness" component={CategoryList} />
           <ProtectedRoute exact path="/wellbeing" component={CategoryList} />
-          <ProtectedRoute exact path="/nutrition" component={CategoryList} />
+          <ProtectedRoute exact path="/nutrition" component={Mensascreen} />
         </Switch>
       </div>
     </Router>
