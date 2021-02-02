@@ -7,6 +7,7 @@ const events = {
     onUserSignOutError: "onUserSignOutError",
     onUserSignedIn: "onUserSignedIn",
     onUserSignedOut: "onUserSignedOut",
+    onUserStateChanged: "onUserStateChanged",
   },
 };
 

@@ -10,8 +10,7 @@ import {
     withStyles } from '@material-ui/core';
 import Logo from "../../assets/images/URFitLogo.png";
 
-import { Redirect } from "react-router-dom";
-import authentication from "../services/authentication";
+import auth from "../services/authentication";
 import events from '../../constants/events';
 
 const style = (theme) => ({
@@ -41,14 +40,14 @@ const style = (theme) => ({
 class Loginscreen extends React.Component{
     constructor(props) {
         super(props);
-        this.state = { valueEMail: "", valuePassword: "", validEMail: true, validPassword: true, initialEMail: true, initialPassword: true, signedIn: false};
+        this.state = { valueEMail: "", valuePassword: "", validEMail: true, validPassword: true, initialEMail: true, initialPassword: true};
         this.handleChangeEMail = this.handleChangeEMail.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleLogInClick = this.handleLogInClick.bind(this);
-        this.handleLogOutClick = this.handleLogOutClick.bind(this);
 
-        authentication.addEventListener(events.auth.onUserSignedIn, () => this.setState({signedIn: true}));
-        authentication.addEventListener(events.auth.onUserSignedOut, () => this.setState({signedIn: false}));
+        auth.addEventListener(events.auth.onUserSignInSuccess, () => {
+            window.location.replace('/');
+        })
     }
 
     handleChangeEMail(event){
@@ -67,24 +66,11 @@ class Loginscreen extends React.Component{
     }
 
     handleLogInClick(event) {
-        authentication.login(this.state.valueEMail, this.state.valuePassword);
-    }
-
-    handleLogOutClick(event) {
-        authentication.logout();
+        auth.login(this.state.valueEMail, this.state.valuePassword);
     }
     
     render(){
         const { classes } = this.props;
-        if (this.state.signedIn) {
-            return (
-              <Redirect
-                to={{
-                  pathname: this.props.location.state.from.pathname
-                }}
-              />
-            );
-          }
         return (
             <div className='Loginscreen'>
                 <Paper className={ classes.paper } data-testid='bgPaper'>
@@ -136,18 +122,8 @@ class Loginscreen extends React.Component{
                                 variant='contained' 
                                 disabled={!(this.state.validEMail && this.state.validPassword) || this.state.initialEMail || this.state.initialPassword } 
                                 color='default' 
-                                onClick={this.handleLogInClick()}>
+                                onClick={this.handleLogInClick}>
                                     LogIns
-                            </Button>
-                            <Button 
-                                className={ classes.button } 
-                                id='buttonLogOut' 
-                                //data-testid='buttonLogin'
-                                variant='contained' 
-                                // disabled={!(this.state.validEMail && this.state.validPassword) || this.state.initialEMail || this.state.initialPassword } 
-                                color='default' 
-                                onClick={this.handleLogOutClick()}>
-                                    LogOut
                             </Button>
                         </Grid>
                     </Grid>

@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import app from "../services/firebase-config";
 import { Event, Observable } from "../utils/observable";
 import config from "../../constants/authentication.config";
 import events from "../../constants/events";
@@ -22,47 +22,35 @@ async function requestAuthToken(username, password) {
   return await response.json();
 }
 
-function authenticateWithFirebase(token) {
-  firebase
-    .auth()
-    .signInWithCustomToken(token)
-    .then((userCredential) => {
-      this.notifyAll(
-        new Event(events.auth.onUserSignInSuccess, userCredential.user)
-      );
-    })
-    .catch((error) => {
-      // error.code
-      // error.message
-      this.notifyAll(new Event(events.auth.onUserSignInError));
-    });
-}
+async function authenticate(username, password) {
+  try {
+    const res = await requestAuthToken(username, password);
 
-function authenticate(username, password) {
-  requestAuthToken(username, password).then((res) => {
-    if (res.error) {
-      this.notifyAll(new Event(events.auth.onUserSignInError));
-    } else {
-      if (!res.token) {
-        this.notifyAll(new Event(events.auth.onUserSignInWrongCredentials));
-      } else {
-        authenticateWithFirebase.call(this, res.token);
+    if (res.token) {
+      try {
+        await app.auth().signInWithCustomToken(res.token);
+        this.notifyAll(new Event(events.auth.onUserSignInSuccess))
+      } catch (error) {
+        this.notifyAll(new Event(events.auth.onUserSignInError));
       }
+    } else {
+      this.notifyAll(new Event(events.auth.onUserSignInWrongCredentials))
     }
-  });
+  } catch {
+    this.notifyAll(new Event(events.auth.onUserSignInError));
+  }
 }
 
 class Authentication extends Observable {
   constructor() {
     super();
-
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        this.notifyAll(new Event(events.auth.onUserSignedIn, user));
+    app.auth().onAuthStateChanged(user => {
+      if (user !== null) {
+        this.notifyAll(new Event(events.auth.onUserSignedIn, user.uid));
+        this.notifyAll(new Event(events.auth.onUserStateChanged, user.uid));
       } else {
         this.notifyAll(new Event(events.auth.onUserSignedOut));
+        this.notifyAll(new Event(events.auth.onUserStateChanged, null));
       }
     });
   }
@@ -74,7 +62,7 @@ class Authentication extends Observable {
   }
 
   logout() {
-    firebase
+    app
       .auth()
       .signOut()
       .then(() => {
@@ -85,8 +73,12 @@ class Authentication extends Observable {
       });
   }
 
-  isAuthenticated() {
-    return firebase.auth().currentUser !== null ? true : false;
+  get currentUser() {
+    return app.auth().currentUser !== null ? app.auth().currentUser.uid : null;
+  }
+
+  get isAuthenticated() {
+    return app.auth().currentUser !== null;
   }
 }
 

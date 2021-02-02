@@ -1,10 +1,8 @@
-import "./components/services/firebase-initialisation";
-
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
-import { ProtectedRoute } from "./components/navigation/ProtectedRoute";
+import ProtectedRoute from "./components/navigation/ProtectedRoute";
 import CategoryList from "./components/pages/CategoryList";
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
