@@ -5,8 +5,6 @@ const events = {
     onUserSignInError: "onUserSignInError",
     onUserSignOutSuccess: "onUserSignOutSuccess",
     onUserSignOutError: "onUserSignOutError",
-    onUserSignedIn: "onUserSignedIn",
-    onUserSignedOut: "onUserSignedOut",
     onUserStateChanged: "onUserStateChanged",
   },
 };

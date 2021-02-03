@@ -3,6 +3,7 @@ import { Event, Observable } from "../utils/observable";
 import config from "../../constants/authentication.config";
 import events from "../../constants/events";
 
+// requesting JWT Token from authentication server, this request needs strict http rules
 async function requestAuthToken(username, password) {
   const response = await fetch(config.authUrl, {
     method: "POST",
@@ -19,37 +20,50 @@ async function requestAuthToken(username, password) {
       pass: password,
     }),
   });
-  return await response.json();
+  if (response.status === 200) {
+    return await response.json();
+  } else {
+    throw new Error(response.statusText);
+  }
 }
 
+// error messages are not propagates outside for security reasons
 async function authenticate(username, password) {
+  // request sign in token from authentication server
   try {
-    const res = await requestAuthToken(username, password);
-
-    if (res.token) {
-      try {
-        await app.auth().signInWithCustomToken(res.token);
-        this.notifyAll(new Event(events.auth.onUserSignInSuccess))
-      } catch (error) {
-        this.notifyAll(new Event(events.auth.onUserSignInError));
-      }
+    let res = await requestAuthToken(username, password);
+    if (res.token !== null && res.token !== undefined) {
+      var token = res.token;
     } else {
-      this.notifyAll(new Event(events.auth.onUserSignInWrongCredentials))
+      // auth server was unable to sign in the user
+      return null;
     }
-  } catch {
-    this.notifyAll(new Event(events.auth.onUserSignInError));
+  } catch (error) {
+    throw new Error();
+  }
+
+  // use JWT Token to authenticate with firebase authentication
+  // this should always work if the auth server did not throw any errors
+  try {
+    let user = await app.auth().signInWithCustomToken(token);
+    if (user !== null) {
+      // sign in successfull
+      return user;
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    throw new Error();
   }
 }
 
 class Authentication extends Observable {
   constructor() {
     super();
-    app.auth().onAuthStateChanged(user => {
+    app.auth().onAuthStateChanged((user) => {
       if (user !== null) {
-        this.notifyAll(new Event(events.auth.onUserSignedIn, user.uid));
-        this.notifyAll(new Event(events.auth.onUserStateChanged, user.uid));
+        this.notifyAll(new Event(events.auth.onUserStateChanged, user));
       } else {
-        this.notifyAll(new Event(events.auth.onUserSignedOut));
         this.notifyAll(new Event(events.auth.onUserStateChanged, null));
       }
     });
@@ -57,7 +71,17 @@ class Authentication extends Observable {
 
   login(username, password) {
     if (username && password) {
-      authenticate.call(this, username, password);
+      authenticate(username, password)
+        .then((user) => {
+          if (user !== null) {
+            this.notifyAll(new Event(events.auth.onUserSignInSuccess, user));
+          } else {
+            this.notifyAll(new Event(events.auth.onUserSignInWrongCredentials));
+          }
+        })
+        .catch(() => {
+          this.notifyAll(new Event(events.auth.onUserSignInError));
+        });
     }
   }
 
@@ -74,7 +98,7 @@ class Authentication extends Observable {
   }
 
   get currentUser() {
-    return app.auth().currentUser !== null ? app.auth().currentUser.uid : null;
+    return app.auth().currentUser;
   }
 
   get isAuthenticated() {
