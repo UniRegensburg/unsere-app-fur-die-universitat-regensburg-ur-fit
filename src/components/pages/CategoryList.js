@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core/";
 import { ExpandLess, ExpandMore } from "@material-ui/icons/";
 import TopAppBar from "../pageComponents/TopAppBar";
-import * as Categories from "../../constants/constants";
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 
 const styles = (theme) => ({
@@ -20,62 +19,22 @@ const styles = (theme) => ({
 });
 
 class CategoryList extends React.Component {
-  constructor(props) {
-    super(props);
-    let data = this.getData(props);
-    this.state = { categories: data.categories, title: data.title };
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      let data = this.getData(this.props);
-      this.setState({ categories: data.categories, title: data.title });
-    }
-  }
-
-  getData(props) {
-    // for now the title are hard coded ->
-    // if our final data model is finished we should get the cases and title from that data model
-    let categories, title;
-    switch (props.location.pathname) {
-      case "/relaxation":
-        title = "Entspannung";
-        categories = Categories.relaxation_categories;
-        break;
-      case "/fitness":
-        title = "Fitness";
-        categories = Categories.fitness_categories;
-        break;
-      case "/wellbeing":
-        title = "Wohlbefinden";
-        categories = Categories.wellbeing_categories;
-        break;
-      case "/nutrition":
-        title = "Ernährung";
-        categories = Categories.nutrition_categories;
-        break;
-      default:
-        title = "Entspannung";
-        categories = Categories.relaxation_categories;
-    }
-    return { categories, title };
-  }
-
   render() {
-    const { classes } = this.props;
+    const { classes, title, categories } = this.props;
     return (
-      <div className="Fitnessscreen">
-        <TopAppBar data-testid="appbar" title={this.state.title} />
+      <div>
+        <TopAppBar data-testid="appbar" title={title} />
         <div className={classes.container}>
           <List>
             <ListItem button>
               <ListItemText>Alle Inhalte</ListItemText>
             </ListItem>
-            {this.state.categories.map((item, index) => (
+            {categories.map((item, index) => (
               <ExpandableListItem
                 key={index}
                 name={item.title}
                 description={item.text}
+                link={item.value}
               />
             ))}
           </List>
@@ -109,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ExpandableListItem(props) {
-  const { name, description } = props;
+  const { name, description, link } = props;
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -119,7 +78,7 @@ function ExpandableListItem(props) {
 
   const handleCategoryClick = (event) => {
     console.log(event.target.innerHTML + " clicked");
-    // todo: change to respective content list
+    window.location.assign(link);
   };
 
   return (
