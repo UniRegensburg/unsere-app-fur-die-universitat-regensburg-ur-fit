@@ -49,8 +49,7 @@ class Contentlistscreen extends React.Component {
   }
 
   handleBackButtonClick() {
-    console.log("back clicked");
-    // todo: navigation
+    this.props.history.goBack();
   }
 
   render() {

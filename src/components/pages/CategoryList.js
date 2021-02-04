@@ -77,7 +77,6 @@ function ExpandableListItem(props) {
   };
 
   const handleCategoryClick = (event) => {
-    console.log(event.target.innerHTML + " clicked");
     window.location.assign(link);
   };
 
