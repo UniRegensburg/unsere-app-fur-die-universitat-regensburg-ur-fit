@@ -22,24 +22,24 @@ function App() {
     <Router>
       <div className="App">
         <Switch>
-          <Route exact path="/">
-            <Homescreen />
-          </Route>
-          <Route exact path="/login">
-            <Loginscreen />
-          </Route>
-          <ProtectedRoute exact path="/feedback">
-            <Feedbackscreen />
-          </ProtectedRoute>
+          <Route exact path="/" component={Homescreen} />
+          <Route exact path="/login" component={Loginscreen} />
+          <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
 
           {categories.map((category) => {
             return (
-              <ProtectedRoute exact path={category.value} key={category.key}>
-                <CategoryList
-                  title={category.title}
-                  categories={category.subcategories}
-                />
-              </ProtectedRoute>
+              <ProtectedRoute
+                exact
+                path={category.value}
+                key={category.key}
+                component={(routerProps) => (
+                  <CategoryList
+                    {...routerProps}
+                    title={category.title}
+                    categories={category.subcategories}
+                  />
+                )}
+              />
             );
           })}
         </Switch>
