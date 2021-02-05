@@ -47,7 +47,6 @@ class TopAppBar extends React.Component {
     this.state = {
       open: false,
     };
-    console.log(props);
   }
   toggleDrawer() {
     this.setState({
@@ -57,14 +56,13 @@ class TopAppBar extends React.Component {
 
   render() {
     const { classes } = this.props;
-    let header;
-    let visibilityOfHome;
+    let header, visibilityOfHomeIcon;
     if (this.props.title === "URfit") {
       header = <AppBarLogo class={classes.logo} />;
-      visibilityOfHome = { visibility: "hidden" };
+      visibilityOfHomeIcon = { visibility: "hidden" };
     } else {
       header = <AppBarTitle class={classes.title} title={this.props.title} />;
-      visibilityOfHome = { visibility: "visible" };
+      visibilityOfHomeIcon = { visibility: "visible" };
     }
     return (
       <AppBar data-testid="appbar" className={classes.appBar}>
@@ -92,7 +90,7 @@ class TopAppBar extends React.Component {
                 to={"/"}
                 data-testid="home-button"
               >
-                <Home className={classes.home} style={visibilityOfHome} />
+                <Home className={classes.home} style={visibilityOfHomeIcon} />
               </IconButton>
             </Grid>
           </Grid>
