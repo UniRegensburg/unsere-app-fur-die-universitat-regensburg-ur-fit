@@ -1,14 +1,16 @@
 import {
   Settings,
   FavoriteBorder as Heart,
-  SentimentVerySatisfiedOutlined as Relaxation,
-  SportsHandballOutlined as Sport,
-  SpaOutlined as WellBeing,
-  RestaurantOutlined as Nutrition,
-  FeedbackOutlined as Feedback,
-  InfoOutlined as Conditions,
-  ExitToAppOutlined as Logout,
+  FitnessCenter as Sport,
+  Spa as WellBeing,
+  Restaurant as Nutrition,
+  Feedback,
+  Info as Conditions,
+  ExitToApp as Logout,
 } from "@material-ui/icons";
+import {ReactComponent as Relaxation} from "../assets/images/relaxation.svg";
+
+
 
 export const pages = {
   home: {
