@@ -74,10 +74,10 @@ export const pages = {
   },
 };
 
-export const week = ["mo", "di", "mi", "do", "fr"];
+export const week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
 export const meals = {
-  mainDish: "H",
+  mainDish: "HG",
   garnish: "B",
   dessert: "N",
 };
@@ -161,4 +161,3 @@ export const nutrition_categories = [
     text: "dfkjsdf lkdf slkf",
   },
 ];
-

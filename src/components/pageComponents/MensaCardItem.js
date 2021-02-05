@@ -86,7 +86,7 @@ export default function MensaCard(props) {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Grid container>
           <CardContent className={classes.cardContent}>
-            <Grid item>
+            {/* <Grid item>
               <Typography
                 data-testid="ingredients-subtitle"
                 className={classes.cardSubtitle}
@@ -96,13 +96,13 @@ export default function MensaCard(props) {
                   return "\n" + ingredients + ",";
                 })}
               </Typography>
-            </Grid>
+            </Grid> */}
             <Grid item>
               <Typography
                 data-testid="price-subtitle"
                 className={classes.cardSubtitle}
               >
-                {"\n"}Preis: {props.price}€
+                {"\n"}Preis: {props.price}
               </Typography>
             </Grid>
           </CardContent>

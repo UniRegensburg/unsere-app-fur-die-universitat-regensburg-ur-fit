@@ -12,6 +12,7 @@ import getMensaData from "../services/retrieveMensaData";
 import * as Constants from "../../constants/constants";
 import MensaCardItem from "../pageComponents/MensaCardItem";
 import { addCategories, filterMensaData } from "../services/sortMensaData";
+import moment from "moment";
 
 const styles = (theme) => ({
   weekRow: {
@@ -39,21 +40,15 @@ export class Mensascreen extends React.Component {
     super(props);
     this.state = {
       mensaPlan: null,
-      day: "mo",
+      day: "Monday",
     };
   }
 
   componentDidMount() {
-    let mensaData = [];
-    for (let day in Constants.week) {
-      getMensaData(Constants.week[day]).then((data) => {
-        mensaData.push({ day: Constants.week[day], data: data });
-
-        if (mensaData.length === Constants.week.length) {
-          this.setState({ mensaPlan: addCategories(mensaData) });
-        }
-      });
-    }
+    let week = moment().week();
+    getMensaData(week).then((data) => {
+      this.setState({ mensaPlan: addCategories(data) });
+    });
   }
   render() {
     const { classes } = this.props;
@@ -104,14 +99,8 @@ export class Mensascreen extends React.Component {
                 <MensaCardItem
                   className={classes.mensaCard}
                   title={meal.title}
-                  price={
-                    meal.studCost +
-                    "€ / " +
-                    meal.empCost +
-                    "€ / " +
-                    meal.guestCost
-                  }
-                  labels={meal.labels}
+                  price={meal.cost}
+                  labels={meal.contentInfo}
                   contentInfo={meal.contentInfo}
                 />
               ))}
@@ -126,14 +115,8 @@ export class Mensascreen extends React.Component {
                 <MensaCardItem
                   className={classes.mensaCard}
                   title={meal.title}
-                  price={
-                    meal.studCost +
-                    "€ / " +
-                    meal.empCost +
-                    "€ / " +
-                    meal.guestCost
-                  }
-                  labels={meal.labels}
+                  price={meal.cost}
+                  labels={meal.contentInfo}
                   contentInfo={meal.contentInfo}
                 />
               ))}
@@ -148,14 +131,8 @@ export class Mensascreen extends React.Component {
                 <MensaCardItem
                   className={classes.mensaCard}
                   title={meal.title}
-                  price={
-                    meal.studCost +
-                    "€ / " +
-                    meal.empCost +
-                    "€ / " +
-                    meal.guestCost
-                  }
-                  labels={meal.labels}
+                  price={meal.cost}
+                  labels={meal.contentInfo}
                   contentInfo={meal.contentInfo}
                 />
               ))}
