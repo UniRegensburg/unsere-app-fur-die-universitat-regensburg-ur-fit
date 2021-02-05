@@ -1,12 +1,12 @@
 import {
   Settings,
-  FavoriteBorder as Heart,
   FitnessCenter as Sport,
   Spa as WellBeing,
   Restaurant as Nutrition,
   Feedback,
   Info as Conditions,
   ExitToApp as Logout,
+  Home,
 } from "@material-ui/icons";
 import {ReactComponent as Relaxation} from "../assets/images/relaxation.svg";
 
@@ -17,7 +17,7 @@ export const pages = {
     key: "MY_PAGE",
     value: "/",
     title: "Meine Seite",
-    icon: <Heart />,
+    icon: <Home />,
   },
 
   relaxation: {
