@@ -20,7 +20,7 @@ const styles = (theme) => ({
 
 class CategoryList extends React.Component {
   render() {
-    const { classes, title, categories } = this.props;
+    const { classes, title, categories, history } = this.props;
     return (
       <div>
         <TopAppBar data-testid="appbar" title={title} />
@@ -35,6 +35,7 @@ class CategoryList extends React.Component {
                 name={item.title}
                 description={item.text}
                 link={item.value}
+                history={history}
               />
             ))}
           </List>
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ExpandableListItem(props) {
-  const { name, description, link } = props;
+  const { name, description, link, history } = props;
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -77,7 +78,7 @@ function ExpandableListItem(props) {
   };
 
   const handleCategoryClick = (event) => {
-    window.location.assign(link);
+    history.push(link);
   };
 
   return (

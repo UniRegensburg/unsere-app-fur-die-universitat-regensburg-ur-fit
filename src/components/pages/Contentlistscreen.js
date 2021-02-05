@@ -54,11 +54,11 @@ class Contentlistscreen extends React.Component {
 
   render() {
     let testdata = TestContent.data;
-    const { classes } = this.props;
+    const { classes, title } = this.props;
 
     return (
       <div className="Contentlistscreen">
-        <TopAppBar data-testid="appbar" title={this.props.title} />
+        <TopAppBar data-testid="appbar" title={title} />
         <div className={classes.container}>
           <div className={classes.header}>
             <ArrowBackIcon
