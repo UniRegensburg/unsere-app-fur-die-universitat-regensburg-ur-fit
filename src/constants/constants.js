@@ -28,33 +28,38 @@ export const pages = {
     subcategories: [
       {
         title: "Achtsamkeit",
-        text:
-          "kjhfas sdfh asdf adf af dsfjh sdfiu af kjdsfh vj jh fashd adjfh ala",
+        text: "kjhfas sdfh asdf adf af dsfjh sdfiu af kjdsfh vj jh adjfh ala",
+        value: "/relaxation/mindfulness",
       },
       {
         title: "Meditation",
         text: "kjhfas sdfh asdf adf af dsfjh sdfiu af kjdsf",
+        value: "/relaxation/meditation",
       },
       {
         title: "Yoga",
         text: "test tes jkhdf dfkjh nbvja jhdfnc kajsd ivh dksfjh  kjvhds kjdh",
+        value: "/relaxation/yoga",
       },
       {
         title: "PMR",
         text: "jhf asdjfh akjdfh nueui  kjdfhiu eiur wiu skjdf ieu",
+        value: "/relaxation/progressive-muscle-relaxation",
       },
       {
         title: "Autogenes Training",
-        text:
-          "kjdsfh jd fnkjh akh h qwiuez kjdfh nbdfj kjhdf njkdf skdjfh ne fkjhdf jdhf",
+        text: "kjdsfh jd akh h qwiuez kjdfh nbdfj kjhdf njkdf skdjfh ne jdhf",
+        value: "/relaxation/autogenous-training",
       },
       {
         title: "Körperreisen",
         text: "hdf kjdsfh kjshd asdj dnjfk dsfjh dfks",
+        value: "/relaxation/body-travel",
       },
       {
         title: "Qi Gong",
         text: "djhf sdkfjh njkd",
+        value: "/relaxation/qi-gong",
       },
     ],
   },
@@ -68,14 +73,17 @@ export const pages = {
       {
         title: "Workouts",
         text: "kjhdf kjshd  hkjdf kjhdf",
+        value: "/fitness/workouts",
       },
       {
         title: "Yoga",
         text: "kjhdfjf jdhf kjhd asdjh  kjhf kjh kjh kjhkjh kjh asdjh kjh sd",
+        value: "/fitness/yoga",
       },
       {
         title: "Gesundheit",
         text: "jsdhf kjdhf ksjhd kjhd ddhhdsj akjs",
+        value: "/fitness/health",
       },
     ],
   },
@@ -89,18 +97,22 @@ export const pages = {
       {
         title: "Schlaf",
         text: "hdf kj",
+        value: "/wellbeing/sleep",
       },
       {
         title: "Entspannung",
         text: "kjd kjhd kjhkj asd asd asdjh  asdkj asdjh da",
+        value: "/wellbeing/relaxation",
       },
       {
         title: "Zeitmanagement",
         text: "df lkjdf sdfkj sdflkj sdflkj dsf",
+        value: "/wellbeing/time-management",
       },
       {
         title: "Methoden",
         text: "dsjf lkjdsf lkjdsf",
+        value: "/wellbeing/methods",
       },
     ],
   },
@@ -114,14 +126,17 @@ export const pages = {
       {
         title: "Mensa",
         text: "lkjdf lkjdsf",
+        value: "/nutrition/mensa",
       },
       {
         title: "Infobereich",
         text: "ljdf lkjdf lkjsd lkjdf",
+        value: "/nutrition/info",
       },
       {
         title: "Mythencheck",
         text: "dfkjsdf lkdf slkf",
+        value: "/nutrition/myth-check",
       },
     ],
   },

@@ -1,3 +1,4 @@
+import React from "react";
 import { makeStyles, Card, CardContent, IconButton } from "@material-ui/core/";
 import {
   Favorite as FavoriteIcon,
@@ -47,6 +48,8 @@ const useStyles = makeStyles((theme) => ({
 export default function ContentCard(props) {
   const classes = useStyles();
   const { data } = props;
+  const [favorite, setFavorite] = React.useState(data.favorite);
+
   let typeIcon;
 
   switch (data.type) {
@@ -63,6 +66,16 @@ export default function ContentCard(props) {
       typeIcon = <EmojiSymbols className={classes.typeIcon} />;
   }
 
+  const handleFavoriteClick = () => {
+    setFavorite(!favorite);
+    // todo: save state to backend
+  };
+  const handleTitleClick = (event) => {
+    console.log(event.target.id);
+    // todo: id should be set to entry id of database
+    // todo: change to detail screen
+  };
+
   return (
     <Card variant="outlined" className={classes.card}>
       <CardContent className={classes.cardContent}>
@@ -71,7 +84,9 @@ export default function ContentCard(props) {
           <span className={classes.text}>{data.type}</span>
           <span className={classes.text}>{data.duration}</span>
         </div>
-        <p className={classes.title}>{data.title}</p>
+        <p id="test" className={classes.title} onClick={handleTitleClick}>
+          {data.title}
+        </p>
         <div className={classes.text}>
           {data.tags.map((tag, index) => {
             return (
@@ -80,8 +95,12 @@ export default function ContentCard(props) {
               </span>
             );
           })}
-          <IconButton size="small" className={classes.heartButton}>
-            {data.favorite ? <FavoriteIcon /> : <FavoriteOutlinedIcon />}
+          <IconButton
+            size="small"
+            className={classes.heartButton}
+            onClick={handleFavoriteClick}
+          >
+            {favorite ? <FavoriteIcon /> : <FavoriteOutlinedIcon />}
           </IconButton>
         </div>
       </CardContent>
