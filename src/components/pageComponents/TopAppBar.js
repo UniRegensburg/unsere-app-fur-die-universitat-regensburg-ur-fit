@@ -7,9 +7,10 @@ import {
   Paper,
   Grid,
 } from "@material-ui/core/";
-import { Menu as BurgerMenu } from "@material-ui/icons";
+import { Menu as BurgerMenu, Home } from "@material-ui/icons";
 import AppBarDrawer from "./AppBarDrawer";
 import Logo from "../../assets/images/URFitLogo.png";
+import { Link } from "react-router-dom";
 
 const styles = (theme) => ({
   appBar: {
@@ -33,6 +34,11 @@ const styles = (theme) => ({
   title: {
     color: "#2E303C",
   },
+
+  home: {
+    width: "33px",
+    height: "33px",
+  },
 });
 
 class TopAppBar extends React.Component {
@@ -40,7 +46,7 @@ class TopAppBar extends React.Component {
     super(props);
     this.state = {
       open: false,
-    };    
+    };
   }
   toggleDrawer() {
     this.setState({
@@ -50,11 +56,13 @@ class TopAppBar extends React.Component {
 
   render() {
     const { classes } = this.props;
-    let header;
+    let header, visibilityOfHomeIcon;
     if (this.props.title === "URfit") {
       header = <AppBarLogo class={classes.logo} />;
+      visibilityOfHomeIcon = { visibility: "hidden" };
     } else {
       header = <AppBarTitle class={classes.title} title={this.props.title} />;
+      visibilityOfHomeIcon = { visibility: "visible" };
     }
     return (
       <AppBar data-testid="appbar" className={classes.appBar}>
@@ -65,18 +73,26 @@ class TopAppBar extends React.Component {
             alignItems="center"
             container
           >
-            <Grid item xs={1}>
+            <Grid item>
               <IconButton
                 onClick={this.toggleDrawer.bind(this)}
                 edge="start"
-                className={classes.burgerMenu}
                 data-testid="burgermenu-button"
               >
                 <BurgerMenu fontSize="large" />
               </IconButton>
             </Grid>
             {header}
-            <Grid item xs={1} />
+            <Grid item>
+              <IconButton
+                button
+                component={Link}
+                to={"/"}
+                data-testid="home-button"
+              >
+                <Home className={classes.home} style={visibilityOfHomeIcon} />
+              </IconButton>
+            </Grid>
           </Grid>
         </Toolbar>
         <AppBarDrawer
@@ -93,11 +109,11 @@ export default withStyles(styles)(TopAppBar);
 class AppBarLogo extends React.Component {
   render() {
     return (
-      <Grid item xs={5}>
-              <Paper data-testid="appbar-header" elevation={0}>
-                <img src={Logo} alt="AppBarLogo" className={ this.props.class } />
-              </Paper>
-            </Grid>
+      <Grid item xs>
+        <Paper data-testid="appbar-header" elevation={0}>
+          <img src={Logo} alt="AppBarLogo" className={this.props.class} />
+        </Paper>
+      </Grid>
     );
   }
 }
@@ -105,8 +121,10 @@ class AppBarLogo extends React.Component {
 class AppBarTitle extends React.Component {
   render() {
     return (
-      <Grid item xs={5}>
-        <h2 data-testid="appbar-header" className={ this.props.class }>{this.props.title}</h2>
+      <Grid item xs>
+        <h2 data-testid="appbar-header" className={this.props.class}>
+          {this.props.title}
+        </h2>
       </Grid>
     );
   }

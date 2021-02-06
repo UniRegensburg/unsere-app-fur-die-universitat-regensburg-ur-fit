@@ -8,21 +8,59 @@ import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 import Mensascreen from "./components/pages/Mensascreen";
 import Loginscreen from "./components/pages/Loginscreen";
+import Contentlistscreen from "./components/pages/Contentlistscreen";
+
+import * as Constants from "./constants/constants";
+
+const categories = [
+  Constants.pages.relaxation,
+  Constants.pages.fitness,
+  Constants.pages.wellbeing,
+  Constants.pages.nutrition,
+];
 
 function App() {
   return (
     <Router>
       <div data-testid="app" className="App">
         <Switch>
-          {/* This will be the login screen */}
           <Route exact path="/" component={Homescreen} />
           <Route exact path="/login" component={Loginscreen} />
-          <ProtectedRoute exact path="/home" component={Homescreen} />
           <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
-          <ProtectedRoute exact path="/relaxation" component={CategoryList} />
-          <ProtectedRoute exact path="/fitness" component={CategoryList} />
-          <ProtectedRoute exact path="/wellbeing" component={CategoryList} />
-          <ProtectedRoute exact path="/nutrition" component={Mensascreen} />
+          {categories.map((category) => {
+            return (
+              <ProtectedRoute
+                exact
+                path={category.value}
+                key={category.key}
+                component={(routerProps) => (
+                  <CategoryList
+                    {...routerProps}
+                    title={category.title}
+                    categories={category.subcategories}
+                  />
+                )}
+              />
+            );
+          })}
+
+          {categories.map((category) => {
+            return category.subcategories.map((subcategory, index) => {
+              return (
+                <ProtectedRoute
+                  exact
+                  path={subcategory.value}
+                  key={index}
+                  component={(routerProps) => (
+                    <Contentlistscreen
+                      {...routerProps}
+                      title={subcategory.title}
+                    />
+                  )}
+                />
+              );
+            });
+          })}
         </Switch>
       </div>
     </Router>
