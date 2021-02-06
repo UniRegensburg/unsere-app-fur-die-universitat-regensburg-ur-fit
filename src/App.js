@@ -27,6 +27,11 @@ function App() {
           <Route exact path="/" component={Homescreen} />
           <Route exact path="/login" component={Loginscreen} />
           <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
+          <ProtectedRoute
+            exact
+            path="/nutrition/mensa"
+            component={Mensascreen}
+          />
           {categories.map((category) => {
             return (
               <ProtectedRoute

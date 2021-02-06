@@ -73,6 +73,7 @@ export class Mensascreen extends React.Component {
             >
               {Constants.week.map((page, index) => (
                 <Button
+                  key={index}
                   value={page}
                   className={
                     this.state.day === page
@@ -102,6 +103,7 @@ export class Mensascreen extends React.Component {
                   price={meal.cost}
                   labels={meal.contentInfo}
                   contentInfo={meal.additionalInfo}
+                  key={index}
                 />
               ))}
               <Typography className={classes.categoryTitle}>
@@ -118,6 +120,7 @@ export class Mensascreen extends React.Component {
                   price={meal.cost}
                   labels={meal.contentInfo}
                   contentInfo={meal.additionalInfo}
+                  key={index}
                 />
               ))}
               <Typography className={classes.categoryTitle}>
@@ -134,6 +137,7 @@ export class Mensascreen extends React.Component {
                   price={meal.cost}
                   labels={meal.contentInfo}
                   contentInfo={meal.additionalInfo}
+                  key={index}
                 />
               ))}
             </Grid>

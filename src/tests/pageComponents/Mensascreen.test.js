@@ -35,6 +35,10 @@ it("check if mensascreen displays", () => {
   let { getByTestId } = render(<Mensascreen />);
 
   const spinner = getByTestId("spinner");
-
   expect(spinner).toBeInTheDocument();
+
+  setTimeout(() => {
+    const appBar = getByTestId("mensa-appBar");
+    expect(appBar).toBeInTheDocument();
+  }, 30000);
 });

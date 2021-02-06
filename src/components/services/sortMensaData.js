@@ -43,173 +43,162 @@ export function addCategories(mensaData) {
             mensaData[day][meal].contentInfo[contentInfo] = "";
         }
       }
-      for (let additionalInfo in mensaData[day][meal].additionalInfo) {
-        switch (mensaData[day][meal].additionalInfo[additionalInfo]) {
+      for (let infoIndex in mensaData[day][meal].additionalInfo) {
+        switch (mensaData[day][meal].additionalInfo[infoIndex]) {
           case "1":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Farbstoff";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Farbstoff";
             break;
           case "2":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "Konservierungsstoff";
             break;
           case "3":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "Antioxidationsmittel";
             break;
           case "4":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "Geschmacksverstärker";
             break;
           case "5":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "geschwefelt";
+            mensaData[day][meal].additionalInfo[infoIndex] = "geschwefelt";
             break;
           case "6":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "geschwärzt";
+            mensaData[day][meal].additionalInfo[infoIndex] = "geschwärzt";
             break;
           case "7":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "gewachst";
+            mensaData[day][meal].additionalInfo[infoIndex] = "gewachst";
             break;
           case "8":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Phosphat";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Phosphat";
             break;
           case "9":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "Süssungsmittel Saccharin";
             break;
           case "10":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "Süssungsmittel Aspartam";
             break;
           case "11":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "Süssungsmittel Cyclamat";
             break;
           case "12":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "Süssungsmittel Acesulfam";
             break;
           case "13":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "chininhaltig";
+            mensaData[day][meal].additionalInfo[infoIndex] = "chininhaltig";
             break;
           case "14":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "coffeinhaltig";
+            mensaData[day][meal].additionalInfo[infoIndex] = "coffeinhaltig";
             break;
           case "15":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "gentechnisch verändert";
             break;
           case "16":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Sulfite";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Sulfite";
             break;
           case "17":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "Phenylalanin";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Phenylalanin";
             break;
           case "AA":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "Weizengluten";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Weizengluten";
             break;
           case "AB":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "Roggengluten";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Roggengluten";
             break;
           case "AC":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "Gerstengluten";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Gerstengluten";
             break;
           case "AD":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Hafergluten";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Hafergluten";
             break;
           case "AE":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "Dinkelgluten";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Dinkelgluten";
             break;
           case "AF":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Kamutgluten";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Kamutgluten";
             break;
           case "B":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Krebstiere";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Krebstiere";
             break;
           case "C":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Eier";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Eier";
             break;
           case "D":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Fisch";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Fisch";
             break;
           case "E":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Erdnüsse";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Erdnüsse";
             break;
           case "F":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Soja";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Soja";
             break;
           case "G":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "Milch und Milchprodukte";
             break;
           case "HA":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Mandel";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Mandel";
             break;
           case "HB":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Haselnuss";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Haselnuss";
             break;
           case "HC":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Walnuss";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Walnuss";
             break;
           case "HD":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Cashew";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Cashew";
             break;
           case "HE":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Pecannuss";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Pecannuss";
             break;
           case "HF":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Paranuss";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Paranuss";
             break;
           case "HG":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Pistazie";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Pistazie";
             break;
           case "HH":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "Macadamianuss";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Macadamianuss";
             break;
           case "HI":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "Queenslandnuss";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Queenslandnuss";
             break;
           case "I":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Sellerie";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Sellerie";
             break;
           case "J":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Senf";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Senf";
             break;
           case "K":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Sesamsamen";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Sesamsamen";
             break;
           case "L":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
+            mensaData[day][meal].additionalInfo[infoIndex] =
               "Schwefeldioxid und Sulfite";
             break;
           case "M":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Lupinen";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Lupinen";
             break;
           case "N":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Weichtiere";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Weichtiere";
             break;
           case "O":
-            mensaData[day][meal].additionalInfo[additionalInfo] = "Nitrat";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Nitrat";
             break;
           case "P":
-            mensaData[day][meal].additionalInfo[additionalInfo] =
-              "Nitritpökelsalz";
+            mensaData[day][meal].additionalInfo[infoIndex] = "Nitritpökelsalz";
             break;
           default:
-            mensaData[day][meal].additionalInfo[additionalInfo] = "";
+            mensaData[day][meal].additionalInfo.splice(infoIndex, 1);
         }
       }
     }
   }
-  console.log(mensaData);
   return mensaData;
 }
 

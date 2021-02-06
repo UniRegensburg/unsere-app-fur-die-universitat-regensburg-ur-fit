@@ -54,6 +54,20 @@ export default function MensaCard(props) {
   const [open, setOpen] = useState(false);
 
   const classes = useStyles();
+  let contentInfo = <br />;
+  if (props.contentInfo.length > 0) {
+    contentInfo = (
+      <Typography
+        data-testid="ingredients-subtitle"
+        className={classes.cardSubtitle}
+      >
+        Inhaltstoffe:
+        {props.contentInfo.map((ingredients, index) => {
+          return "\n" + ingredients;
+        })}
+      </Typography>
+    );
+  }
   return (
     <Card
       onClick={() => setOpen(!open)}
@@ -87,17 +101,7 @@ export default function MensaCard(props) {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Grid container>
           <CardContent className={classes.cardContent}>
-            <Grid item>
-              <Typography
-                data-testid="ingredients-subtitle"
-                className={classes.cardSubtitle}
-              >
-                Inhaltstoffe:
-                {props.contentInfo.map((ingredients, index) => {
-                  return "\n" + ingredients;
-                })}
-              </Typography>
-            </Grid>
+            <Grid item>{contentInfo}</Grid>
             <Grid item>
               <Typography
                 data-testid="price-subtitle"

@@ -1,6 +1,5 @@
 export default async function getMensaData(weekOfYear) {
   const csv = require("csvtojson");
-  const Iconv = require("iconv-lite");
   var api_url = `https://cors-anywhere.herokuapp.com/https://www.stwno.de/infomax/daten-extern/csv/UNI-R/${weekOfYear}.csv`;
   return new Promise((resolve, reject) => {
     fetch(api_url)
@@ -55,7 +54,6 @@ export default async function getMensaData(weekOfYear) {
                   }
                 }
               }
-              console.log(plan);
               resolve(plan);
             });
         });
