@@ -52,6 +52,7 @@ export default function BottomNavigationBar() {
         to={Constants.pages.fitness.value}
         data-testid={"navigation-fitness"}
       />
+
       <BottomNavigationAction
         label={Constants.pages.wellbeing.title}
         className={classes.bottomNavBarItem}

@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   listIcon: {
-    color: "black",
+    color: "#2E303C",
   },
 
   list: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   divider: {
-    backgroundColor: "black",
+    backgroundColor: "#2E303C",
     height: 1,
   },
 }));

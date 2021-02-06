@@ -18,7 +18,7 @@ The continous integration server can also restart itself, if its files have chan
 4) run `npm i -g pm2` if pm2 library is not yet installed.
 5) run `pm2 start` and wait about 30 seconds, everything is ready to go.
 
-Check [urfit.software-developement.education/ci](https://review.software-developement.education/ci) to see the last ci-server log outputs.
+Check [urfit.software-engineering.education/ci](https://urfit.software-engineering.education/ci) to see the last ci-server log outputs.
 
 ## Prerequisites
 
@@ -36,7 +36,7 @@ the following packages need to be installed on the linux server:
 
 ## Process management
 
-We want to keep the ci, developement and production safe and always running, no matter if the server restarts or the application crashes. Therefore all three applications are hosted in the process manager [pm2](https://pm2.keymetrics.io/). (The ci-server cannot be configured for usage with any other process manager). In the `pm2 ecosystem.config` file the server processes are specified, with their respective starting commands from to `package.json` file.
+We want to keep the ci, developement and production safe and always running, no matter if the server restarts or the application crashes. Therefore all three applications are hosted in the process manager [pm2](https://pm2.keymetrics.io/). (The ci-server cannot be configured for usage with any other process manager). In the `pm2 ecosystem.config` file the server processes are specified, with their respective starting commands from to `package.json` file. For the Production server this is slightly different. While we want to rebuild the files whenever they change, the actual server is nginx for performace reasons and not a node implementation. Therefore no restart is needed.
 
 ### pm2 config `~/ur-fit/ecosystem.config.js`
 ```javascript
@@ -55,7 +55,8 @@ module.exports = {
     {
       name: "ur-fit-prod",
       script: "npm",
-      args: "run publish",
+      args: "run build",
+      autorestart: false,
     }
   ]
 }
@@ -63,28 +64,62 @@ module.exports = {
 
 ## Webserver configuration
 
-Since we are using multiple servers on the same machine, we need to use a reverse-proxy, to route different URLs to our correct servers. On our server `nginx` is the reverse proxy of choice. As can be seen bellow nginx defines to endpoints (called `server` but not to be confused with our node servers) for [urfit.software-engineering.education](https://urfit.software-engineering.education). The standard http endpoint on port 80 is always rerouted to secure https on port 443. The `location` setting are where the requests are redirected to there correct node servers. This is done in one of two ways:
-- The productio environment has its own URL and configuration file similar to this one
-- The developement server and ci server have their endpoints both on the urfit.software-engineering.education URL, but:
-  - [urfit.software-engineering.education/](https://review.software-engineering.education) redirects to the dev server
-  - [urfit.software-engineering.education/ci/](https://review.software-engineering.education/ci) redirects to the ci server
+Since we are using multiple application servers on the same machine, we need to use a reverse-proxy, to route different URLs to our correct servers. On our machine `nginx` is the reverse proxy of choice. The developement server is using a reverse proxy configuration on the url [review.software-engineering.education](https://review.software-engineering.education) and the continous integration server is proxied from [urfit.software-engineering.education/ci](https://urfit.software-engineering.education/ci).
+For the production server, things are done slightly different. Instead of using a reverse proxy `nginx` serves the `build/` directory directly. Combined with `nginx` ability to gzip compress files this rouphly doubles loading performance.
+The standard http endpoint on port 80 is always rerouted to secure https on port 443. SSL certificates are provided by Let's Encrypt.
 
-The three node servers differentiate themselfs by using different ports on localhost:
+### Dev and CI server setup
+
+- [review.software-engineering.education/](https://review.software-engineering.education) redirects to the dev server
+- [urfit.software-engineering.education/ci/](https://urfit.software-engineering.education/ci) redirects to the ci server
+
+The two node application servers differentiate themselfs by using different ports on localhost:
 - `localhost:3330/`: ci-server (process: ur-fit-ci)
 - `localhost:3000/`: developement server (process: ur-fit-dev)
-- `localhost:5000/`: production server (process: ur-fit-prod)
 
 > Important: Using one host (in this case `urfit.software-engineering.education`) for two react apps is not possible because of webpack. Webpack will bundle files to be served from root. As a result, the developement and production server cannot be accessed from the same host, because the reverse proxy well not work. (This is probably solvable with a more sofiticated configuration.)
-> Notice: Second gotcha is that create-app-app uses websocket to serve the site, therefore the http connection needs to be able to upgrade to a websocket connection.
+> Notice: Second gotcha is that create-app-app uses websocket to serve the site, therefore the http connection needs to be able to upgrade to a websocket connection. When using a reverse proxy this must be manually configured in nginx.
+
+### Nginx configuration file: `/etc/nginx/sites-available/review.software-engineering.education`
+```nginx
+upstream devserver {
+        server 127.0.0.1:3000;
+}
+
+server {
+        listen 80;
+        server_name review.software-engineering.education;
+        return 301 https://review.software-engineering.education$request_uri;
+}
+
+server {
+        listen 443 ssl;
+        listen [::]:443 ssl;
+        server_name review.software-engineering.education;
+
+        ssl_certificate /etc/letsencrypt/live/review.software-engineering.education/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/review.software-engineering.education/privkey.pem;
+
+        location / {
+                proxy_pass http://devserver;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection $connection_upgrade;
+                proxy_set_header Host $host;
+        }
+}
+```
+
+### Production server setup
+
+The production server is served directly on [urfir.software-engineering.education](https://urfit.software-engineering.education), no extra reverse proxy required.
+
 
 ### Nginx configuration file: `/etc/nginx/sites-available/urfit.software-engineering.education`
+
 ```nginx
 upstream ciserver {
         server 127.0.0.1:3330;
-}
-
-upstream devserver {
-        server 127.0.0.1:3000;
 }
 
 server {
@@ -101,24 +136,36 @@ server {
         ssl_certificate /etc/letsencrypt/live/urfit.software-engineering.education/fullchain.pem;
         ssl_certificate_key /etc/letsencrypt/live/urfit.software-engineering.education/privkey.pem;
 
+        root /home/fzeiher/ur-fit/build;
+
         location /ci/ {
                 proxy_pass http://ciserver/;
         }
 
         location / {
-                proxy_pass http://devserver;
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection $connection_upgrade;
-                proxy_set_header Host $host;
+                try_files $uri $uri/ /index.html =404;
         }
 }
 ```
+
 
 ## Nginx configuration: `nginx.conf`
 ```nginx
 http {
         [...other stuff...]
+        ##
+        # Gzip Settings
+        ##
+
+        gzip on;
+
+        gzip_vary on;
+        gzip_proxied any;
+        gzip_comp_level 6;
+        gzip_buffers 16 8k;
+        gzip_http_version 1.1;
+        gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
         ##
         # Websocket Settings
         ##
@@ -208,7 +255,7 @@ Host githubserver
     IdentityFile ~/.ssh/ed25519.github
 ```
 
-```bash
+```
 fzeiher@pcsl00138:~/ur-fit$ git remote -v
 origin  git@githubserver:cetceeve/ci-test-ur-fit.git (fetch)
 origin  git@githubserver:cetceeve/ci-test-ur-fit.git (push)

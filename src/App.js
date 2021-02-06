@@ -9,6 +9,7 @@ import CategoryList from "./components/pages/CategoryList";
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 import Loginscreen from "./components/pages/Loginscreen";
+import Contentlistscreen from "./components/pages/Contentlistscreen";
 
 import * as Constants from "./constants/constants";
 
@@ -44,6 +45,24 @@ function App() {
                   )}
                 />
               );
+            })}
+
+            {categories.map((category) => {
+              return category.subcategories.map((subcategory, index) => {
+                return (
+                  <ProtectedRoute
+                    exact
+                    path={subcategory.value}
+                    key={index}
+                    component={(routerProps) => (
+                      <Contentlistscreen
+                        {...routerProps}
+                        title={subcategory.title}
+                      />
+                    )}
+                  />
+                );
+              });
             })}
           </Switch>
         </div>
