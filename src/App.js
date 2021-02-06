@@ -6,7 +6,6 @@ import { ProtectedRoute } from "./components/navigation/ProtectedRoute";
 import CategoryList from "./components/pages/CategoryList";
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
-import Mensascreen from "./components/pages/Mensascreen";
 import Loginscreen from "./components/pages/Loginscreen";
 import Contentlistscreen from "./components/pages/Contentlistscreen";
 
@@ -27,11 +26,6 @@ function App() {
           <Route exact path="/" component={Homescreen} />
           <Route exact path="/login" component={Loginscreen} />
           <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
-          <ProtectedRoute
-            exact
-            path="/nutrition/mensa"
-            component={Mensascreen}
-          />
           {categories.map((category) => {
             return (
               <ProtectedRoute

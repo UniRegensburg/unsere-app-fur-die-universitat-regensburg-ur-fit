@@ -4,6 +4,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import Mensascreen from "../../components/pages/Mensascreen";
 import MensaCardItem from "../../components/pageComponents/MensaCardItem";
+import { BrowserRouter as Router } from "react-router-dom";
 
 it("check if mensaCardItem content displays", () => {
   const { getByTestId } = render(
@@ -32,7 +33,11 @@ it("check if mensaCardItem content displays", () => {
 });
 
 it("check if mensascreen displays", () => {
-  let { getByTestId } = render(<Mensascreen />);
+  let { getByTestId } = render(
+    <Router>
+      <Mensascreen />
+    </Router>
+  );
 
   const spinner = getByTestId("spinner");
   expect(spinner).toBeInTheDocument();
