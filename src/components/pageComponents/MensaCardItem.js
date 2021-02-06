@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   cardTitle: {
     fontSize: "20px",
     textAlign: "left",
+    wordWrap: "break-word",
   },
   cardSubtitle: {
     textAlign: "left",
@@ -86,17 +87,17 @@ export default function MensaCard(props) {
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Grid container>
           <CardContent className={classes.cardContent}>
-            {/* <Grid item>
+            <Grid item>
               <Typography
                 data-testid="ingredients-subtitle"
                 className={classes.cardSubtitle}
               >
                 Inhaltstoffe:
                 {props.contentInfo.map((ingredients, index) => {
-                  return "\n" + ingredients + ",";
+                  return "\n" + ingredients;
                 })}
               </Typography>
-            </Grid> */}
+            </Grid>
             <Grid item>
               <Typography
                 data-testid="price-subtitle"

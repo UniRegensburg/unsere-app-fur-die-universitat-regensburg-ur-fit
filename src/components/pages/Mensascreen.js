@@ -40,7 +40,7 @@ export class Mensascreen extends React.Component {
     super(props);
     this.state = {
       mensaPlan: null,
-      day: "Monday",
+      day: "Mo",
     };
   }
 
@@ -101,7 +101,7 @@ export class Mensascreen extends React.Component {
                   title={meal.title}
                   price={meal.cost}
                   labels={meal.contentInfo}
-                  contentInfo={meal.contentInfo}
+                  contentInfo={meal.additionalInfo}
                 />
               ))}
               <Typography className={classes.categoryTitle}>
@@ -117,7 +117,7 @@ export class Mensascreen extends React.Component {
                   title={meal.title}
                   price={meal.cost}
                   labels={meal.contentInfo}
-                  contentInfo={meal.contentInfo}
+                  contentInfo={meal.additionalInfo}
                 />
               ))}
               <Typography className={classes.categoryTitle}>
@@ -133,7 +133,7 @@ export class Mensascreen extends React.Component {
                   title={meal.title}
                   price={meal.cost}
                   labels={meal.contentInfo}
-                  contentInfo={meal.contentInfo}
+                  contentInfo={meal.additionalInfo}
                 />
               ))}
             </Grid>

@@ -74,7 +74,7 @@ export const pages = {
   },
 };
 
-export const week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+export const week = ["Mo", "Di", "Mi", "Do", "Fr"];
 
 export const meals = {
   mainDish: "HG",

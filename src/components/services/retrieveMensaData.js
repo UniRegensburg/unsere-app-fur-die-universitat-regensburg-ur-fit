@@ -1,13 +1,14 @@
 export default async function getMensaData(weekOfYear) {
   const csv = require("csvtojson");
-  const iconv = require("iconv-lite");
+  const Iconv = require("iconv-lite");
   var api_url = `https://cors-anywhere.herokuapp.com/https://www.stwno.de/infomax/daten-extern/csv/UNI-R/${weekOfYear}.csv`;
   return new Promise((resolve, reject) => {
     fetch(api_url)
-      .then((res) => res.text())
+      .then((res) => res.arrayBuffer())
       .then((data) => {
         new Promise((resolve, reject) => {
-          resolve(iconv.decode(Buffer(data), "ISO-8859-1"));
+          let decoder = new TextDecoder("iso-8859-1");
+          resolve(decoder.decode(data));
         }).then((result) => {
           csv({
             delimiter: ";",
@@ -27,9 +28,9 @@ export default async function getMensaData(weekOfYear) {
                   meal.title = results[i].name.split("(")[0];
                   meal.category = results[i].warengruppe.replace(/[0-9]/g, "");
                   meal.contentInfo = results[i].kennz;
-                  meal.additionalInfo = results[i].warengruppe.substring(
-                    results[i].warengruppe.lastIndexOf("(") + 1,
-                    results[i].warengruppe.lastIndexOf(")")
+                  meal.additionalInfo = results[i].name.slice(
+                    results[i].name.indexOf("(") + 1,
+                    results[i].name.lastIndexOf(")")
                   );
                   meal.cost = results[i].preis;
                   meal.day = results[i].tag;
@@ -54,6 +55,7 @@ export default async function getMensaData(weekOfYear) {
                   }
                 }
               }
+              console.log(plan);
               resolve(plan);
             });
         });
