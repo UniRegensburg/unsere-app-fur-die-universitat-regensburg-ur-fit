@@ -1,7 +1,5 @@
 import app from "../services/firebase-config";
-import { Event, Observable } from "../utils/observable";
 import config from "../../constants/authentication.config";
-import events from "../../constants/events";
 
 // requesting JWT Token from authentication server, this request needs strict http rules
 async function requestAuthToken(username, password) {
@@ -55,7 +53,7 @@ async function authenticate(username, password) {
     const userCredentials = await app.auth().signInWithCustomToken(token);
     if (userCredentials) {
       // sign in successfull
-      return userCredentials.user;
+      return userCredentials.user.uid;
     } else {
       throw new Error("ERROR: unknown firebase server error");
     }
@@ -64,26 +62,16 @@ async function authenticate(username, password) {
   }
 }
 
-class Authentication extends Observable {
-  constructor() {
-    super();
-    app.auth().onAuthStateChanged((user) => {
-      if (user !== null) {
-        this.notifyAll(new Event(events.auth.onUserStateChanged, user));
-      } else {
-        this.notifyAll(new Event(events.auth.onUserStateChanged, null));
-      }
+class Authentication {
+  onAuthStateChanged(callback) {
+    return app.auth().onAuthStateChanged((user) => {
+      callback(user ? { uid: user.uid } : null);
     });
   }
 
   async login(username, password) {
     try {
-      const user = authenticate(username, password);
-      if (user !== null) {
-        return user;
-      } else {
-        return null;
-      }
+      return await authenticate(username, password);
     } catch (error) {
       throw new Error(error);
     }
@@ -91,15 +79,14 @@ class Authentication extends Observable {
 
   async logout() {
     try {
-      const res = await app.auth().signOut();
-      console.log(res);
+      await app.auth().signOut();
     } catch (error) {
       throw new Error(error);
     }
   }
 
   get currentUser() {
-    return app.auth().currentUser;
+    return app.auth().currentUser ? { uid: app.auth().currentUser.uid } : null;
   }
 
   get isAuthenticated() {

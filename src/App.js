@@ -2,7 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
-import ProtectedRoute from "./components/navigation/ProtectedRoute";
+import { ProtectedRoute } from "./components/navigation/ProtectedRoute";
+import { UserProvider } from "./components/hooks/useUser";
+
 import CategoryList from "./components/pages/CategoryList";
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
@@ -19,32 +21,34 @@ const categories = [
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Switch>
-          <Route exact path="/" component={Homescreen} />
-          <Route exact path="/login" component={Loginscreen} />
-          <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
+    <UserProvider>
+      <Router>
+        <div className="App">
+          <Switch>
+            <Route exact path="/" component={Homescreen} />
+            <Route exact path="/login" component={Loginscreen} />
+            <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
 
-          {categories.map((category) => {
-            return (
-              <ProtectedRoute
-                exact
-                path={category.value}
-                key={category.key}
-                component={(routerProps) => (
-                  <CategoryList
-                    {...routerProps}
-                    title={category.title}
-                    categories={category.subcategories}
-                  />
-                )}
-              />
-            );
-          })}
-        </Switch>
-      </div>
-    </Router>
+            {categories.map((category) => {
+              return (
+                <ProtectedRoute
+                  exact
+                  path={category.value}
+                  key={category.key}
+                  component={(routerProps) => (
+                    <CategoryList
+                      {...routerProps}
+                      title={category.title}
+                      categories={category.subcategories}
+                    />
+                  )}
+                />
+              );
+            })}
+          </Switch>
+        </div>
+      </Router>
+    </UserProvider>
   );
 }
 
