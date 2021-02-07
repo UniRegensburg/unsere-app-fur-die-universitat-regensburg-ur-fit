@@ -5,14 +5,18 @@ import {
   Button,
   withStyles,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogTitle,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import moment from "moment";
 
 import TopAppBar from "../pageComponents/TopAppBar";
 import getMensaData from "../services/retrieveMensaData";
 import * as Constants from "../../constants/constants";
 import MensaCardItem from "../pageComponents/MensaCardItem";
 import { addCategories, filterMensaData } from "../services/sortMensaData";
-import moment from "moment";
 
 const styles = (theme) => ({
   weekRow: {
@@ -41,23 +45,51 @@ export class Mensascreen extends React.Component {
     this.state = {
       mensaPlan: null,
       day: "Mo",
+      error: false,
     };
   }
 
   componentDidMount() {
     let week = moment().week();
     getMensaData(week).then((data) => {
-      this.setState({ mensaPlan: addCategories(data) });
+      if (typeof data !== "undefined" && data != null) {
+        this.setState({ mensaPlan: addCategories(data) });
+      } else {
+        this.setState({ error: true });
+      }
     });
   }
   render() {
     const { classes } = this.props;
-    if (this.state.mensaPlan === null) {
+    if (this.state.mensaPlan === null && this.state.error === false) {
       return (
         <div className="Spinnerscreen">
           <TopAppBar title="URfit" />
           <CircularProgress data-testid="spinner" />
         </div>
+      );
+    }
+    if (this.state.mensaPlan === null && this.state.error === true) {
+      return (
+        <Dialog
+          open={true}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Das Laden der Mensadaten ist fehlgeschlagen"}
+          </DialogTitle>
+          <DialogActions>
+            <Button
+              component={Link}
+              to={Constants.pages.home.value}
+              color="primary"
+              autoFocus
+            >
+              Zurück zum Hauptmenu
+            </Button>
+          </DialogActions>
+        </Dialog>
       );
     } else {
       return (
