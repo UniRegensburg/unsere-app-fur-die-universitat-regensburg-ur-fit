@@ -7,6 +7,7 @@ import CategoryList from "./components/pages/CategoryList";
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 import Loginscreen from "./components/pages/Loginscreen";
+import ContentDetailscreen from "./components/pages/ContentDetailscreen";
 import Contentlistscreen from "./components/pages/Contentlistscreen";
 
 import * as Constants from "./constants/constants";
@@ -24,6 +25,7 @@ function App() {
       <div className="App">
         <Switch>
           <Route exact path="/" component={Homescreen} />
+          <Route exact path="/content" component={ContentDetailscreen} />
           <Route exact path="/login" component={Loginscreen} />
           <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
 
