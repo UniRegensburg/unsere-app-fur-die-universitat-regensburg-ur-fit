@@ -8,6 +8,7 @@ import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 import Loginscreen from "./components/pages/Loginscreen";
 import Contentlistscreen from "./components/pages/Contentlistscreen";
+import Mensascreen from "./components/pages/Mensascreen";
 
 import * as Constants from "./constants/constants";
 
@@ -21,12 +22,16 @@ const categories = [
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div data-testid="app" className="App">
         <Switch>
           <Route exact path="/" component={Homescreen} />
           <Route exact path="/login" component={Loginscreen} />
           <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
-
+          <ProtectedRoute
+            exact
+            path="/nutrition/mensa"
+            component={Mensascreen}
+          />
           {categories.map((category) => {
             return (
               <ProtectedRoute
@@ -61,7 +66,6 @@ function App() {
               );
             });
           })}
-
         </Switch>
       </div>
     </Router>
