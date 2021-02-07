@@ -8,9 +8,7 @@ import {
   ExitToApp as Logout,
   Home,
 } from "@material-ui/icons";
-import {ReactComponent as Relaxation} from "../assets/images/relaxation.svg";
-
-
+import { ReactComponent as Relaxation } from "../assets/images/relaxation.svg";
 
 export const pages = {
   home: {
@@ -179,6 +177,68 @@ export const meals = {
   garnish: "B",
   dessert: "N",
 };
+
+export const mensaContentInfo = {
+  V: "Vegetarisch",
+  VG: "Vegan",
+  G: "Geflügel",
+  S: "Schwein",
+  R: "Rind",
+  L: "Lamm",
+  W: "Wild",
+  F: "Fisch",
+  A: "Alkohol",
+  B: "Bio",
+};
+export const mensaAdditionalInfo = {
+  1: "Farbstoff",
+  2: "Konservierungsstoff",
+  3: "Antioxidationsmittel",
+  4: "Geschmacksverstärker",
+  5: "geschwefelt",
+  6: "geschwärzt",
+  7: "gewachst",
+  8: "Phosphat",
+  9: "Süssungsmittel Saccharin",
+  10: "Süssungsmittel Aspartam",
+  11: "Süssungsmittel Cyclamat",
+  12: "Süssungsmittel Acesulfam",
+  13: "chininhaltig",
+  14: "coffeinhaltig",
+  15: "gentechnisch verändert",
+  16: "Sulfite",
+  17: "Phenylalanin",
+  AA: "Weizengluten",
+  AB: "Roggengluten",
+  AC: "Gerstengluten",
+  AD: "Hafergluten",
+  AE: "Dinkelgluten",
+  AF: "Kamutgluten",
+  B: "Krebstiere",
+  C: "Eier",
+  D: "Fisch",
+  E: "Erdnüsse",
+  F: "Soja",
+  G: "Milch und Milchprodukte",
+  HA: "Mandel",
+  HB: "Haselnuss",
+  HC: "Walnuss",
+  HD: "Cashew",
+  HE: "Pecannuss",
+  HF: "Paranuss",
+  HG: "Pistazie",
+  HH: "Macadamianuss",
+  HI: "Queenslandnuss",
+  I: "Sellerie",
+  J: "Senf",
+  K: "Sesamsamen",
+  L: "Schwefeldioxid und Sulfite",
+  M: "Lupinen",
+  N: "Weichtiere",
+  O: "Nitrat",
+  P: "Nitritpökelsalz",
+};
+
 export const relaxation_categories = [
   {
     title: "Achtsamkeit",

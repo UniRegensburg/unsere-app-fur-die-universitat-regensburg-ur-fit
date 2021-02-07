@@ -52,7 +52,7 @@ export class Mensascreen extends React.Component {
   componentDidMount() {
     let week = moment().week();
     getMensaData(week).then((data) => {
-      if (typeof data !== "undefined" && data != null) {
+      if (typeof data !== "undefined" && data !== null) {
         this.setState({ mensaPlan: addCategories(data) });
       } else {
         this.setState({ error: true });
@@ -64,37 +64,40 @@ export class Mensascreen extends React.Component {
     if (this.state.mensaPlan === null && this.state.error === false) {
       return (
         <div className="Spinnerscreen">
-          <TopAppBar title="URfit" />
+          <TopAppBar title="Loading..." />
           <CircularProgress data-testid="spinner" />
         </div>
       );
     }
     if (this.state.mensaPlan === null && this.state.error === true) {
       return (
-        <Dialog
-          open={true}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Das Laden der Mensadaten ist fehlgeschlagen"}
-          </DialogTitle>
-          <DialogActions>
-            <Button
-              component={Link}
-              to={Constants.pages.home.value}
-              color="primary"
-              autoFocus
-            >
-              Zurück zum Hauptmenu
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <div className="Errorscreen">
+          <TopAppBar data-testid="mensa-appBar" title="Error" />
+          <Dialog
+            open={true}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Das Laden der Mensadaten ist fehlgeschlagen"}
+            </DialogTitle>
+            <DialogActions>
+              <Button
+                component={Link}
+                to={Constants.pages.home.value}
+                color="primary"
+                autoFocus
+              >
+                Zurück zum Hauptmenu
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
       );
     } else {
       return (
-        <div data-testid="mensa-appBar" className="Mensascreen">
-          <TopAppBar title="URfit" />
+        <div className="Mensascreen">
+          <TopAppBar data-testid="mensa-appBar" title="URfit" />
           <Grid container direction="column">
             <Grid
               container
@@ -122,12 +125,12 @@ export class Mensascreen extends React.Component {
             </Grid>
             <Grid>
               <Typography className={classes.categoryTitle}>
-                Beilagen
+                Hauptgerichte
               </Typography>
               {filterMensaData(
                 this.state.mensaPlan,
                 this.state.day,
-                Constants.meals.garnish
+                Constants.meals.mainDish
               ).map((meal, index) => (
                 <MensaCardItem
                   className={classes.mensaCard}
@@ -139,12 +142,12 @@ export class Mensascreen extends React.Component {
                 />
               ))}
               <Typography className={classes.categoryTitle}>
-                Hauptgerichte
+                Beilagen
               </Typography>
               {filterMensaData(
                 this.state.mensaPlan,
                 this.state.day,
-                Constants.meals.mainDish
+                Constants.meals.garnish
               ).map((meal, index) => (
                 <MensaCardItem
                   className={classes.mensaCard}

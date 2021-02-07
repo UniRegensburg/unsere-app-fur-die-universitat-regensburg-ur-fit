@@ -43,7 +43,6 @@ it("check if mensascreen displays", () => {
   expect(spinner).toBeInTheDocument();
 
   setTimeout(() => {
-    const appBar = getByTestId("mensa-appBar");
-    expect(appBar).toBeInTheDocument();
+    expect(spinner).toBeInTheDocument();
   }, 30000);
 });
