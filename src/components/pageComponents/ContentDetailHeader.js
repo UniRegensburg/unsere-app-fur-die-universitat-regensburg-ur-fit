@@ -30,7 +30,7 @@ export default function ContentDetailHeader(){
     const [favorite, setFavorite] = React.useState(false);
 
     const handleBackButtonClick = () => {
-      // go back to contentlist
+
     };
   
     const handleFavoriteClick = () => {
