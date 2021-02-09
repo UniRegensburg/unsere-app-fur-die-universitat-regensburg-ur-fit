@@ -8,6 +8,7 @@ import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 import Loginscreen from "./components/pages/Loginscreen";
 import Contentlistscreen from "./components/pages/Contentlistscreen";
+import Detailscreen from "./components/pages/Detailscreen";
 
 import * as Constants from "./constants/constants";
 
@@ -62,6 +63,13 @@ function App() {
             });
           })}
 
+          <ProtectedRoute
+            exact
+            path="/video"
+            component={(routerProps) => (
+              <Detailscreen {...routerProps} id={"video-test"} />
+            )}
+          />
         </Switch>
       </div>
     </Router>
