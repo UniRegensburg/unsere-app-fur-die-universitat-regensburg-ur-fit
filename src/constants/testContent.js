@@ -20,6 +20,7 @@ export const data = {
     tags: ["tag1", "tag2"],
     title: "Traumreise auf eine einsame Insel",
     duration: "03:34 min",
+    src: "https://glpro.s3.amazonaws.com/_util/smpte/111.mp3",
     favorite: false,
   },
 

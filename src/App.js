@@ -11,7 +11,6 @@ import Contentlistscreen from "./components/pages/Contentlistscreen";
 import Detailscreen from "./components/pages/Detailscreen";
 import Mensascreen from "./components/pages/Mensascreen";
 
-
 import * as Constants from "./constants/constants";
 
 const categories = [
@@ -69,7 +68,6 @@ function App() {
             });
           })}
 
-
           <ProtectedRoute
             exact
             path="/video"
@@ -77,7 +75,13 @@ function App() {
               <Detailscreen {...routerProps} id={"video-test"} />
             )}
           />
-
+          <ProtectedRoute
+            exact
+            path="/audio"
+            component={(routerProps) => (
+              <Detailscreen {...routerProps} id={"audio-test"} />
+            )}
+          />
         </Switch>
       </div>
     </Router>
