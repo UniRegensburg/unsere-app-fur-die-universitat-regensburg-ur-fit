@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
       },
   }));
 
-export default function ContentDetailText(props){
+export default function TextDetail(props){
     const classes = useStyles();
     const { data } = props;
     return (
