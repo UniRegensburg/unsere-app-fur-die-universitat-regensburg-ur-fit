@@ -8,11 +8,13 @@ import {
   Notes as TextIcon,
   EmojiSymbols,
 } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   card: {
     border: "solid 2px #00817B",
     marginBottom: "16px",
+    textDecoration: "none",
   },
 
   cardContent: {
@@ -37,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "start",
     display: "flex",
     marginRight: "8px",
+    textDecoration: "none",
+  },
+
+  link: {
+    textDecoration: "none",
+    color: "black",
+    outline: 0,
   },
 
   heartButton: {
@@ -47,8 +56,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentCard(props) {
   const classes = useStyles();
-  const { data } = props;
+  const { data, match } = props;
+  const history = useHistory();
   const [favorite, setFavorite] = React.useState(data.favorite);
+
+  let path = match
+    ? `/category/${match.params.category}/${match.params.subitem}/${data.id}`
+    : `/favorites/${data.id}`;
 
   let typeIcon;
 
@@ -68,6 +82,7 @@ export default function ContentCard(props) {
 
   const handleFavoriteClick = () => {
     setFavorite(!favorite);
+    console.log(match);
     // todo: save state to backend
   };
   const handleTitleClick = (event) => {
@@ -79,14 +94,20 @@ export default function ContentCard(props) {
   return (
     <Card variant="outlined" className={classes.card}>
       <CardContent className={classes.cardContent}>
-        <div className={classes.text}>
-          {typeIcon}
-          <span className={classes.text}>{data.type}</span>
-          <span className={classes.text}>{data.duration}</span>
+        <div
+          className={classes.link}
+          onClick={() => history.push(path, { from: window.location.pathname })}
+        >
+          {" "}
+          <div className={classes.text}>
+            {typeIcon}
+            <span className={classes.text}>{data.type}</span>
+            <span className={classes.text}>{data.duration}</span>
+          </div>
+          <p id="test" className={classes.title} onClick={handleTitleClick}>
+            {data.title}
+          </p>
         </div>
-        <p id="test" className={classes.title} onClick={handleTitleClick}>
-          {data.title}
-        </p>
         <div className={classes.text}>
           {data.tags.map((tag, index) => {
             return (

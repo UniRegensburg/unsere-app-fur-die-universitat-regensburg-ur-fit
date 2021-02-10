@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
 
-import * as TestContent from "../../constants/testContent.js";
+import * as Constants from "../../constants/constants.js";
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 
 const styles = (theme) => ({
@@ -22,7 +22,7 @@ const styles = (theme) => ({
 class Homescreen extends React.Component {
   render() {
     // testdata ist not tested for favorite=true (because it is dummy data)
-    let testdata = TestContent.data;
+    let data = Constants.pages.favorites;
     const { classes } = this.props;
 
     return (
@@ -32,10 +32,9 @@ class Homescreen extends React.Component {
           <h3 data-testid="title" className={classes.text}>
             Meine Lieblingsübungen
           </h3>
-          <ContentCard data-testid="content-item" data={testdata.test1} />
-          <ContentCard data-testid="content-item" data={testdata.test2} />
-          <ContentCard data-testid="content-item" data={testdata.test3} />
-          <ContentCard data-testid="content-item" data={testdata.test4} />
+          {data.content.map((item, index) => (
+            <ContentCard data-testid="content-item" data={item} />
+          ))}
         </div>
         <BottomNavigationBar />
       </div>

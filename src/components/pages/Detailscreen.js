@@ -7,7 +7,7 @@ import {
 } from "@material-ui/icons";
 import VideoDetail from "../pageComponents/Videodetail";
 
-import * as TestContent from "../../constants/testContent.js";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,20 +50,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Detailscreen(props) {
   const classes = useStyles();
   const [favorite, setFavorite] = React.useState(false);
-
-  const getContentById = (id) => {
-    // todo: get data from real backend
-    for (let value of Object.values(TestContent.data)) {
-      if (value.id === id) {
-        return value;
-      }
-    }
-  };
+  const history = useHistory();
 
   const handleBackButtonClick = () => {
-    // todo: go back to contentlist
-    // coming from the contentlist with own url this is possible: props.history.goBack();
-    // solution depends on how we show this screen!
+    history.goBack();
   };
 
   const handleFavoriteClick = () => {
@@ -71,7 +61,7 @@ export default function Detailscreen(props) {
     // todo: save state to backend
   };
 
-  const contentData = getContentById(props.id);
+  const contentData = props.item;
 
   let typeContent;
   switch (contentData.type) {

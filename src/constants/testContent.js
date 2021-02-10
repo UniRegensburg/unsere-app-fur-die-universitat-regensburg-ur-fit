@@ -12,6 +12,7 @@ export const data = {
     duration: "15:35 min",
     src: "https://www.youtube.com/embed/8ZAe3JETvkI",
     favorite: true,
+    category: "yoga",
   },
 
   test2: {
@@ -21,6 +22,7 @@ export const data = {
     title: "Traumreise auf eine einsame Insel",
     duration: "03:34 min",
     favorite: false,
+    category: "yoga",
   },
 
   test3: {
@@ -30,6 +32,7 @@ export const data = {
     title: "Spielend gesunde Ernährung",
     duration: "",
     favorite: true,
+    category: "yoga",
   },
 
   test4: {
@@ -39,5 +42,6 @@ export const data = {
     title: "Entspannung auf der grünen Wiese... Was weiß denn ich...",
     duration: "03:34 min",
     favorite: true,
+    category: "yoga",
   },
 };
