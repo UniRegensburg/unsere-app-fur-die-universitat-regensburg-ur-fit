@@ -14,7 +14,6 @@ import Logo from "../../assets/images/URFitLogo.png";
 import auth from "../services/authentication";
 
 const style = (theme) => ({
-  grid: {},
   textFields: {
     margin: "8px",
   },
@@ -38,24 +37,24 @@ class Loginscreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      valueEMail: "",
+      valueUsername: "",
       valuePassword: "",
-      validEMail: true,
+      validUsername: true,
       validPassword: true,
-      initialEMail: true,
+      initialUsername: true,
       initialPassword: true,
     };
-    this.handleChangeEMail = this.handleChangeEMail.bind(this);
+    this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleLogInClick = this.handleLogInClick.bind(this);
   }
 
-  handleChangeEMail(event) {
-    const re = /\S+@\S+\.\S+/; //Regular expression to test email value
+  handleChangeUsername(event) {
+    const re = /[öäüa-z]{3}\d{5}\b/; //Regular expression to test uni regensburg nds account
     this.setState({
-      valueEMail: event.target.value,
-      validEMail: re.test(event.target.value) ? true : false,
-      initialEMail: false,
+      valueUsername: event.target.value,
+      validUsername: re.test(event.target.value) ? true : false,
+      initialUsername: false,
     });
   }
 
@@ -69,7 +68,7 @@ class Loginscreen extends React.Component {
 
   handleLogInClick(event) {
     auth
-      .login(this.state.valueEMail, this.state.valuePassword)
+      .login(this.state.valueUsername, this.state.valuePassword)
       .then((user) => {
         if (user !== null) {
           this.props.history.replace("/");
@@ -105,14 +104,14 @@ class Loginscreen extends React.Component {
             <Grid item xs={12}>
               <TextField
                 className={classes.textFields}
-                data-testid="inputEMail"
-                id="inputEMail"
-                onChange={this.handleChangeEMail}
-                value={this.state.valueEMail}
-                error={!this.state.validEMail}
-                label="E-Mail Adresse"
+                data-testid="inputUsername"
+                id="inputUsername"
+                onChange={this.handleChangeUsername}
+                value={this.state.valueUsername}
+                error={!this.state.validUsername}
+                label="NDS Kennung"
                 required={true}
-                type="email"
+                type="text"
                 size="medium"
                 variant="standard"
               />
@@ -151,8 +150,8 @@ class Loginscreen extends React.Component {
                 data-testid="buttonLogin"
                 variant="contained"
                 disabled={
-                  !(this.state.validEMail && this.state.validPassword) ||
-                  this.state.initialEMail ||
+                  !(this.state.validUsername && this.state.validPassword) ||
+                  this.state.initialUsername ||
                   this.state.initialPassword
                 }
                 color="default"
