@@ -95,6 +95,7 @@ export default function AppBarDrawer(props) {
               data-testid="drawer-listitem"
             >
               <ListItemIcon className={classes.listIcon}>
+                {Constants.pages.home.icon}
               </ListItemIcon>
               <ListItemText>{Constants.pages.home.title}</ListItemText>
             </ListItem>
