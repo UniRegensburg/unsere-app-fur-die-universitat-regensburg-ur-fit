@@ -1,20 +1,20 @@
 module.exports = {
-  apps : [
+  apps: [
     {
       name: "ur-fit-ci",
       script: "npm",
       args: "run ci",
     },
     {
-      name: "ur-fit-dev",
+      name: "ur-fit-api",
       script: "npm",
-      args: "run start",
+      args: "run api",
     },
     {
       name: "ur-fit-prod",
       script: "npm",
       args: "run build",
       autorestart: false,
-    }
-  ]
-}
+    },
+  ],
+};

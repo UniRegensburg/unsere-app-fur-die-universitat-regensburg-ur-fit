@@ -1,37 +1,27 @@
 module.exports = {
-    git: {
-        ref: "refs/heads/dev",
-        remote: "origin"
+  git: {
+    ref: "refs/heads/dev", // required
+    remote: "origin", // optional, default: "origin"
+  },
+  webhookEndpoint: "postrecieve", // optional, default: "postrecieve"
+  port: 4001, // optional, default: 4001
+  requireInstall: ["package-lock.json"], // optional, default: ["package-lock.json"]
+  self: {
+    name: "ci server", // optional, default: "ci server"
+    processName: "ur-fit-auth-ci", // required
+    requireRestart: ["ci/*", "package.json"], // optional, default: "["ci/*", "package.json"]"
+  },
+  // optional, default: []
+  apps: [
+    {
+      name: "api server", // optional, default: "unknown"
+      processName: "ur-fit-api", // required
+      requireRestart: ["api/**/*", "package.json"], // optional, default: []
     },
-    webhookEndpoint: "postrecieve",
-    requireInstall: [
-        "package-lock.json"
-    ],
-    self: {
-        name: "ci server",
-        processName: "ur-fit-ci",
-        requireRestart: [
-            "ci/*"
-        ]
+    {
+      name: "production server", // optional, default: "unknown"
+      processName: "ur-fit-prod", // required
+      requireRestart: ["src/**/*", "package.json"], // optional, default: []
     },
-    apps: [
-        {
-            name: "dev server",
-            processName: "ur-fit-dev",
-            requireRestart: [
-                "src/index.js",
-                "src/service-worker.js",
-                "src/serviceWorkerRegistration.js",
-                "package.json"
-            ],
-        },
-        {
-            name: "production server",
-            processName: "ur-fit-prod",
-            requireRestart: [
-                "src/**/*",
-                "package.json"
-            ],
-        }
-    ]
-}
+  ],
+};
