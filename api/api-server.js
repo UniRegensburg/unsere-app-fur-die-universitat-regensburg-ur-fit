@@ -6,11 +6,11 @@ const express = require("express"),
 
 app.use(express.json());
 app.use(
-  "/mensa",
+  "/proxy/mensa",
   createProxyMiddleware({
     target: "https://www.stwno.de",
     changeOrigin: true,
-    pathRewrite: { "^/mensa": "" },
+    pathRewrite: { "^/proxy/mensa": "" },
   })
 );
 

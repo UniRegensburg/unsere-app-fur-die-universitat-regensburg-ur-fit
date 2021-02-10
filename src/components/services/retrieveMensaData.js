@@ -1,6 +1,6 @@
 export default async function getMensaData(weekOfYear) {
   const csv = require("csvtojson");
-  var api_url = `/mensa/infomax/daten-extern/csv/UNI-R/${weekOfYear}.csv`;
+  var api_url = `/proxy/mensa/infomax/daten-extern/csv/UNI-R/${weekOfYear}.csv`;
   return new Promise((resolve, reject) => {
     fetch(api_url)
       .then((res) => res.arrayBuffer())

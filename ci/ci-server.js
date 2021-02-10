@@ -112,6 +112,10 @@ function pullContents(numCommits, ref, remote = "origin") {
       " on " +
       `${ref}`.yellow
   );
+  if (shell.exec(`git remote prune ${remote}`).code !== 0) {
+    console.log("Error: Git remote prune failed".red);
+    process.exit(1);
+  }
   if (shell.exec(`git pull ${remote} ${ref}`).code !== 0) {
     console.log("Error: Git pull failed".red);
     process.exit(1);
