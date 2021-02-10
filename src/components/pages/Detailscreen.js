@@ -6,6 +6,7 @@ import {
   FavoriteBorder as FavoriteOutlinedIcon,
 } from "@material-ui/icons";
 import VideoDetail from "../pageComponents/Videodetail";
+import ContentDetailText from "../pageComponents/ContentDetailText";
 
 import * as TestContent from "../../constants/testContent.js";
 
@@ -82,7 +83,7 @@ export default function Detailscreen(props) {
       typeContent = <VideoDetail data={contentData} />;
       break;
     case "Text":
-      // todo: typeContent = <TextDetail data={contentData} />;
+      typeContent = <ContentDetailText data={contentData} />;
       break;
     default:
       typeContent = null;
