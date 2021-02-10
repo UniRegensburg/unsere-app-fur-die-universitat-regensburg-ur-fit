@@ -1,11 +1,18 @@
 const express = require("express"),
-  colors = require("colors"),
-  path = require("path"),
   app = express(),
+  { createProxyMiddleware } = require("http-proxy-middleware"),
   // config = require(__dirname + "/api-server.config"),
   port = 5001;
 
 app.use(express.json());
+app.use(
+  "/mensa",
+  createProxyMiddleware({
+    target: "https://www.stwno.de",
+    changeOrigin: true,
+    pathRewrite: { "^/mensa": "" },
+  })
+);
 
 let server = app.listen(port, () => {
   console.log(`API Server listening at http://localhost:${port}`);
