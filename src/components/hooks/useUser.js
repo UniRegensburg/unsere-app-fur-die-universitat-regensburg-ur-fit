@@ -8,10 +8,10 @@ const userContext = createContext();
 export function UserProvider({ children }) {
   const [user, setUser] = useState({ user: "initialising" });
 
-  // Subscribe to user on mount
-  // Because this sets state in the callback it will cause any ...
-  // ... component that utilizes this hook to re-render with the ...
-  // ... latest user object.
+  // Subscribe to firebase user state changes on mount
+  // Because this sets state in the callback it will cause any
+  // component that utilizes this hook to re-render with the
+  // latest user object.
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -28,8 +28,7 @@ export function UserProvider({ children }) {
   return <userContext.Provider value={user}>{children}</userContext.Provider>;
 }
 
-// Hook for child components to get the user object ...
-// ... and re-render when it changes.
+// Hook for child components to get the user object and re-render when it changes.
 export const useUser = () => {
   return useContext(userContext);
 };

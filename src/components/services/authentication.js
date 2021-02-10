@@ -1,18 +1,16 @@
-import app from "../services/firebase-config";
+import firebase from "./firebase-init";
 import config from "../../constants/authentication.config";
 
 // requesting JWT Token from authentication server, this request needs strict http rules
+// for more information on fetch request options, see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options
 async function requestAuthToken(username, password) {
   const response = await fetch(config.authUrl, {
     method: "POST",
-    mode: "cors", // no-cors, *cors, same-origin
+    mode: "cors",
     cache: "no-cache",
-    // credentials: 'same-origin', // include, *same-origin, omit
     headers: {
       "Content-Type": "application/json",
     },
-    //redirect: 'follow', // manual, *follow, error
-    //referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify({
       user: username,
       pass: password,
@@ -50,7 +48,7 @@ async function authenticate(username, password) {
   // use JWT Token to authenticate with firebase authentication
   // this should always work if the auth server did not throw any errors
   try {
-    const userCredentials = await app.auth().signInWithCustomToken(token);
+    const userCredentials = await firebase.auth().signInWithCustomToken(token);
     if (userCredentials) {
       // sign in successfull
       return userCredentials.user.uid;
@@ -64,7 +62,7 @@ async function authenticate(username, password) {
 
 class Authentication {
   onAuthStateChanged(callback) {
-    return app.auth().onAuthStateChanged((user) => {
+    return firebase.auth().onAuthStateChanged((user) => {
       callback(user ? { uid: user.uid } : null);
     });
   }
@@ -79,18 +77,20 @@ class Authentication {
 
   async logout() {
     try {
-      await app.auth().signOut();
+      await firebase.auth().signOut();
     } catch (error) {
       throw new Error(error);
     }
   }
 
   get currentUser() {
-    return app.auth().currentUser ? { uid: app.auth().currentUser.uid } : null;
+    return firebase.auth().currentUser
+      ? { uid: firebase.auth().currentUser.uid }
+      : null;
   }
 
   get isAuthenticated() {
-    return app.auth().currentUser !== null;
+    return firebase.auth().currentUser !== null;
   }
 }
 
