@@ -77,6 +77,13 @@ function App() {
               <Detailscreen {...routerProps} id={"video-test"} />
             )}
           />
+          <ProtectedRoute
+            exact
+            path="/text"
+            component={(routerProps) => (
+              <Detailscreen {...routerProps} id={"text-test"} />
+            )}
+          />
 
         </Switch>
       </div>
