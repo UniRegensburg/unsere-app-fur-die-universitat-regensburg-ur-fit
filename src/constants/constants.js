@@ -26,37 +26,37 @@ export const pages = {
     subcategories: [
       {
         title: "Achtsamkeit",
-        text: "kjhfas sdfh asdf adf af dsfjh sdfiu af kjdsfh vj jh adjfh ala",
+        text: "Erlebe die Vorzüge der Achtsamkeitspraxis.",
         value: "/relaxation/mindfulness",
       },
       {
         title: "Meditation",
-        text: "kjhfas sdfh asdf adf af dsfjh sdfiu af kjdsf",
+        text: "Gib deinem Geist Freiraum.",
         value: "/relaxation/meditation",
       },
       {
         title: "Yoga",
-        text: "test tes jkhdf dfkjh nbvja jhdfnc kajsd ivh dksfjh  kjvhds kjdh",
+        text: "Yoga praktizieren mit unseren Videos.",
         value: "/relaxation/yoga",
       },
       {
-        title: "PMR",
-        text: "jhf asdjfh akjdfh nueui  kjdfhiu eiur wiu skjdf ieu",
+        title: "Progressive Muskelentspannung",
+        text: "Aktive Entspannung mithilfe deines Körpers.",
         value: "/relaxation/progressive-muscle-relaxation",
       },
       {
         title: "Autogenes Training",
-        text: "kjdsfh jd akh h qwiuez kjdfh nbdfj kjhdf njkdf skdjfh ne jdhf",
+        text: "Übe dich in der Selbstentspannung mit unseren Audioanleitungen.",
         value: "/relaxation/autogenous-training",
       },
       {
         title: "Körperreisen",
-        text: "hdf kjdsfh kjshd asdj dnjfk dsfjh dfks",
+        text: "Finde Entspannung durch deine eigene Vorstellungskraft.",
         value: "/relaxation/body-travel",
       },
       {
         title: "Qi Gong",
-        text: "djhf sdkfjh njkd",
+        text: "Erreiche Entspannung durch Bewegung.",
         value: "/relaxation/qi-gong",
       },
     ],
@@ -70,17 +70,18 @@ export const pages = {
     subcategories: [
       {
         title: "Workouts",
-        text: "kjhdf kjshd  hkjdf kjhdf",
+        text:
+          "Kraft, Ausdauer oder allgemeine Fitness verbessern mit unseren Videos.",
         value: "/fitness/workouts",
       },
       {
         title: "Yoga",
-        text: "kjhdfjf jdhf kjhd asdjh  kjhf kjh kjh kjhkjh kjh asdjh kjh sd",
+        text: "Yoga praktizieren mit unseren Videos.",
         value: "/fitness/yoga",
       },
       {
         title: "Gesundheit",
-        text: "jsdhf kjdhf ksjhd kjhd ddhhdsj akjs",
+        text: "Rückenschule, Pausenfit, Mobilisation und mehr.",
         value: "/fitness/health",
       },
     ],
@@ -94,22 +95,22 @@ export const pages = {
     subcategories: [
       {
         title: "Schlaf",
-        text: "hdf kj",
+        text: "Entdecke wie sich Schlaf auf deinen Alltag auswirkt.",
         value: "/wellbeing/sleep",
       },
       {
         title: "Entspannung",
-        text: "kjd kjhd kjhkj asd asd asdjh  asdkj asdjh da",
+        text: "Finde die richtige Form der Entspannung für dich.",
         value: "/wellbeing/relaxation",
       },
       {
         title: "Zeitmanagement",
-        text: "df lkjdf sdfkj sdflkj sdflkj dsf",
+        text: "Finde deine passenden Zeitmanagement-Strategien.",
         value: "/wellbeing/time-management",
       },
       {
         title: "Methoden",
-        text: "dsjf lkjdsf lkjdsf",
+        text: "Lerne Strategien für dein Wohlbefinden kennen.",
         value: "/wellbeing/methods",
       },
     ],
@@ -123,17 +124,18 @@ export const pages = {
     subcategories: [
       {
         title: "Mensa",
-        text: "lkjdf lkjdsf",
+        text: "Aktueller Speiseplan der Mensa an der Uni Regensburg.",
         value: "/nutrition/mensa",
       },
       {
         title: "Infobereich",
-        text: "ljdf lkjdf lkjsd lkjdf",
+        text: "Nährstoffe, Grundumsatz, Rezepte und mehr.",
         value: "/nutrition/info",
       },
       {
         title: "Mythencheck",
-        text: "dfkjsdf lkdf slkf",
+        text:
+          "Wusstest du, dass eine Paprika mehr Vitamin C enthält als eine Orange?",
         value: "/nutrition/myth-check",
       },
     ],
@@ -238,84 +240,3 @@ export const mensaAdditionalInfo = {
   O: "Nitrat",
   P: "Nitritpökelsalz",
 };
-
-export const relaxation_categories = [
-  {
-    title: "Achtsamkeit",
-    text: "kjhfas sdfh asdf adf af dsfjh sdfiu af kjdsfh vj jh fashd adjfh ala",
-  },
-  {
-    title: "Meditation",
-    text: "kjhfas sdfh asdf adf af dsfjh sdfiu af kjdsf",
-  },
-  {
-    title: "Yoga",
-    text: "test tes jkhdf dfkjh nbvja jhdfnc kajsd ivh dksfjh  kjvhds kjdh",
-  },
-  {
-    title: "PMR",
-    text: "jhf asdjfh akjdfh nueui  kjdfhiu eiur wiu skjdf ieu",
-  },
-  {
-    title: "Autogenes Training",
-    text:
-      "kjdsfh jd fnkjh akh h qwiuez kjdfh nbdfj kjhdf njkdf skdjfh ne fkjhdf jdhf",
-  },
-  {
-    title: "Körperreisen",
-    text: "hdf kjdsfh kjshd asdj dnjfk dsfjh dfks",
-  },
-  {
-    title: "Qi Gong",
-    text: "djhf sdkfjh njkd",
-  },
-];
-
-export const fitness_categories = [
-  {
-    title: "Workouts",
-    text: "kjhdf kjshd  hkjdf kjhdf",
-  },
-  {
-    title: "Yoga",
-    text: "kjhdfjf jdhf kjhd asdjh  kjhf kjh kjh kjhkjh kjh asdjh kjh sd",
-  },
-  {
-    title: "Gesundheit",
-    text: "jsdhf kjdhf ksjhd kjhd ddhhdsj akjs",
-  },
-];
-
-export const wellbeing_categories = [
-  {
-    title: "Schlaf",
-    text: "hdf kj",
-  },
-  {
-    title: "Entspannung",
-    text: "kjd kjhd kjhkj asd asd asdjh  asdkj asdjh da",
-  },
-  {
-    title: "Zeitmanagement",
-    text: "df lkjdf sdfkj sdflkj sdflkj dsf",
-  },
-  {
-    title: "Methoden",
-    text: "dsjf lkjdsf lkjdsf",
-  },
-];
-
-export const nutrition_categories = [
-  {
-    title: "Mensa",
-    text: "lkjdf lkjdsf",
-  },
-  {
-    title: "Infobereich",
-    text: "ljdf lkjdf lkjsd lkjdf",
-  },
-  {
-    title: "Mythencheck",
-    text: "dfkjsdf lkdf slkf",
-  },
-];
