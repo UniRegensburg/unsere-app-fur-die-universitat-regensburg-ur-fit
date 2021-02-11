@@ -1,14 +1,13 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useUser } from "../hooks/useUser";
 
 export const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const user = useUser();
+  let auth = true;
   return (
     <Route
       {...rest}
       render={(props) =>
-        user ? (
+        auth ? (
           <Component {...props} />
         ) : (
           <Redirect
