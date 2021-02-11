@@ -1,19 +1,8 @@
 import React from "react";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  Collapse,
-  withStyles,
-  makeStyles,
-} from "@material-ui/core/";
-import { ExpandLess, ExpandMore } from "@material-ui/icons/";
+import { List, ListItem, ListItemText, withStyles } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 import ExpandableListItem from "../pageComponents/ExpandableListItem";
-import { ProtectedRoute } from "../navigation/ProtectedRoute";
-import Contentlistscreen from "./Contentlistscreen";
-import { Switch } from "react-router-dom";
 
 const styles = (theme) => ({
   container: {

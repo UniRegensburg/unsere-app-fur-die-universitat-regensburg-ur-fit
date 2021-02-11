@@ -1,6 +1,5 @@
 class Authentication {
   constructor() {
-
     // this has to be set 'false' as soon as a login is implemented.
     this.authenticated = true;
   }
