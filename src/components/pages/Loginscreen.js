@@ -71,7 +71,7 @@ class Loginscreen extends React.Component {
       .login(this.state.valueUsername, this.state.valuePassword)
       .then((user) => {
         if (user !== null) {
-          this.props.history.replace("/");
+          this.props.history.replace(this.props.location.state.from.pathname);
         } else {
           // tell user he fucked up
         }
