@@ -4,7 +4,8 @@ const express = require("express"),
   // config = require(__dirname + "/api-server.config"),
   port = 5001;
 
-app.use(express.json());
+require("colors");
+
 app.use(
   "/proxy/mensa",
   createProxyMiddleware({
@@ -13,6 +14,17 @@ app.use(
     pathRewrite: { "^/proxy/mensa": "" },
   })
 );
+
+app.use(
+  "/proxy/authentication",
+  createProxyMiddleware({
+    target: "https://mistudent.ddns.net",
+    changeOrigin: true,
+    pathRewrite: { "^/proxy/authentication": "" },
+  })
+);
+
+app.use(express.json());
 
 let server = app.listen(port, () => {
   console.log(`API Server listening at http://localhost:${port}`);
