@@ -85,6 +85,14 @@ function App() {
                 <Detailscreen {...routerProps} id={"text-test"} />
               )}
             />
+          <ProtectedRoute
+            exact
+            path="/audio"
+            component={(routerProps) => (
+              <Detailscreen {...routerProps} id={"audio-test"} />
+              )}
+            />
+
           </Switch>
         </div>
       </Router>
