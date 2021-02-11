@@ -33,7 +33,7 @@ export const Subcategory = ({ match }) => {
     return match.params.category === item.value;
   });
   const subcategory = category.subcategories.find((item) => {
-    return match.params.subitem === item.value;
+    return match.params.subcategory === item.value;
   });
   return (
     <>
@@ -57,7 +57,7 @@ export const Content = ({ match }) => {
     return match.params.category === item.value;
   });
   const subcategory = category.subcategories.find((item) => {
-    return match.params.subitem === item.value;
+    return match.params.subcategory === item.value;
   });
   const content = subcategory.content.find((item) => {
     return match.params.contentId === item.id;

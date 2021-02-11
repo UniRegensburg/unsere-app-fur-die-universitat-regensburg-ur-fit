@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  List,
   ListItem,
   ListItemText,
   Collapse,
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ExpandableListItem(props) {
-  const { name, description, link, history } = props;
+  const { name, description, link } = props;
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 

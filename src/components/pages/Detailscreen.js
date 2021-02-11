@@ -7,7 +7,7 @@ import {
 } from "@material-ui/icons";
 import VideoDetail from "../pageComponents/Videodetail";
 
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,11 +50,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Detailscreen(props) {
   const classes = useStyles();
   const [favorite, setFavorite] = React.useState(false);
-  const history = useHistory();
-
-  const handleBackButtonClick = () => {
-    history.goBack();
-  };
+  const { match } = props;
+  const backPath = match.params.subcategory
+    ? `/category/${match.params.category}/${match.params.subcategory}`
+    : `/`;
 
   const handleFavoriteClick = () => {
     setFavorite(!favorite);
@@ -82,10 +81,9 @@ export default function Detailscreen(props) {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <ArrowBackIcon
-          className={classes.back}
-          onClick={handleBackButtonClick}
-        />
+        <Link to={backPath} replace>
+          <ArrowBackIcon className={classes.back} />
+        </Link>
 
         <IconButton
           size="small"

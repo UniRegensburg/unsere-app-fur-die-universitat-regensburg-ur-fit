@@ -61,7 +61,7 @@ export default function ContentCard(props) {
   const [favorite, setFavorite] = React.useState(data.favorite);
 
   let path = match
-    ? `/category/${match.params.category}/${match.params.subitem}/${data.id}`
+    ? `/category/${match.params.category}/${match.params.subcategory}/${data.id}`
     : `/favorites/${data.id}`;
 
   let typeIcon;
@@ -85,11 +85,6 @@ export default function ContentCard(props) {
     console.log(match);
     // todo: save state to backend
   };
-  const handleTitleClick = (event) => {
-    console.log(event.target.id);
-    // todo: id should be set to entry id of database
-    // todo: change to detail screen
-  };
 
   return (
     <Card variant="outlined" className={classes.card}>
@@ -104,7 +99,7 @@ export default function ContentCard(props) {
             <span className={classes.text}>{data.type}</span>
             <span className={classes.text}>{data.duration}</span>
           </div>
-          <p id="test" className={classes.title} onClick={handleTitleClick}>
+          <p id="test" className={classes.title}>
             {data.title}
           </p>
         </div>

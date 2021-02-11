@@ -6,7 +6,7 @@ import Select from "@material-ui/core/Select";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // obviously this data has to be replaced by real data according to the subcategory
 import * as Constants from "../../constants/constants.js";
@@ -36,20 +36,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Contentlistscreen(props) {
   const [sort, setSort] = React.useState("Länge");
-  const history = useHistory();
   const classes = useStyles();
   const { title, match } = props;
   let data = Constants.pages;
   let category = match.params.category;
-  let subcategory = match.params.subitem;
+  let subcategory = match.params.subcategory;
 
   const handleSortChange = (event) => {
     setSort(event.target.value);
     // todo: sort content accordingly
-  };
-
-  const handleBackButtonClick = () => {
-    history.goBack();
   };
 
   return (
@@ -57,10 +52,9 @@ export default function Contentlistscreen(props) {
       <TopAppBar data-testid="appbar" title={title} />
       <div className={classes.container}>
         <div className={classes.header}>
-          <ArrowBackIcon
-            className={classes.back}
-            onClick={handleBackButtonClick}
-          />
+          <Link to={`/category/${match.params.category}`} replace>
+            <ArrowBackIcon className={classes.back} />
+          </Link>
           <FormControl className={classes.select}>
             <Select
               native

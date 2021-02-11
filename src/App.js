@@ -32,12 +32,12 @@ function App() {
           />
           <ProtectedRoute
             exact
-            path="/category/:category/:subitem"
+            path="/category/:category/:subcategory"
             component={Subcategory}
           />
           <ProtectedRoute
             exact
-            path="/category/:category/:subitem/:contentId"
+            path="/category/:category/:subcategory/:contentId"
             component={Content}
           />
         </Switch>
