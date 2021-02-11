@@ -7,6 +7,7 @@ import {
 } from "@material-ui/icons";
 import VideoDetail from "../pageComponents/Videodetail";
 import AudioDetail from "../pageComponents/Audiodetail";
+import TextDetail from "../pageComponents/TextDetail";
 
 import * as TestContent from "../../constants/testContent.js";
 
@@ -83,7 +84,7 @@ export default function Detailscreen(props) {
       typeContent = <VideoDetail data={contentData} />;
       break;
     case "Text":
-      // todo: typeContent = <TextDetail data={contentData} />;
+      typeContent = <TextDetail data={contentData} />;
       break;
     default:
       typeContent = null;

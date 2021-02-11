@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
 import { ProtectedRoute } from "./components/navigation/ProtectedRoute";
+import { UserProvider } from "./components/hooks/useUser";
+
 import CategoryList from "./components/pages/CategoryList";
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
@@ -22,69 +24,79 @@ const categories = [
 
 function App() {
   return (
-    <Router>
-      <div data-testid="app" className="App">
-        <Switch>
-          <Route exact path="/" component={Homescreen} />
-          <Route exact path="/login" component={Loginscreen} />
-          <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
-          <ProtectedRoute
-            exact
-            path="/nutrition/mensa"
-            component={Mensascreen}
-          />
-          {categories.map((category) => {
-            return (
-              <ProtectedRoute
-                exact
-                path={category.value}
-                key={category.key}
-                component={(routerProps) => (
-                  <CategoryList
-                    {...routerProps}
-                    title={category.title}
-                    categories={category.subcategories}
-                  />
-                )}
-              />
-            );
-          })}
-
-          {categories.map((category) => {
-            return category.subcategories.map((subcategory, index) => {
+    <UserProvider>
+      <Router>
+        <div data-testid="app" className="App">
+          <Switch>
+            <Route exact path="/" component={Homescreen} />
+            <Route exact path="/login" component={Loginscreen} />
+            <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
+            <ProtectedRoute
+              exact
+              path="/nutrition/mensa"
+              component={Mensascreen}
+            />
+            {categories.map((category) => {
               return (
                 <ProtectedRoute
                   exact
-                  path={subcategory.value}
-                  key={index}
+                  path={category.value}
+                  key={category.key}
                   component={(routerProps) => (
-                    <Contentlistscreen
+                    <CategoryList
                       {...routerProps}
-                      title={subcategory.title}
+                      title={category.title}
+                      categories={category.subcategories}
                     />
                   )}
                 />
               );
-            });
-          })}
+            })}
 
-          <ProtectedRoute
-            exact
-            path="/video"
-            component={(routerProps) => (
-              <Detailscreen {...routerProps} id={"video-test"} />
-            )}
-          />
+            {categories.map((category) => {
+              return category.subcategories.map((subcategory, index) => {
+                return (
+                  <ProtectedRoute
+                    exact
+                    path={subcategory.value}
+                    key={index}
+                    component={(routerProps) => (
+                      <Contentlistscreen
+                        {...routerProps}
+                        title={subcategory.title}
+                      />
+                    )}
+                  />
+                );
+              });
+            })}
+
+            <ProtectedRoute
+              exact
+              path="/video"
+              component={(routerProps) => (
+                <Detailscreen {...routerProps} id={"video-test"} />
+              )}
+            />
+            <ProtectedRoute
+              exact
+              path="/text"
+              component={(routerProps) => (
+                <Detailscreen {...routerProps} id={"text-test"} />
+              )}
+            />
           <ProtectedRoute
             exact
             path="/audio"
             component={(routerProps) => (
               <Detailscreen {...routerProps} id={"audio-test"} />
-            )}
-          />
-        </Switch>
-      </div>
-    </Router>
+              )}
+            />
+
+          </Switch>
+        </div>
+      </Router>
+    </UserProvider>
   );
 }
 
