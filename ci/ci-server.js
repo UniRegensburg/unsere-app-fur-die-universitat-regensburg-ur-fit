@@ -1,12 +1,12 @@
 const config = require(__dirname + "/ci-server.config"),
   shell = require("shelljs"),
   express = require("express"),
-  colors = require("colors"),
   path = require("path"),
   micromatch = require("micromatch"),
   app = express(),
   port = config.port ?? 4001,
   webhookEndpoint = config.webhookEndpoint ?? "postrecieve";
+require("colors");
 
 app.use(express.json());
 

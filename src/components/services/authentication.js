@@ -1,15 +1,15 @@
 import firebase from "./firebase-init";
-import config from "../../constants/authentication.config";
+const AUTH_URL = "/proxy/authentication/auth.php";
 
 // requesting JWT Token from authentication server, this request needs strict http rules
 // for more information on fetch request options, see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options
 async function requestAuthToken(username, password) {
-  const response = await fetch(config.authUrl, {
+  const response = await fetch(AUTH_URL, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=UTF-8",
     },
     body: JSON.stringify({
       user: username,
