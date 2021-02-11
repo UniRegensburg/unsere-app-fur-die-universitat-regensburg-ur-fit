@@ -11,6 +11,9 @@
 # production
 /build
 
+# configurations
+/ci/ci-server.config.js
+
 # misc
 .DS_Store
 .env.local
@@ -45,5 +48,3 @@ versions.json
 /test-results.xml
 .temp-eslintcache
 /tests/fixtures/autofix-integration/temp.js
-yarn.lock
-package-lock.json

@@ -6,6 +6,8 @@ import {
   FavoriteBorder as FavoriteOutlinedIcon,
 } from "@material-ui/icons";
 import VideoDetail from "../pageComponents/Videodetail";
+import AudioDetail from "../pageComponents/Audiodetail";
+import TextDetail from "../pageComponents/TextDetail";
 
 import { Link } from "react-router-dom";
 
@@ -65,13 +67,13 @@ export default function Detailscreen(props) {
   let typeContent;
   switch (contentData.type) {
     case "Audio":
-      // todo: typeContent = <AudioDetail data={audioTestData} />;
+      typeContent = <AudioDetail data={contentData} />;
       break;
     case "Video":
       typeContent = <VideoDetail data={contentData} />;
       break;
     case "Text":
-      // todo: typeContent = <TextDetail data={contentData} />;
+      typeContent = <TextDetail data={contentData} />;
       break;
     default:
       typeContent = null;
