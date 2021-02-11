@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AppBarDrawer(props) {
   const classes = useStyles();
   let contentPages = [
-      Constants.pages.home,
       Constants.pages.relaxation,
       Constants.pages.fitness,
       Constants.pages.wellbeing,
@@ -88,11 +87,23 @@ export default function AppBarDrawer(props) {
         </Grid>
         <Grid className={classes.list} item xs={9}>
           <List>
+            <ListItem
+              button
+              component={Link}
+              to={Constants.pages.home.value}
+              onClick={props.onToggleDrawer}
+              data-testid="drawer-listitem"
+            >
+              <ListItemIcon className={classes.listIcon}>
+                {Constants.pages.home.icon}
+              </ListItemIcon>
+              <ListItemText>{Constants.pages.home.title}</ListItemText>
+            </ListItem>
             {contentPages.map((item, index) => (
               <ListItem
                 button
                 component={Link}
-                to={item.value}
+                to={`/category/${item.value}`}
                 onClick={props.onToggleDrawer}
                 key={index}
                 data-testid="drawer-listitem"

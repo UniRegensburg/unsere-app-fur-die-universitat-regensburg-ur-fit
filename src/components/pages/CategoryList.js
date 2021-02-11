@@ -1,15 +1,8 @@
 import React from "react";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  Collapse,
-  withStyles,
-  makeStyles,
-} from "@material-ui/core/";
-import { ExpandLess, ExpandMore } from "@material-ui/icons/";
+import { List, ListItem, ListItemText, withStyles } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
+import ExpandableListItem from "../pageComponents/ExpandableListItem";
 
 const styles = (theme) => ({
   container: {
@@ -20,7 +13,7 @@ const styles = (theme) => ({
 
 class CategoryList extends React.Component {
   render() {
-    const { classes, title, categories, history } = this.props;
+    const { classes, title, categories, history, match } = this.props;
     return (
       <div>
         <TopAppBar data-testid="appbar" title={title} />
@@ -34,7 +27,7 @@ class CategoryList extends React.Component {
                 key={index}
                 name={item.title}
                 description={item.text}
-                link={item.value}
+                link={`/category/${match.params.category}/${item.value}`}
                 history={history}
               />
             ))}
@@ -47,53 +40,3 @@ class CategoryList extends React.Component {
 }
 
 export default withStyles(styles)(CategoryList);
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginStart: "16px",
-    marginEnd: "16px",
-  },
-
-  topborder: {
-    borderTop: "1.5px solid #A7525E",
-    paddingLeft: "0",
-  },
-
-  text: {
-    textAlign: "start",
-    paddingStart: "16px",
-    marginBottom: "8px",
-    paddingEnd: "16px",
-    color: "#2E303CAA",
-  },
-}));
-
-function ExpandableListItem(props) {
-  const { name, description, link, history } = props;
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setOpen(!open);
-  };
-
-  const handleCategoryClick = (event) => {
-    history.push(link);
-  };
-
-  return (
-    <div className={classes.container}>
-      <ListItem className={classes.topborder}>
-        <ListItemText onClick={handleCategoryClick}>{name}</ListItemText>
-        {open ? (
-          <ExpandLess onClick={handleExpandClick} />
-        ) : (
-          <ExpandMore onClick={handleExpandClick} />
-        )}
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <ListItemText className={classes.text}>{description}</ListItemText>
-      </Collapse>
-    </div>
-  );
-}
