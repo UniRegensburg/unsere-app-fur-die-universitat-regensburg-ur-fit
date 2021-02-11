@@ -49,7 +49,18 @@ class Contentlistscreen extends React.Component {
   }
 
   handleBackButtonClick() {
-    this.props.history.goBack();
+    const { history, location } = this.props;
+    // current page was pushed onto the stack (ACTION: "PUSH"), going back is the expected behavior
+    if (history.action === "PUSH") {
+      history.goBack();
+      // current page is either completely unrelated to previous page (Action: "POP") or a replacement (Action: "REPLACE")
+      // actively moving to the category screen (without adding to the history stack) is the expected behavior
+    } else {
+      this.props.history.replace(
+        // sclices last path from url: /relaxation/meditation -> /relaxation
+        location.pathname.substring(0, location.pathname.lastIndexOf("/"))
+      );
+    }
   }
 
   render() {
