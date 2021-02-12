@@ -40,7 +40,7 @@ export default function BottomNavigationBar() {
         icon={Constants.pages.relaxation.icon}
         component={Link}
         value={Constants.pages.relaxation.value}
-        to={Constants.pages.relaxation.value}
+        to={"/category/" + Constants.pages.relaxation.value}
         data-testid={"navigation-relaxation"}
       />
       <BottomNavigationAction
@@ -49,7 +49,7 @@ export default function BottomNavigationBar() {
         icon={Constants.pages.fitness.icon}
         component={Link}
         value={Constants.pages.fitness.value}
-        to={Constants.pages.fitness.value}
+        to={"/category/" + Constants.pages.fitness.value}
         data-testid={"navigation-fitness"}
       />
 
@@ -59,7 +59,7 @@ export default function BottomNavigationBar() {
         icon={Constants.pages.wellbeing.icon}
         component={Link}
         value={Constants.pages.wellbeing.value}
-        to={Constants.pages.wellbeing.value}
+        to={"/category/" + Constants.pages.wellbeing.value}
         data-testid={"navigation-wellbeing"}
       />
       <BottomNavigationAction
@@ -68,7 +68,7 @@ export default function BottomNavigationBar() {
         icon={Constants.pages.nutrition.icon}
         component={Link}
         value={Constants.pages.nutrition.value}
-        to={Constants.pages.nutrition.value}
+        to={"/category/" + Constants.pages.nutrition.value}
         data-testid={"navigation-nutrition"}
       />
     </BottomNavigation>
