@@ -13,6 +13,7 @@
 
 # configurations
 /ci/ci-server.config.js
+/api/api-server.config.js
 
 # misc
 .DS_Store

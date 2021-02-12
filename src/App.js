@@ -8,6 +8,7 @@ import { UserProvider } from "./components/hooks/useUser";
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 import Loginscreen from "./components/pages/Loginscreen";
+import Imprintscreen from "./components/pages/Imprintscreen";
 
 import {
   Category,
@@ -24,6 +25,7 @@ function App() {
             <Route exact path="/" component={Homescreen} />
             <Route exact path="/login" component={Loginscreen} />
             <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
+            <ProtectedRoute exact path="/imprint" component={Imprintscreen} />
             <ProtectedRoute
               exact
               path="/category/:category"
