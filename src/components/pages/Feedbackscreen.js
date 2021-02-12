@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, withStyles } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
+import CostumSnackbar from "../pageComponents/CostumSnackbar";
 
 const styles = (theme) => ({
   container: {
@@ -28,9 +29,10 @@ const styles = (theme) => ({
 class Feedbackscreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
+    this.state = { value: "", snackbarOpen: false };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.snackbarMessage = "undefined";
   }
 
   handleChange(event) {
@@ -47,17 +49,20 @@ class Feedbackscreen extends React.Component {
     })
       .then((res) => {
         if (res.status === 200) {
-          console.log("feedback recieved");
-          // inform user that feedback was recieved
+          this.provideUserFeedback("Feedback erhalten");
+          this.setState({ value: "" });
         } else {
-          console.log("negative response: " + res.status);
-          // inform user that request failed
+          this.provideUserFeedback("Fehler beim Senden");
         }
       })
       .catch((err) => {
-        console.log(err);
-        // inform user that request failed
+        this.provideUserFeedback("Fehler beim Senden");
       });
+  }
+
+  provideUserFeedback(message) {
+    this.snackbarMessage = message;
+    this.setState({ snackbarOpen: true });
   }
 
   render() {
@@ -89,6 +94,11 @@ class Feedbackscreen extends React.Component {
           >
             Senden
           </Button>
+          <CostumSnackbar
+            isOpen={this.state.snackbarOpen}
+            onClose={() => this.setState({ snackbarOpen: false })}
+            message={this.snackbarMessage}
+          ></CostumSnackbar>
         </div>
       </div>
     );
