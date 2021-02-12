@@ -3,6 +3,7 @@ import { makeStyles, IconButton } from "@material-ui/core/";
 import {
   ArrowBack as ArrowBackIcon,
   Favorite as FavoriteIcon,
+  Share as ShareIcon,
   FavoriteBorder as FavoriteOutlinedIcon,
 } from "@material-ui/icons";
 import VideoDetail from "../pageComponents/Videodetail";
@@ -25,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
 
   back: {
     float: "left",
+  },
+
+  share: {
+    float: "right",
   },
 
   favorite: {
@@ -62,6 +67,17 @@ export default function Detailscreen(props) {
     // todo: save state to backend
   };
 
+  const handleShareClick = () => {
+    if (navigator.share) {
+      navigator.share({
+        url: window.location.href,
+        title: document.title,
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+    }
+  };
+
   const contentData = props.item;
 
   let typeContent;
@@ -86,6 +102,14 @@ export default function Detailscreen(props) {
         <Link to={backPath} replace>
           <ArrowBackIcon className={classes.back} />
         </Link>
+
+        <IconButton
+          size="small"
+          className={classes.share}
+          onClick={handleShareClick}
+        >
+          <ShareIcon />
+        </IconButton>
 
         <IconButton
           size="small"
