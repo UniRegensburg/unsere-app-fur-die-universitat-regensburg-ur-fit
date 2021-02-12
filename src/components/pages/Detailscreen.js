@@ -8,8 +8,7 @@ import {
 import VideoDetail from "../pageComponents/Videodetail";
 import AudioDetail from "../pageComponents/Audiodetail";
 import TextDetail from "../pageComponents/TextDetail";
-
-import * as TestContent from "../../constants/testContent.js";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,27 +52,17 @@ export default function Detailscreen(props) {
   const classes = useStyles();
   const [favorite, setFavorite] = React.useState(false);
 
-  const getContentById = (id) => {
-    // todo: get data from real backend
-    for (let value of Object.values(TestContent.data)) {
-      if (value.id === id) {
-        return value;
-      }
-    }
-  };
-
-  const handleBackButtonClick = () => {
-    // todo: go back to contentlist
-    // coming from the contentlist with own url this is possible: props.history.goBack();
-    // solution depends on how we show this screen!
-  };
+  const { match } = props;
+  const backPath = match.params.subcategory
+    ? `/category/${match.params.category}/${match.params.subcategory}`
+    : `/`;
 
   const handleFavoriteClick = () => {
     setFavorite(!favorite);
     // todo: save state to backend
   };
 
-  const contentData = getContentById(props.id);
+  const contentData = props.item;
 
   let typeContent;
   switch (contentData.type) {
@@ -94,10 +83,9 @@ export default function Detailscreen(props) {
   return (
     <div className={classes.container}>
       <div className={classes.header}>
-        <ArrowBackIcon
-          className={classes.back}
-          onClick={handleBackButtonClick}
-        />
+        <Link to={backPath} replace>
+          <ArrowBackIcon className={classes.back} />
+        </Link>
 
         <IconButton
           size="small"

@@ -8,6 +8,7 @@ import {
   Notes as TextIcon,
   EmojiSymbols,
 } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -32,6 +33,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "large",
   },
 
+  link: {
+    textDecoration: "none",
+    color: "black",
+    outline: 0,
+  },
+
   text: {
     color: "#2E303C",
     textAlign: "start",
@@ -47,8 +54,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentCard(props) {
   const classes = useStyles();
-  const { data } = props;
+  const { data, match } = props;
   const [favorite, setFavorite] = React.useState(data.favorite);
+
+  let path = match
+    ? `/category/${match.params.category}/${match.params.subcategory}/${data.id}`
+    : `/content/${data.id}`;
 
   let typeIcon;
 
@@ -70,23 +81,21 @@ export default function ContentCard(props) {
     setFavorite(!favorite);
     // todo: save state to backend
   };
-  const handleTitleClick = (event) => {
-    console.log(event.target.id);
-    // todo: id should be set to entry id of database
-    // todo: change to detail screen
-  };
 
   return (
     <Card variant="outlined" className={classes.card}>
       <CardContent className={classes.cardContent}>
-        <div className={classes.text}>
-          {typeIcon}
-          <span className={classes.text}>{data.type}</span>
-          <span className={classes.text}>{data.duration}</span>
-        </div>
-        <p id="test" className={classes.title} onClick={handleTitleClick}>
-          {data.title}
-        </p>
+        <Link className={classes.link} to={path}>
+          {" "}
+          <div className={classes.text}>
+            {typeIcon}
+            <span className={classes.text}>{data.type}</span>
+            <span className={classes.text}>{data.duration}</span>
+          </div>
+          <p id="test" className={classes.title}>
+            {data.title}
+          </p>
+        </Link>
         <div className={classes.text}>
           {data.tags.map((tag, index) => {
             return (
