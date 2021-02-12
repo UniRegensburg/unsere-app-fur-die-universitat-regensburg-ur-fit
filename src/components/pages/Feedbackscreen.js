@@ -28,7 +28,7 @@ const styles = (theme) => ({
 class Feedbackscreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "Bitte geben Sie hier Ihr Feedback ein." };
+    this.state = { value: "" };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -38,7 +38,26 @@ class Feedbackscreen extends React.Component {
   }
 
   handleSubmit() {
-    console.log("Feedback was submitted: " + this.state.value);
+    fetch("/api/feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ message: this.state.value }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("feedback recieved");
+          // inform user that feedback was recieved
+        } else {
+          console.log("negative response: " + res.status);
+          // inform user that request failed
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        // inform user that request failed
+      });
   }
 
   render() {
@@ -57,6 +76,7 @@ class Feedbackscreen extends React.Component {
               data-testid="feedback-textarea"
               className={classes.textarea}
               value={this.state.value}
+              placeholder="Bitte geben Sie hier Ihr Feedback ein."
               onChange={this.handleChange}
               rows="10"
             />
@@ -65,6 +85,7 @@ class Feedbackscreen extends React.Component {
             data-testid="feedback-button"
             className={classes.button}
             onClick={this.handleSubmit}
+            disabled={!this.state.value}
           >
             Senden
           </Button>

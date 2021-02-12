@@ -30,7 +30,7 @@ app.use(
 
 app.use(express.json());
 
-app.post("/api/feedback", (req, res, next) => {
+app.post("/api/feedback", (req, res) => {
   if (req.body && req.body.message) {
     if (req.body.message.length === 0) {
       res.sendStatus(200);
@@ -40,6 +40,7 @@ app.post("/api/feedback", (req, res, next) => {
     mailOptions.text = req.body.message;
     mailTransporter.sendMail(mailOptions, (error) => {
       if (error) {
+        console.log(error);
         res.sendStatus(500);
       } else {
         res.sendStatus(200);
