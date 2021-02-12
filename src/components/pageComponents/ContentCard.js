@@ -59,7 +59,7 @@ export default function ContentCard(props) {
 
   let path = match
     ? `/category/${match.params.category}/${match.params.subcategory}/${data.id}`
-    : `/favorites/${data.id}`;
+    : `/content/${data.id}`;
 
   let typeIcon;
 

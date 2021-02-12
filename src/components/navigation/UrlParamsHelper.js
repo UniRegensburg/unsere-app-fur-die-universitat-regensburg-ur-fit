@@ -5,18 +5,8 @@ import Detailscreen from "../pages/Detailscreen";
 import Mensascreen from "../pages/Mensascreen";
 import CategoryList from "../pages/CategoryList";
 
-const categories = [
-  Constants.pages.favorites,
-  Constants.pages.relaxation,
-  Constants.pages.fitness,
-  Constants.pages.wellbeing,
-  Constants.pages.nutrition,
-];
-
 export const Category = ({ match }) => {
-  const category = categories.find((item) => {
-    return match.params.category === item.value;
-  });
+  const category = Constants.pages[match.params.category];
   return (
     <>
       <CategoryList
@@ -36,12 +26,11 @@ export const Subcategory = ({ match }) => {
       </>
     );
   }
-  const category = categories.find((item) => {
-    return match.params.category === item.value;
-  });
-  const subcategory = category.subcategories.find((item) => {
-    return match.params.subcategory === item.value;
-  });
+  const subcategory = Constants.pages[match.params.category].subcategories.find(
+    (item) => {
+      return match.params.subcategory === item.value;
+    }
+  );
   return (
     <>
       <Contentlistscreen match={match} title={subcategory.title} />
@@ -50,8 +39,8 @@ export const Subcategory = ({ match }) => {
 };
 
 export const Content = ({ match }) => {
-  if (match.url.split("/")[1] === "favorites") {
-    const content = categories[0].content.find((item) => {
+  if (match.url.split("/")[1] === "content") {
+    const content = Constants.pages.favorites.content.find((item) => {
       return match.params.contentId === item.id;
     });
     return (
@@ -60,12 +49,11 @@ export const Content = ({ match }) => {
       </>
     );
   }
-  const category = categories.find((item) => {
-    return match.params.category === item.value;
-  });
-  const subcategory = category.subcategories.find((item) => {
-    return match.params.subcategory === item.value;
-  });
+  const subcategory = Constants.pages[match.params.category].subcategories.find(
+    (item) => {
+      return match.params.subcategory === item.value;
+    }
+  );
   const content = subcategory.content.find((item) => {
     return match.params.contentId === item.id;
   });

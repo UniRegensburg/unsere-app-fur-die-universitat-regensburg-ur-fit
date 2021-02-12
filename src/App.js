@@ -31,7 +31,7 @@ function App() {
             />
             <ProtectedRoute
               exact
-              path="/favorites/:contentId"
+              path="/content/:contentId"
               component={Content}
             />
             <ProtectedRoute
