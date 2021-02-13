@@ -4,7 +4,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-export default function CostumSnackbar(props) {
+export default function CustomSnackbar(props) {
   // buttonText and onButtonClick are optional properties
   // onClose and onButtonClick should be functions
   const { message, isOpen, onClose, buttonText, onButtonClick } = props;

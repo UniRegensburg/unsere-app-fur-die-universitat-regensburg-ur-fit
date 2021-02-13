@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, withStyles } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
-import CostumSnackbar from "../pageComponents/CostumSnackbar";
+import CustomSnackbar from "../pageComponents/CustomSnackbar";
 
 const styles = (theme) => ({
   container: {
@@ -94,11 +94,11 @@ class Feedbackscreen extends React.Component {
           >
             Senden
           </Button>
-          <CostumSnackbar
+          <CustomSnackbar
             isOpen={this.state.snackbarOpen}
             onClose={() => this.setState({ snackbarOpen: false })}
             message={this.snackbarMessage}
-          ></CostumSnackbar>
+          ></CustomSnackbar>
         </div>
       </div>
     );
