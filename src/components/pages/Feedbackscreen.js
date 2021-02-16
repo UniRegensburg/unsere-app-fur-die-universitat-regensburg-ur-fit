@@ -2,6 +2,7 @@ import React from "react";
 import { Button, withStyles } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
+import { sendFeedback } from "../services/sendFeedback";
 
 const styles = (theme) => ({
   container: {
@@ -40,22 +41,13 @@ class Feedbackscreen extends React.Component {
   }
 
   handleSubmit() {
-    fetch("/api/feedback", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({ message: this.state.value }),
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          this.provideUserFeedback("Feedback erhalten");
-          this.setState({ value: "" });
-        } else {
-          this.provideUserFeedback("Fehler beim Senden");
-        }
+    sendFeedback(this.state.value)
+      .then(() => {
+        this.provideUserFeedback("Feedback erhalten");
+        this.setState({ value: "" });
       })
       .catch((err) => {
+        console.log(err);
         this.provideUserFeedback("Fehler beim Senden");
       });
   }
@@ -95,7 +87,8 @@ class Feedbackscreen extends React.Component {
             Senden
           </Button>
           <CustomSnackbar
-            isOpen={this.state.snackbarOpen}
+            data-testid="feedback-snackbar"
+            open={this.state.snackbarOpen}
             onClose={() => this.setState({ snackbarOpen: false })}
             message={this.snackbarMessage}
           ></CustomSnackbar>
