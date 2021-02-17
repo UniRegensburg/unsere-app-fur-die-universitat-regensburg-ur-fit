@@ -13,7 +13,7 @@ export async function sendFeedback(msg) {
   }
 
   if (res.status === 200) {
-    return { success: true };
+    return true;
   } else {
     throw new Error(`${res.status}: ${res.statusText}`);
   }

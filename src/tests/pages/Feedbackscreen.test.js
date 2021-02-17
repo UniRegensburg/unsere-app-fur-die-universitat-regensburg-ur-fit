@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -37,53 +37,85 @@ test("check if textarea displays text", () => {
   expect(textarea.value).toBe("feedback");
 });
 
-test("check if textarea is cleared and snackbar displayed after sendFeedback returns success", (done) => {
+test("check if textarea is cleared after sendFeedback returns success", async () => {
   const { getByTestId } = render(
-    <Router>
-      <Feedbackscreen />
-    </Router>
-  );
+      <Router>
+        <Feedbackscreen />
+      </Router>
+    ),
+    textarea = getByTestId("feedback-textarea");
+  fireEvent.change(textarea, { target: { value: "fake user input" } });
 
-  const textarea = getByTestId("feedback-textarea");
-  const button = getByTestId("feedback-button");
+  // fake positive response from sendFeedback sevice
+  sendFeedback.mockImplementation(() => Promise.resolve(true));
 
-  fireEvent.change(textarea, { target: { value: "feedback" } });
-  expect(textarea.value).toBe("feedback");
+  // click button and wait for mock function to be returned
+  fireEvent.click(getByTestId("feedback-button"));
+  await waitFor(() => expect(sendFeedback).toHaveReturned());
 
-  sendFeedback.mockImplementationOnce(() => Promise.resolve({ success: true }));
-
-  fireEvent.click(button);
-
-  setTimeout(() => {
-    expect(textarea.value).toBe("");
-
-    const snackbar = getByTestId("feedback-snackbar");
-    expect(snackbar).toBeInTheDocument();
-    done();
-  }, 300);
+  expect(textarea.value).toBe("");
 });
 
-test("check if textarea is not cleared and snackbar displayed when sendFeedback returns error", (done) => {
+test("check if textarea is not cleared if sendFeedback returns seccess", async () => {
   const { getByTestId } = render(
-    <Router>
-      <Feedbackscreen />
-    </Router>
+      <Router>
+        <Feedbackscreen />
+      </Router>
+    ),
+    textarea = getByTestId("feedback-textarea");
+  fireEvent.change(textarea, { target: { value: "fake user input" } });
+
+  // fake negative response from sendFeedback sevice
+  sendFeedback.mockImplementation(() =>
+    Promise.reject("thrown for testing purposes")
   );
 
-  const textarea = getByTestId("feedback-textarea");
-  const button = getByTestId("feedback-button");
+  // click button and wait for mock function to be returned
+  fireEvent.click(getByTestId("feedback-button"));
+  await waitFor(() => expect(sendFeedback).toHaveReturned());
 
-  fireEvent.change(textarea, { target: { value: "feedback" } });
-  expect(textarea.value).toBe("feedback");
+  expect(textarea.value).toBe("fake user input");
+});
 
-  sendFeedback.mockImplementationOnce(() => Promise.reject("error"));
-  fireEvent.click(button);
+// FUTURE: if snackbar supports types like positive/negative or success/warning/error: check for those!
+test("check if snackbar is displayed if sendFeedback returns success", async () => {
+  const { getByTestId, findByTestId } = render(
+      <Router>
+        <Feedbackscreen />
+      </Router>
+    ),
+    textarea = getByTestId("feedback-textarea");
+  fireEvent.change(textarea, { target: { value: "fake user input" } });
 
-  setTimeout(() => {
-    expect(textarea.value).toBe("feedback");
+  // fake positive response from sendFeedback sevice
+  sendFeedback.mockImplementation(() => Promise.resolve(true));
 
-    const snackbar = getByTestId("feedback-snackbar");
-    expect(snackbar).toBeInTheDocument();
-    done();
-  }, 300);
+  // click button and wait for mock function to be returned
+  fireEvent.click(getByTestId("feedback-button"));
+
+  // wait for snackbar to be displayed
+  const snackbar = await findByTestId("feedback-snackbar");
+  expect(snackbar).toBeInTheDocument();
+});
+
+// FUTURE: if snackbar supports types like positive/negative or success/warning/error: check for those!
+test("check if snackbar is displayed when sendFeedback returns error", async () => {
+  const { getByTestId, findByTestId } = render(
+      <Router>
+        <Feedbackscreen />
+      </Router>
+    ),
+    textarea = getByTestId("feedback-textarea");
+  fireEvent.change(textarea, { target: { value: "fake user input" } });
+
+  // fake negative response from sendFeedback sevice
+  sendFeedback.mockImplementation(() =>
+    Promise.reject("thrown for testing purposes")
+  );
+
+  fireEvent.click(getByTestId("feedback-button"));
+
+  // wait for snackbar to be displayed
+  const snackbar = await findByTestId("feedback-snackbar");
+  expect(snackbar).toBeInTheDocument();
 });

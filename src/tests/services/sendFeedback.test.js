@@ -13,23 +13,24 @@ afterEach(() => {
   return nock.restore();
 });
 
-test("error when fetch throws error", async () => {
-  nock("http://localhost").post("/api/feedback").replyWithError("error");
+test("check if promise rejects when fetch request fails", async () => {
+  nock("http://localhost")
+    .post("/api/feedback")
+    .replyWithError("thrown for testing purposes");
 
-  await expect(sendFeedback("whatever")).rejects.toThrow(
-    "TypeError: Network request failed"
-  );
+  await expect(sendFeedback("fake input")).rejects.toThrow();
 });
 
-test("error when negative server response", async () => {
-  nock("http://localhost").post("/api/feedback").reply(400);
+test("check if promise only resolves if server status code is 200", async () => {
+  nock("http://localhost")
+    .post("/api/feedback")
+    .reply(400)
+    .post("/api/feedback")
+    .reply(200)
+    .post("/api/feedback")
+    .reply(500);
 
-  await expect(sendFeedback("whatever")).rejects.toThrow();
-});
-
-test("positive server response should lead to resolved promise", async () => {
-  nock("http://localhost").post("/api/feedback").reply(200);
-
-  const res = await sendFeedback("whatever");
-  expect(res.success).toBe(true);
+  await expect(sendFeedback("fake input")).rejects.toThrow();
+  await expect(sendFeedback("fake input")).resolves.toBe(true);
+  await expect(sendFeedback("fake input")).rejects.toThrow();
 });
