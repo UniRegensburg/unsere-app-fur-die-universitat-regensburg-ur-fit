@@ -46,7 +46,7 @@ test("check if textarea is cleared after sendFeedback returns success", async ()
     textarea = getByTestId("feedback-textarea");
   fireEvent.change(textarea, { target: { value: "fake user input" } });
 
-  // fake positive response from sendFeedback sevice
+  // fake positive response from sendFeedback service
   sendFeedback.mockImplementation(() => Promise.resolve(true));
 
   // click button and wait for mock function to be returned
@@ -56,7 +56,7 @@ test("check if textarea is cleared after sendFeedback returns success", async ()
   expect(textarea.value).toBe("");
 });
 
-test("check if textarea is not cleared if sendFeedback returns seccess", async () => {
+test("check if textarea is not cleared if sendFeedback returns error", async () => {
   const { getByTestId } = render(
       <Router>
         <Feedbackscreen />
@@ -65,7 +65,7 @@ test("check if textarea is not cleared if sendFeedback returns seccess", async (
     textarea = getByTestId("feedback-textarea");
   fireEvent.change(textarea, { target: { value: "fake user input" } });
 
-  // fake negative response from sendFeedback sevice
+  // fake negative response from sendFeedback service
   sendFeedback.mockImplementation(() =>
     Promise.reject("thrown for testing purposes")
   );

@@ -30,7 +30,7 @@ const styles = (theme) => ({
 class Feedbackscreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "", snackbarOpen: false };
+    this.state = { value: "", snackbarIsOpen: false };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.snackbarMessage = "undefined";
@@ -46,15 +46,14 @@ class Feedbackscreen extends React.Component {
         this.provideUserFeedback("Feedback erhalten");
         this.setState({ value: "" });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         this.provideUserFeedback("Fehler beim Senden");
       });
   }
 
   provideUserFeedback(message) {
     this.snackbarMessage = message;
-    this.setState({ snackbarOpen: true });
+    this.setState({ snackbarIsOpen: true });
   }
 
   render() {
@@ -88,8 +87,8 @@ class Feedbackscreen extends React.Component {
           </Button>
           <CustomSnackbar
             data-testid="feedback-snackbar"
-            open={this.state.snackbarOpen}
-            onClose={() => this.setState({ snackbarOpen: false })}
+            open={this.state.snackbarIsOpen}
+            onClose={() => this.setState({ snackbarIsOpen: false })}
             message={this.snackbarMessage}
           ></CustomSnackbar>
         </div>

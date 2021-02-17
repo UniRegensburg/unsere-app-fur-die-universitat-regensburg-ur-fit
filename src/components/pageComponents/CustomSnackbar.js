@@ -17,10 +17,7 @@ export default function CustomSnackbar(props) {
           vertical: "bottom",
           horizontal: "center",
         }}
-        // open={isOpen}
         autoHideDuration={3500}
-        // onClose={onClose}
-        // message={message}
         action={
           <React.Fragment>
             {buttonText && onButtonClick ? (
