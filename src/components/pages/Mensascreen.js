@@ -44,9 +44,34 @@ export class Mensascreen extends React.Component {
     super(props);
     this.state = {
       mensaPlan: null,
-      day: "Mo",
+      day: this.recieveCurrentDay(),
       error: false,
     };
+  }
+
+  recieveCurrentDay() {
+    let day = moment().format('dddd');
+    switch(day){
+      case 'Monday':
+        day = 'Mo';
+        break;
+      case 'Tuesday':
+        day = 'Di';
+        break;
+      case 'Wednesday':
+        day = 'Mi';
+        break;
+      case 'Thursday':
+        day = 'Do';
+        break;
+      case 'Friday':
+        day = 'Fr';
+        break;
+      default:
+        day = 'Mo';
+        break;
+    }
+    return day;
   }
 
   componentDidMount() {
