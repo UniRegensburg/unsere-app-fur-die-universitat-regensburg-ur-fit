@@ -5,7 +5,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
-import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 import { Link } from "react-router-dom";
 
 // obviously this data has to be replaced by real data according to the subcategory
@@ -44,8 +43,9 @@ export default function Contentlistscreen(props) {
 
   const handleSortChange = (event) => {
     setSort(event.target.value);
-    // todo: sort content accordinglydo: sort content accordingly
+    // todo: sort content accordingly
   };
+
   return (
     <div className="Contentlistscreen">
       <TopAppBar data-testid="appbar" title={title} />
@@ -78,7 +78,6 @@ export default function Contentlistscreen(props) {
             <ContentCard match={match} data-testid="content-item" data={item} />
           ))}
       </div>
-      <BottomNavigationBar />
     </div>
   );
 }
