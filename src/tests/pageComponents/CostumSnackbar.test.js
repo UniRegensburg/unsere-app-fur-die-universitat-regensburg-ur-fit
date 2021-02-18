@@ -4,23 +4,24 @@ import "@testing-library/jest-dom/extend-expect";
 
 import CostumSnackbar from "../../components/pageComponents/CustomSnackbar";
 
-test("check if snack bis hidden if open is set false", () => {
+test("check if snackbar is hidden if open is set false", () => {
   render(<CostumSnackbar open={false} message="snackbar msg" />);
   const snackbar = screen.queryByText("snackbar msg");
+
   expect(snackbar).not.toBeInTheDocument();
 });
 
-test("check if snack bis visible if open is set true", () => {
+test("check if snackbar is visible if open is set true", () => {
   render(<CostumSnackbar open={true} message="snackbar msg" />);
   const snackbar = screen.getByText("snackbar msg");
+
   expect(snackbar).toBeInTheDocument();
 });
 
 test("check if close icon click is processed", () => {
   const onCloseCallback = jest.fn();
   render(<CostumSnackbar open={true} onClose={onCloseCallback} />);
-  const closeButton = screen.getByLabelText("close");
-  fireEvent.click(closeButton);
 
+  fireEvent.click(screen.getByLabelText("close"));
   expect(onCloseCallback).toBeCalledTimes(1);
 });
