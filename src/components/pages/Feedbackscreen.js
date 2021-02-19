@@ -2,6 +2,7 @@ import React from "react";
 import { Button, withStyles } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
+import { sendFeedback } from "../services/sendFeedback";
 
 const styles = (theme) => ({
   container: {
@@ -29,7 +30,7 @@ const styles = (theme) => ({
 class Feedbackscreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "", snackbarOpen: false };
+    this.state = { value: "", snackbarIsOpen: false };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.snackbarMessage = "undefined";
@@ -40,29 +41,19 @@ class Feedbackscreen extends React.Component {
   }
 
   handleSubmit() {
-    fetch("/api/feedback", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({ message: this.state.value }),
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          this.provideUserFeedback("Feedback erhalten");
-          this.setState({ value: "" });
-        } else {
-          this.provideUserFeedback("Fehler beim Senden");
-        }
+    sendFeedback(this.state.value)
+      .then(() => {
+        this.provideUserFeedback("Feedback erhalten");
+        this.setState({ value: "" });
       })
-      .catch((err) => {
+      .catch(() => {
         this.provideUserFeedback("Fehler beim Senden");
       });
   }
 
   provideUserFeedback(message) {
     this.snackbarMessage = message;
-    this.setState({ snackbarOpen: true });
+    this.setState({ snackbarIsOpen: true });
   }
 
   render() {
@@ -95,8 +86,9 @@ class Feedbackscreen extends React.Component {
             Senden
           </Button>
           <CustomSnackbar
-            isOpen={this.state.snackbarOpen}
-            onClose={() => this.setState({ snackbarOpen: false })}
+            data-testid="feedback-snackbar"
+            open={this.state.snackbarIsOpen}
+            onClose={() => this.setState({ snackbarIsOpen: false })}
             message={this.snackbarMessage}
           ></CustomSnackbar>
         </div>
