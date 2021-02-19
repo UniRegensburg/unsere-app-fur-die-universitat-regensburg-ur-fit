@@ -4,32 +4,33 @@ const AUTH_URL = "/proxy/authentication/auth.php";
 // requesting JWT Token from authentication server, this request needs strict http rules
 // for more information on fetch request options, see https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#supplying_request_options
 async function requestAuthToken(username, password) {
-  const response = await fetch(AUTH_URL, {
-    method: "POST",
-    mode: "cors",
-    cache: "no-cache",
-    headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-    },
-    body: JSON.stringify({
-      user: username,
-      pass: password,
-    }),
-  });
-  if (response.status === 200) {
-    return await response.json();
-  } else {
-    throw new Error(response.statusText);
+  try {
+    const response = await fetch(AUTH_URL, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({
+        user: username,
+        pass: password,
+      }),
+    });
+    if (response.status === 200) {
+      return await response.json();
+    } else {
+      throw new Error(response.status);
+    }
+  } catch (error) {
+    throw new Error(error);
   }
 }
 
 // error messages are not propagates outside for security reasons
 async function authenticate(username, password) {
-  if (!username) {
-    throw new Error("ERROR: no username specified");
-  }
-  if (!password) {
-    throw new Error("ERROR: no password specified");
+  if (!username || !password) {
+    throw new Error("missing input parameters");
   }
 
   // request sign in token from authentication server
@@ -63,7 +64,7 @@ async function authenticate(username, password) {
 class Authentication {
   onAuthStateChanged(callback) {
     return firebase.auth().onAuthStateChanged((user) => {
-      callback(user ? { uid: user.uid } : null);
+      callback(user ? user.uid : null);
     });
   }
 
@@ -84,9 +85,7 @@ class Authentication {
   }
 
   get currentUser() {
-    return firebase.auth().currentUser
-      ? { uid: firebase.auth().currentUser.uid }
-      : null;
+    return firebase.auth().currentUser ? firebase.auth().currentUser.uid : null;
   }
 
   get isAuthenticated() {
