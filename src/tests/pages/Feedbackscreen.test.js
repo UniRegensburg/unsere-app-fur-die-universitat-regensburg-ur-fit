@@ -77,9 +77,8 @@ test("check if textarea is not cleared if sendFeedback returns error", async () 
   expect(textarea.value).toBe("fake user input");
 });
 
-// FUTURE: if snackbar supports types like positive/negative or success/warning/error: check for those!
 test("check if snackbar is displayed if sendFeedback returns success", async () => {
-  const { getByTestId, findByTestId } = render(
+  const { getByTestId, findByRole } = render(
       <Router>
         <Feedbackscreen />
       </Router>
@@ -94,13 +93,15 @@ test("check if snackbar is displayed if sendFeedback returns success", async () 
   fireEvent.click(getByTestId("feedback-button"));
 
   // wait for snackbar to be displayed
-  const snackbar = await findByTestId("feedback-snackbar");
-  expect(snackbar).toBeInTheDocument();
+  const snackbar = await findByRole("alert");
+  expect(snackbar).toHaveAttribute(
+    "class",
+    expect.stringMatching(/[Ss]uccess/)
+  );
 });
 
-// FUTURE: if snackbar supports types like positive/negative or success/warning/error: check for those!
 test("check if snackbar is displayed when sendFeedback returns error", async () => {
-  const { getByTestId, findByTestId } = render(
+  const { getByTestId, findByRole } = render(
       <Router>
         <Feedbackscreen />
       </Router>
@@ -116,6 +117,6 @@ test("check if snackbar is displayed when sendFeedback returns error", async () 
   fireEvent.click(getByTestId("feedback-button"));
 
   // wait for snackbar to be displayed
-  const snackbar = await findByTestId("feedback-snackbar");
-  expect(snackbar).toBeInTheDocument();
+  const snackbar = await findByRole("alert");
+  expect(snackbar).toHaveAttribute("class", expect.stringMatching(/[Ee]rror/));
 });

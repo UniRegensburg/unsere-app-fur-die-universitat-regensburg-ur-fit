@@ -33,7 +33,7 @@ class Feedbackscreen extends React.Component {
     this.state = { value: "", snackbarIsOpen: false };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.snackbarMessage = "undefined";
+    this.snackbarOptions = null;
   }
 
   handleChange(event) {
@@ -43,16 +43,19 @@ class Feedbackscreen extends React.Component {
   handleSubmit() {
     sendFeedback(this.state.value)
       .then(() => {
-        this.provideUserFeedback("Feedback erhalten");
+        this.provideUserFeedback("success", "Feedback erhalten");
         this.setState({ value: "" });
       })
       .catch(() => {
-        this.provideUserFeedback("Fehler beim Senden");
+        this.provideUserFeedback("error", "Senden nicht möglich");
       });
   }
 
-  provideUserFeedback(message) {
-    this.snackbarMessage = message;
+  provideUserFeedback(type, message) {
+    this.snackbarOptions = {
+      type: type,
+      message: message,
+    };
     this.setState({ snackbarIsOpen: true });
   }
 
@@ -86,10 +89,9 @@ class Feedbackscreen extends React.Component {
             Senden
           </Button>
           <CustomSnackbar
-            data-testid="feedback-snackbar"
             open={this.state.snackbarIsOpen}
             onClose={() => this.setState({ snackbarIsOpen: false })}
-            message={this.snackbarMessage}
+            {...this.snackbarOptions}
           ></CustomSnackbar>
         </div>
       </div>
