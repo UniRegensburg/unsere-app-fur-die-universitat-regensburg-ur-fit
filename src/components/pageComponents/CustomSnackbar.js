@@ -59,10 +59,14 @@ const iconMapping = {
 export default function CustomSnackbar(props) {
   // buttonText and onButtonClick are optional properties
   // onClose and onButtonClick should be functions
-  const { buttonText, onButtonClick, message, ...rest } = props;
+  const { buttonText, onButtonClick, message, type = "info", ...rest } = props;
   const classes = useStyles();
 
-  const type = TYPES.includes(rest.type) ? rest.type : "info";
+  if (!TYPES.includes(type)) {
+    throw new TypeError(
+      "Unkown value for attribute 'type'. Should be one of: " + TYPES.toString()
+    );
+  }
 
   return (
     <div>

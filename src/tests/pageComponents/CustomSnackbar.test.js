@@ -26,14 +26,14 @@ test("check if close icon click is processed", () => {
   expect(onCloseCallback).toBeCalledTimes(1);
 });
 
-test("check that default type is info", () => {
+test("check if default type is info", () => {
   render(<CustomSnackbar open={true} />);
   const snackbar = screen.getByRole("alert");
 
   expect(snackbar).toHaveAttribute("class", expect.stringMatching(/[Ii]nfo/));
 });
 
-test("check that type changes class properties", () => {
+test("check if type attribute is reflected in class property", () => {
   render(<CustomSnackbar open={true} type="warning" />);
   const snackbar = screen.getByRole("alert");
 
@@ -41,4 +41,15 @@ test("check that type changes class properties", () => {
     "class",
     expect.stringMatching(/[Ww]arning/)
   );
+});
+
+test("check if wrong type throws error", () => {
+  let err;
+  try {
+    render(<CustomSnackbar open={true} type="problem" />);
+  } catch (error) {
+    err = error;
+  }
+  expect(err.name).toBe("TypeError");
+  expect(err.message).toMatch(/Unkown value for attribute 'type'.+/);
 });
