@@ -6,30 +6,41 @@ import {
   FormControlLabel,
   Grid,
   TextField,
-  Paper,
+  Backdrop,
+  CircularProgress,
   withStyles,
 } from "@material-ui/core";
-import Logo from "../../assets/images/URFitLogo.png";
+import Logo from "../../assets/images/ur-logo-bildmarke-grau.jpg";
+import CustomSnackbar from "../pageComponents/CustomSnackbar";
 
 import auth from "../services/authentication";
 
 const style = (theme) => ({
+  container: {
+    margin: theme.spacing(2),
+    padding: theme.spacing(2),
+  },
+
   textFields: {
-    margin: "8px",
+    margin: theme.spacing(1),
   },
+
   button: {
-    margin: "16px",
+    margin: theme.spacing(1),
   },
-  paper: {
-    margin: "8px",
-  },
+
   form: {
-    margin: "32px",
+    margin: theme.spacing(2),
   },
+
   logo: {
-    width: "124px",
-    height: "74px",
-    marginBottom: "32px",
+    width: theme.spacing(16),
+    marginBottom: theme.spacing(2),
+  },
+
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
   },
 });
 
@@ -43,10 +54,13 @@ class Loginscreen extends React.Component {
       validPassword: true,
       initialUsername: true,
       initialPassword: true,
+      showLoader: false,
+      showSnackbar: false,
     };
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleLogInClick = this.handleLogInClick.bind(this);
+    this.snackbarOptions = null;
   }
 
   handleChangeUsername(event) {
@@ -67,25 +81,38 @@ class Loginscreen extends React.Component {
   }
 
   handleLogInClick(event) {
+    this.setState({ showLoader: true });
     auth
       .login(this.state.valueUsername, this.state.valuePassword)
       .then((user) => {
         if (user !== null) {
           this.props.history.replace(this.props.location.state.from.pathname);
         } else {
-          // tell user he fucked up
+          this.provideUserFeedback(
+            "warning",
+            "Nutzername oder Passwort falsch"
+          );
         }
       })
       .catch((error) => {
-        // tell user that shit hit the fan
+        this.provideUserFeedback("error", "Anmeldung nicht möglich");
       });
+  }
+
+  provideUserFeedback(type, message) {
+    this.setState({ showLoader: false });
+    this.snackbarOptions = {
+      type: type,
+      message: message,
+    };
+    this.setState({ showSnackbar: true });
   }
 
   render() {
     const { classes } = this.props;
     return (
       <div className="Loginscreen">
-        <Paper className={classes.paper} data-testid="bgPaper">
+        <div className={classes.container} data-testid="bgPaper">
           <Grid
             className={classes.grid}
             container
@@ -109,7 +136,8 @@ class Loginscreen extends React.Component {
                 onChange={this.handleChangeUsername}
                 value={this.state.valueUsername}
                 error={!this.state.validUsername}
-                label="NDS Kennung"
+                label="RZ-Account"
+                placeholder="abc13245"
                 required={true}
                 type="text"
                 size="medium"
@@ -161,7 +189,15 @@ class Loginscreen extends React.Component {
               </Button>
             </Grid>
           </Grid>
-        </Paper>
+        </div>
+        <CustomSnackbar
+          open={this.state.showSnackbar}
+          onClose={() => this.setState({ showSnackbar: false })}
+          {...this.snackbarOptions}
+        ></CustomSnackbar>
+        <Backdrop className={classes.backdrop} open={this.state.showLoader}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       </div>
     );
   }
