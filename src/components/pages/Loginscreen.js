@@ -80,6 +80,7 @@ class Loginscreen extends React.Component {
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleLogInClick = this.handleLogInClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleExpandInfoClick = this.handleExpandInfoClick.bind(this);
     this.snackbarOptions = null;
   }
@@ -102,6 +103,20 @@ class Loginscreen extends React.Component {
   }
 
   handleLogInClick(event) {
+    this.startLogin();
+  }
+
+  handleKeyPress(event) {
+    if (event.key === "Enter") {
+      this.startLogin();
+    }
+  }
+
+  handleExpandInfoClick(event) {
+    this.setState({ expandInfo: !this.state.expandInfo });
+  }
+
+  startLogin() {
     this.setState({ showLoader: true });
     auth
       .login(this.state.valueUsername, this.state.valuePassword)
@@ -118,10 +133,6 @@ class Loginscreen extends React.Component {
       .catch((error) => {
         this.provideUserFeedback("error", "Anmeldung nicht möglich");
       });
-  }
-
-  handleExpandInfoClick(event) {
-    this.setState({ expandInfo: !this.state.expandInfo });
   }
 
   provideUserFeedback(type, message) {
@@ -194,6 +205,7 @@ class Loginscreen extends React.Component {
                 data-testid="inputUsername"
                 id="inputUsername"
                 onChange={this.handleChangeUsername}
+                onKeyPress={this.handleKeyPress}
                 value={this.state.valueUsername}
                 error={!this.state.validUsername}
                 label="RZ-Account"
@@ -211,6 +223,7 @@ class Loginscreen extends React.Component {
                 data-testid="inputPassword"
                 id="inputPassword"
                 onChange={this.handleChangePassword}
+                onKeyPress={this.handleKeyPress}
                 value={this.state.valuePassword}
                 error={!this.state.validPassword && !this.state.initialPassword}
                 label="Passwort"
