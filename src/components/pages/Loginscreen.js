@@ -1,6 +1,7 @@
 import React from "react";
 
 import {
+  Paper,
   Button,
   Checkbox,
   FormControlLabel,
@@ -9,32 +10,50 @@ import {
   Backdrop,
   CircularProgress,
   withStyles,
+  Typography,
+  Collapse,
+  Card,
+  CardContent,
+  CardHeader,
+  IconButton,
+  CardActionArea,
 } from "@material-ui/core";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import Logo from "../../assets/images/ur-logo-bildmarke-grau.jpg";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
-
 import auth from "../services/authentication";
 
+const INFOTEXT =
+  "Die URfit-App bringt mehr Bewegung und Gesundheit in deinen Alltag. Sie enthält verschiedene Sport- und Bewegungsangebote und den aktuellen Mensaplan. Viel Spaß beim Ausprobieren!";
+
 const style = (theme) => ({
-  container: {
-    margin: theme.spacing(2),
-    padding: theme.spacing(2),
+  paper: {
+    margin: theme.spacing(4),
+  },
+
+  infoCard: {
+    marginRight: "auto",
+    marginLeft: "auto",
+    maxWidth: "300px",
   },
 
   textFields: {
     margin: theme.spacing(1),
+    maxWidth: "300px",
   },
 
   button: {
     margin: theme.spacing(1),
+    maxWidth: "300px",
   },
 
   form: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(1),
+    maxWidth: "300px",
   },
 
   logo: {
-    width: theme.spacing(16),
+    width: theme.spacing(12),
     marginBottom: theme.spacing(2),
   },
 
@@ -56,10 +75,12 @@ class Loginscreen extends React.Component {
       initialPassword: true,
       showLoader: false,
       showSnackbar: false,
+      expandInfo: false,
     };
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleLogInClick = this.handleLogInClick.bind(this);
+    this.handleExpandInfoClick = this.handleExpandInfoClick.bind(this);
     this.snackbarOptions = null;
   }
 
@@ -99,6 +120,10 @@ class Loginscreen extends React.Component {
       });
   }
 
+  handleExpandInfoClick(event) {
+    this.setState({ expandInfo: !this.state.expandInfo });
+  }
+
   provideUserFeedback(type, message) {
     this.setState({ showLoader: false });
     this.snackbarOptions = {
@@ -112,24 +137,59 @@ class Loginscreen extends React.Component {
     const { classes } = this.props;
     return (
       <div className="Loginscreen">
-        <div className={classes.container} data-testid="bgPaper">
+        <Paper className={classes.paper} elevation={0} data-testid="bgPaper">
           <Grid
             className={classes.grid}
             container
-            justify="space-between"
-            alignItems="center"
+            justify="flex-start"
+            alignItems="stretch"
             direction="column"
           >
-            <Grid item xs={12}>
+            <Grid item>
               <img
                 data-testid="logo"
                 src={Logo}
-                alt="AppBarLogo"
+                alt="Uni Regensburg Logo"
                 className={classes.logo}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item>
+              <Card
+                variant="outlined"
+                elevation={0}
+                className={classes.infoCard}
+              >
+                <CardActionArea
+                  onClick={this.handleExpandInfoClick}
+                  aria-expanded={this.state.expandInfo}
+                  aria-label="show more"
+                >
+                  <CardHeader
+                    title="URfit: Die Fitness App der UR"
+                    titleTypographyProps={{ variant: "body2" }}
+                    action={
+                      <IconButton>
+                        <MoreHorizIcon
+                          aria-expanded={this.state.expandInfo}
+                          aria-label="show more"
+                        />
+                      </IconButton>
+                    }
+                  ></CardHeader>
+                </CardActionArea>
+                <Collapse
+                  in={this.state.expandInfo}
+                  className={classes.infoText}
+                >
+                  <CardContent>
+                    <Typography variant="body2">{INFOTEXT}</Typography>
+                  </CardContent>
+                </Collapse>
+              </Card>
+            </Grid>
+            <Grid item>
               <TextField
+                fullWidth
                 className={classes.textFields}
                 data-testid="inputUsername"
                 id="inputUsername"
@@ -144,8 +204,9 @@ class Loginscreen extends React.Component {
                 variant="standard"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item>
               <TextField
+                fullWidth
                 className={classes.textFields}
                 data-testid="inputPassword"
                 id="inputPassword"
@@ -159,7 +220,7 @@ class Loginscreen extends React.Component {
                 variant="standard"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item>
               <FormControlLabel
                 className={classes.form}
                 data-testid="formLabel"
@@ -171,8 +232,9 @@ class Loginscreen extends React.Component {
                 labelPlacement="start"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item>
               <Button
+                fullWidth
                 className={classes.button}
                 id="buttonLogin"
                 data-testid="buttonLogin"
@@ -189,7 +251,7 @@ class Loginscreen extends React.Component {
               </Button>
             </Grid>
           </Grid>
-        </div>
+        </Paper>
         <CustomSnackbar
           open={this.state.showSnackbar}
           onClose={() => this.setState({ showSnackbar: false })}
