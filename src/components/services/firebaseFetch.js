@@ -36,11 +36,9 @@ export async function getUser(id) {
   return user;
 }
 
-export async function getContentById() {
+export async function getContentById(id) {
   var item;
   let db = firebase.firestore();
-  let userId = useUser();
-  console.log(userId);
   let path = db.collection("contents").doc(id);
   try {
     item = await (await path.get()).data();
