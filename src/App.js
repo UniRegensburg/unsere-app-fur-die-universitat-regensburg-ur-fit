@@ -22,7 +22,7 @@ function App() {
       <Router>
         <div data-testid="app" className="App">
           <Switch>
-            <Route exact path="/" component={Homescreen} />
+            <ProtectedRoute exact path="/" component={Homescreen} />
             <Route exact path="/login" component={Loginscreen} />
             <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
             <ProtectedRoute exact path="/imprint" component={Imprintscreen} />

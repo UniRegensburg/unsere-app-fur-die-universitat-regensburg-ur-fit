@@ -58,7 +58,7 @@ export default function Detailscreen(props) {
   const classes = useStyles();
   const [favorite, setFavorite] = React.useState(false);
   const [snackbarOpen, toggleOpen] = React.useState(false);
-  const snackbarMessage = "Link wurde in die Zwischenablage kopiert!";
+  const snackbarMessage = "Link in Zwischenablage kopiert";
 
   const { match } = props;
   const backPath = match.params.subcategory
@@ -127,7 +127,7 @@ export default function Detailscreen(props) {
           {favorite ? <FavoriteIcon /> : <FavoriteOutlinedIcon />}
         </IconButton>
         <CustomSnackbar
-          isOpen={snackbarOpen}
+          open={snackbarOpen}
           onClose={toggleSnackbar}
           message={snackbarMessage}
         ></CustomSnackbar>

@@ -1,5 +1,10 @@
 import React from "react";
-import { Button, withStyles } from "@material-ui/core/";
+import {
+  Button,
+  Backdrop,
+  CircularProgress,
+  withStyles,
+} from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
 import { sendFeedback } from "../services/sendFeedback";
@@ -25,15 +30,20 @@ const styles = (theme) => ({
     color: "#00817B",
     float: "right",
   },
+
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#fff",
+  },
 });
 
 class Feedbackscreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "", snackbarIsOpen: false };
+    this.state = { value: "", showSnackbar: false, showLoader: false };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.snackbarMessage = "undefined";
+    this.snackbarOptions = null;
   }
 
   handleChange(event) {
@@ -41,19 +51,24 @@ class Feedbackscreen extends React.Component {
   }
 
   handleSubmit() {
+    this.setState({ showLoader: true });
     sendFeedback(this.state.value)
       .then(() => {
-        this.provideUserFeedback("Feedback erhalten");
+        this.provideUserFeedback("success", "Feedback erhalten");
         this.setState({ value: "" });
       })
       .catch(() => {
-        this.provideUserFeedback("Fehler beim Senden");
+        this.provideUserFeedback("error", "Senden nicht möglich");
       });
   }
 
-  provideUserFeedback(message) {
-    this.snackbarMessage = message;
-    this.setState({ snackbarIsOpen: true });
+  provideUserFeedback(type, message) {
+    this.setState({ showLoader: false });
+    this.snackbarOptions = {
+      type: type,
+      message: message,
+    };
+    this.setState({ showSnackbar: true });
   }
 
   render() {
@@ -86,11 +101,13 @@ class Feedbackscreen extends React.Component {
             Senden
           </Button>
           <CustomSnackbar
-            data-testid="feedback-snackbar"
-            open={this.state.snackbarIsOpen}
-            onClose={() => this.setState({ snackbarIsOpen: false })}
-            message={this.snackbarMessage}
+            open={this.state.showSnackbar}
+            onClose={() => this.setState({ showSnackbar: false })}
+            {...this.snackbarOptions}
           ></CustomSnackbar>
+          <Backdrop className={classes.backdrop} open={this.state.showLoader}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </div>
       </div>
     );
