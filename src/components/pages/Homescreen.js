@@ -1,12 +1,12 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/";
+import React, { useState, useEffect } from "react";
+import { makeStyles, CircularProgress } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
+import { getUser, getContentById } from "../services/firebaseFetch";
 
-import * as Constants from "../../constants/constants.js";
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     marginStart: "16px",
     marginEnd: "16px",
@@ -17,29 +17,45 @@ const styles = (theme) => ({
     color: "#2E303C",
     textAlign: "start",
   },
-});
+}));
 
-class Homescreen extends React.Component {
-  render() {
-    // testdata ist not tested for favorite=true (because it is dummy data)
-    let data = Constants.pages.favorites;
-    const { classes } = this.props;
+export default function Homescreen() {
+  const classes = useStyles();
+  const [spinner, setFavorites] = useState(<CircularProgress />);
 
-    return (
-      <div className="Homescreen">
-        <TopAppBar data-testid="appbar" title="URfit" />
-        <div className={classes.container}>
-          <h3 data-testid="title" className={classes.text}>
-            Meine Lieblingsübungen
-          </h3>
-          {data.content.map((item, index) => (
-            <ContentCard data-testid="content-item" data={item} />
-          ))}
-        </div>
-        <BottomNavigationBar />
-      </div>
-    );
+  async function getFavorites() {
+    var favorites = [];
+    await getUser("paG8fp6bvWyoYAoYQ3uO").then((user) => {
+      user.favoriten.forEach((fav, index, favs) =>
+        getContentById(fav.id).then((item) => {
+          favorites.push(item);
+          if (Object.is(favs.length - 1, index)) {
+            setFavorites(
+              <div>
+                {favorites.map((item, index) => {
+                  item.favorite = true;
+                  return <ContentCard data-testid="content-item" data={item} />;
+                })}
+              </div>
+            );
+          }
+        })
+      );
+    });
   }
-}
 
-export default withStyles(styles)(Homescreen);
+  useEffect(() => getFavorites());
+
+  return (
+    <div className="Homescreen">
+      <TopAppBar data-testid="appbar" title="URfit" />
+      <div className={classes.container}>
+        <h3 data-testid="title" className={classes.text}>
+          Meine Lieblingsübungen
+        </h3>
+        {spinner}
+      </div>
+      <BottomNavigationBar />
+    </div>
+  );
+}

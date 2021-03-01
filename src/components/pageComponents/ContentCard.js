@@ -90,7 +90,11 @@ export default function ContentCard(props) {
           <div className={classes.text}>
             {typeIcon}
             <span className={classes.text}>{data.type}</span>
-            <span className={classes.text}>{data.duration}</span>
+            <span className={classes.text}>
+              {data.length.indexOf("00") === 0
+                ? data.length.substring(3)
+                : data.length}
+            </span>
           </div>
           <p id="test" className={classes.title}>
             {data.title}
