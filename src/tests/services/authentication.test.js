@@ -86,6 +86,7 @@ describe("test login method", () => {
   describe("test firebase signInWithCostumToken flow", () => {
     beforeEach(() => {
       return nock("http://localhost")
+        .persist()
         .post(/\/proxy\/authentication\/.+/)
         .reply(200, positiveAuthServerResponse);
     });
@@ -94,8 +95,9 @@ describe("test login method", () => {
       const signInWithCustomToken = jest
         .fn()
         .mockResolvedValue(firebaseSignInResponse);
+      const setPersistence = jest.fn().mockResolvedValue();
       firebase.auth.mockImplementation(() => {
-        return { signInWithCustomToken };
+        return { signInWithCustomToken, setPersistence };
       });
 
       const user = await auth.login(...testCredentials);
@@ -106,12 +108,28 @@ describe("test login method", () => {
       expect(user).toMatch(firebaseSignInResponse.user.uid);
     });
 
-    test("check that error is returned if firebase sign in fails", async () => {
-      const signInWithCustomToken = jest.fn().mockRejectedValue("test error");
+    test("check that setPersitence is called correctly", async () => {
+      const signInWithCustomToken = jest
+        .fn()
+        .mockResolvedValue(firebaseSignInResponse);
+      const setPersistence = jest.fn().mockResolvedValue();
       firebase.auth.mockImplementation(() => {
-        return { signInWithCustomToken };
+        return { signInWithCustomToken, setPersistence };
       });
 
+      await auth.login(...testCredentials);
+      expect(setPersistence).toHaveBeenCalledWith("session");
+
+      await auth.login(...testCredentials, true);
+      expect(setPersistence).toHaveBeenCalledWith("local");
+    });
+
+    test("check that error is returned if firebase sign in fails", async () => {
+      const signInWithCustomToken = jest.fn().mockRejectedValue("test error");
+      const setPersistence = jest.fn().mockResolvedValue();
+      firebase.auth.mockImplementation(() => {
+        return { signInWithCustomToken, setPersistence };
+      });
       await expect(auth.login(...testCredentials)).rejects.toThrow(
         "test error"
       );
@@ -155,7 +173,7 @@ describe("test currentUser property", () => {
       return { currentUser: user };
     });
 
-    expect(auth.currentUser).toBe(user.uid);
+    expect(auth.userId).toBe(user.uid);
   });
 
   test("check if currentUser is null if there is no user", () => {
@@ -163,7 +181,7 @@ describe("test currentUser property", () => {
       return { currentUser: null };
     });
 
-    expect(auth.currentUser).toBe(null);
+    expect(auth.userId).toBe(null);
   });
 });
 
