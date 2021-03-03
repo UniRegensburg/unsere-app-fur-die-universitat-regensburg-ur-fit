@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles, CircularProgress } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
-import { getUser, getContentById } from "../services/firebaseFetch";
+import { getUserFavorites, getContentById } from "../services/contentProvider";
 
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 
@@ -23,28 +23,39 @@ export default function Homescreen() {
   const classes = useStyles();
   const [spinner, setFavorites] = useState(<CircularProgress />);
 
-  async function getFavorites() {
-    var favorites = [];
-    await getUser("paG8fp6bvWyoYAoYQ3uO").then((user) => {
-      user.favoriten.forEach((fav, index, favs) =>
-        getContentById(fav.id).then((item) => {
-          favorites.push(item);
-          if (Object.is(favs.length - 1, index)) {
-            setFavorites(
-              <div>
-                {favorites.map((item, index) => {
-                  item.favorite = true;
-                  return <ContentCard data-testid="content-item" data={item} />;
-                })}
-              </div>
-            );
-          }
-        })
-      );
-    });
+  function getFavorites() {
+    const unsubscribe = getUserFavorites(
+      "701b389b848a2b1cfab867093101d8d5ac56addd",
+      {
+        next: (querySnapshot) => {
+          var favorites = [];
+          let userFavorites = querySnapshot.data().favorites;
+          userFavorites.forEach((favorite, index, favs) => {
+            getContentById(favorite.id).then((content) => {
+              favorites.push(content.data());
+              if (Object.is(favs.length - 1, index)) {
+                setFavorites(
+                  <div>
+                    {favorites.map((item, index) => {
+                      item.favorite = true;
+                      return (
+                        <ContentCard data-testid="content-item" data={item} />
+                      );
+                    })}
+                  </div>
+                );
+              }
+            });
+          });
+        },
+      }
+    );
+    return unsubscribe;
   }
 
-  useEffect(() => getFavorites());
+  useEffect(() => {
+    getFavorites();
+  }, [spinner, setFavorites]);
 
   return (
     <div className="Homescreen">
