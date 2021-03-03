@@ -4,6 +4,7 @@ import {
   Backdrop,
   CircularProgress,
   withStyles,
+  Typography,
 } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
@@ -13,11 +14,13 @@ const styles = (theme) => ({
   container: {
     marginStart: "16px",
     marginEnd: "16px",
+    marginTop: "16px",
   },
 
   text: {
     color: "#2E303C",
     textAlign: "start",
+    marginBottom: "8px",
   },
 
   textarea: {
@@ -77,11 +80,15 @@ class Feedbackscreen extends React.Component {
       <div className="Feedbackscreen">
         <TopAppBar data-testid="appbar" title="Feedback" />
         <div className={classes.container}>
-          <p data-testid="feedback-text" className={classes.text}>
+          <Typography
+            variant="body1"
+            data-testid="feedback-text"
+            className={classes.text}
+          >
             Feedback zu dieser App kannst du persönlich per&nbsp;
             <a href="mailto:ur.fit.app@mailman.uni-regensburg.de">eMail</a>
             &nbsp;oder anonym über dieses Formular senden:
-          </p>
+          </Typography>
           <form>
             <textarea
               data-testid="feedback-textarea"

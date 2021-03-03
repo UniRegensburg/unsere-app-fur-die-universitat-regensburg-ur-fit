@@ -1,5 +1,11 @@
 import React from "react";
-import { makeStyles, Card, CardContent, IconButton } from "@material-ui/core/";
+import {
+  makeStyles,
+  Card,
+  CardContent,
+  IconButton,
+  Typography,
+} from "@material-ui/core/";
 import {
   Favorite as FavoriteIcon,
   FavoriteBorder as FavoriteOutlinedIcon,
@@ -30,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: "#2E303C",
     textAlign: "start",
-    fontSize: "large",
+    marginTop: "8px",
+    marginBottom: "8px",
   },
 
   link: {
@@ -86,22 +93,29 @@ export default function ContentCard(props) {
     <Card variant="outlined" className={classes.card}>
       <CardContent className={classes.cardContent}>
         <Link className={classes.link} to={path}>
-          {" "}
           <div className={classes.text}>
             {typeIcon}
-            <span className={classes.text}>{data.type}</span>
-            <span className={classes.text}>{data.duration}</span>
+            <Typography variant="body2" className={classes.text}>
+              {data.type}
+            </Typography>
+            <Typography variant="body2" className={classes.text}>
+              {data.duration}
+            </Typography>
           </div>
-          <p id="test" className={classes.title}>
+          <Typography variant="body1" id="test" className={classes.title}>
             {data.title}
-          </p>
+          </Typography>
         </Link>
         <div className={classes.text}>
           {data.tags.map((tag, index) => {
             return (
-              <span className={classes.text} key={index}>
+              <Typography
+                variant="caption"
+                className={classes.text}
+                key={index}
+              >
                 {tag}
-              </span>
+              </Typography>
             );
           })}
           <IconButton
