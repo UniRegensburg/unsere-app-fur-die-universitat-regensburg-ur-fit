@@ -77,7 +77,7 @@ export default function Homescreen() {
 
   useEffect(() => {
     getFavorites();
-  }, [spinner, setFavorites]);
+  });
 
   return (
     <div className="Homescreen">
