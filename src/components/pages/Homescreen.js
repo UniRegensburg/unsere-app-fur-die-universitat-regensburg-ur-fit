@@ -45,7 +45,6 @@ export default function Homescreen() {
                       <div>
                         <Typography
                           variant="subtitle2"
-                          data-testid="title"
                           className={classes.text}
                         >
                           Deine Lieblingsübungen
@@ -78,7 +77,11 @@ export default function Homescreen() {
     <div className="Homescreen">
       <TopAppBar data-testid="appbar" title="URfit" />
       <div className={classes.container}>
-        <Typography variant="subtitle1" className={classes.text}>
+        <Typography
+          data-testid="title"
+          variant="subtitle1"
+          className={classes.text}
+        >
           Hallo {username}! Willkommen bei URfit.
         </Typography>
         {spinner}

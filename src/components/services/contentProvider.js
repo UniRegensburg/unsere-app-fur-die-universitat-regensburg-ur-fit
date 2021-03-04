@@ -5,15 +5,7 @@ export const getStructure = (observer) => {
 };
 
 export const getContentById = async (id) => {
-  let content = await database
-    .collection("contents")
-    .doc(id)
-    .get({ source: "cache" });
-  if (!content.exists) {
-    return database.collection("contents").doc(id).get({ source: "server" });
-  } else {
-    return content;
-  }
+  return database.collection("contents").doc(id).get();
 };
 
 export const getContentItemsBySubcategory = (subcategory, observer) => {
