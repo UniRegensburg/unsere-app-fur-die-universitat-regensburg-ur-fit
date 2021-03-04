@@ -1,24 +1,40 @@
 import React from 'react'
 import { Button, Grid, makeStyles } from "@material-ui/core/";
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 import TopAppBar from "../pageComponents/TopAppBar";
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        margin: "16px", 
+        margin: "24px", 
     },
-    buttons: {}
+    buttons: {},
+    dialogs: []
 
   }));
 
 export default function Settingsscreen(){
     const classes = useStyles();
+    const [openUsername, setUsernameOpen] = React.useState(false);
+    const [openDelete, setDeleteOpen] = React.useState(false);
 
     const handleUsername = () => {
-        return ""
+        setUsernameOpen(true);
     }
-    const handleDelete = () =>{
-        return ""
+    const handleCloseDialogUsername = () => {
+        setUsernameOpen(false);
+    }
+
+    const handleDelete = () => {
+        setDeleteOpen(true);
+    }
+    const handleCloseDialogDelete = () => {
+        setDeleteOpen(false);
     }
 
     return (
@@ -27,10 +43,58 @@ export default function Settingsscreen(){
             <div className={classes.container}>
             <Grid container direction="column" spacing={3} >
                 <Grid item>
-                <Button className={ classes.buttons } variant="contained" color="default" onClick={handleUsername}>Nutzername ändern</Button>
-                </Grid>
+                    <Button className={ classes.buttons } variant="contained" color="default" onClick={handleUsername}>Nutzername ändern</Button>
+                    <Dialog open={openUsername} onClose={handleCloseDialogUsername} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Nutzername ändern</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Bitte geben sie einen neuen Nutzernamen ein.
+                            </DialogContentText>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Nutzername"
+                                type="email"
+                                fullWidth
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDialogUsername} color="primary">
+                                Abbrechen
+                            </Button>
+                            <Button onClick={handleCloseDialogUsername} color="primary">
+                                Bestätigen
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                    </Grid>
                 <Grid item>
-                <Button className={ classes.buttons } variant="contained" color="secondary" onClick={handleDelete}>Konto löschen</Button>
+                    <Button className={ classes.buttons } variant="contained" color="secondary" onClick={handleDelete}>Konto löschen</Button>
+                        <Dialog
+                            open={openDelete}
+                            onClose={handleCloseDialogDelete}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">{"Möchten Sie ihr Konto wirklich löschen?"}</DialogTitle>
+                            <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                Wenn Sie ihr konto löschen, werden alle Ihre Daten unwiderruflich gelöscht. Dies kann nicht mehr rückgängig gemacht werden!
+                                <br></br>
+                                <br></br>
+                                Sind Sie sicher, dass Sie ihr Konto löschen wollen?
+                            </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button onClick={handleCloseDialogDelete} color="primary">
+                                Zurück
+                            </Button>
+                            <Button onClick={handleCloseDialogDelete} color="secondary" autoFocus>
+                                Ja
+                            </Button>
+                            </DialogActions>
+                        </Dialog>
                 </Grid>
             </Grid>
             </div>
