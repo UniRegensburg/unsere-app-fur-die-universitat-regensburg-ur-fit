@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/";
+import { withStyles, Typography } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
 import InfoMessageCard from "../pageComponents/InfoMessageCard";
@@ -19,17 +19,8 @@ const styles = (theme) => ({
   text: {
     color: "#2E303C",
     textAlign: "start",
-  },
-
-  card: {
-    border: "solid 2px #00817B",
-    marginBottom: "16px",
-  },
-
-  cardContent: {
-    "&:last-child": {
-      paddingBottom: "16px",
-    },
+    marginTop: "8px",
+    marginBottom: "8px",
   },
 });
 
@@ -45,9 +36,13 @@ class Homescreen extends React.Component {
       // show favorites
       content = (
         <div>
-          <h3 data-testid="title" className={classes.text}>
+          <Typography
+            variant="subtitle2"
+            data-testid="title"
+            className={classes.text}
+          >
             Deine Lieblingsübungen
-          </h3>
+          </Typography>
           {data.content.map((item) => (
             <ContentCard data-testid="content-item" data={item} />
           ))}
@@ -62,9 +57,9 @@ class Homescreen extends React.Component {
       <div className="Homescreen">
         <TopAppBar data-testid="appbar" title="URfit" />
         <div className={classes.container}>
-          <h4 className={classes.text}>
+          <Typography variant="subtitle1" className={classes.text}>
             Hallo {username}! Willkommen bei URfit.
-          </h4>
+          </Typography>
           {content}
         </div>
         <BottomNavigationBar />

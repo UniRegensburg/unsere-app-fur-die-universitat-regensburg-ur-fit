@@ -1,10 +1,11 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/";
+import { makeStyles, Typography } from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
   title: {
     color: "#2E303C",
     textAlign: "start",
+    marginBottom: "8px",
   },
 
   audio: {
@@ -25,7 +26,9 @@ export default function AudioDetail(props) {
 
   return (
     <div>
-      <h3 className={classes.title}>{data.title}</h3>
+      <Typography variant="body1" className={classes.title}>
+        {data.title}
+      </Typography>
 
       <audio controls className={classes.audio}>
         <source src={data.src} type="audio/mpeg" />
@@ -34,9 +37,9 @@ export default function AudioDetail(props) {
 
       {data.tags.map((tag, index) => {
         return (
-          <span className={classes.tag} key={index}>
+          <Typography variant="caption" className={classes.tag} key={index}>
             {tag}
-          </span>
+          </Typography>
         );
       })}
     </div>

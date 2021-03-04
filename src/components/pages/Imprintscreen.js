@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/";
+import { makeStyles, Typography } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginStart: "16px",
     marginEnd: "16px",
+    marginTop: "16px",
   },
 }));
 
@@ -19,7 +20,7 @@ export default function Imprintscreen(props) {
     <div className="Imprintscreen">
       <TopAppBar data-testid="appbar" title="Impressum" />
       <div className={classes.container}>
-        <p className={classes.text}>
+        <Typography variant="body1" className={classes.text}>
           Diese App befindet sich zur Zeit in der Entwicklung und ist noch in
           Arbeit.
           <br />
@@ -40,7 +41,7 @@ export default function Imprintscreen(props) {
           <a href="mailto:alexanderbazo@googlemail.com">
             alexanderbazo@googlemail.com
           </a>
-        </p>
+        </Typography>
       </div>
     </div>
   );
