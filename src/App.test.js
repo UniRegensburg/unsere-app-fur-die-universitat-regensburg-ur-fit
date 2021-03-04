@@ -4,6 +4,6 @@ import App from "./App";
 
 test("example test", () => {
   render(<App />);
-  const linkElement = screen.getByText("Meine Lieblingsübungen");
+  const linkElement = screen.getByText("Deine Lieblingsübungen");
   expect(linkElement).toBeInTheDocument();
 });
