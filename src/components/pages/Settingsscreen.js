@@ -1,5 +1,8 @@
 import React from 'react'
-import { Button, Grid, makeStyles } from "@material-ui/core/";
+import { 
+    Button, 
+    Grid, 
+    makeStyles } from "@material-ui/core/";
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -13,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
     container: {
         margin: "24px", 
     },
-    buttons: {},
-    dialogs: []
-
+    buttons: {
+        width: "100%"
+    },
   }));
 
 export default function Settingsscreen(){
@@ -42,9 +45,18 @@ export default function Settingsscreen(){
             <TopAppBar data-testid="appbar" title="Einstellungen" />
             <div className={classes.container}>
             <Grid container direction="column" spacing={3} >
-                <Grid item>
-                    <Button className={ classes.buttons } variant="contained" color="default" onClick={handleUsername}>Nutzername ändern</Button>
-                    <Dialog open={openUsername} onClose={handleCloseDialogUsername} aria-labelledby="form-dialog-title">
+                <Grid item >
+                    <Button 
+                        className={ classes.buttons } 
+                        variant="contained" 
+                        color="default" 
+                        onClick={handleUsername}>
+                        Umbennen
+                    </Button>
+                    <Dialog 
+                        open={openUsername} 
+                        onClose={handleCloseDialogUsername} 
+                        aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Nutzername ändern</DialogTitle>
                         <DialogContent>
                             <DialogContentText>
@@ -55,29 +67,41 @@ export default function Settingsscreen(){
                                 margin="dense"
                                 id="name"
                                 label="Nutzername"
-                                type="email"
+                                type="text"
+                                value="Viktor"
                                 fullWidth
                             />
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleCloseDialogUsername} color="primary">
+                            <Button 
+                                onClick={handleCloseDialogUsername} 
+                                color="primary">
                                 Abbrechen
                             </Button>
-                            <Button onClick={handleCloseDialogUsername} color="primary">
+                            <Button 
+                                onClick={handleCloseDialogUsername} 
+                                color="primary" 
+                                autoFocus>
                                 Bestätigen
                             </Button>
                         </DialogActions>
                     </Dialog>
                     </Grid>
                 <Grid item>
-                    <Button className={ classes.buttons } variant="contained" color="secondary" onClick={handleDelete}>Konto löschen</Button>
+                    <Button 
+                        className={ classes.buttons } 
+                        variant="contained" 
+                        color="secondary" 
+                        onClick={handleDelete}>
+                        Konto löschen
+                    </Button>
                         <Dialog
                             open={openDelete}
                             onClose={handleCloseDialogDelete}
                             aria-labelledby="alert-dialog-title"
                             aria-describedby="alert-dialog-description"
                         >
-                            <DialogTitle id="alert-dialog-title">{"Möchten Sie ihr Konto wirklich löschen?"}</DialogTitle>
+                            <DialogTitle id="alert-dialog-title">Möchten Sie ihr Konto wirklich löschen?</DialogTitle>
                             <DialogContent>
                             <DialogContentText id="alert-dialog-description">
                                 Wenn Sie ihr konto löschen, werden alle Ihre Daten unwiderruflich gelöscht. Dies kann nicht mehr rückgängig gemacht werden!
@@ -87,10 +111,15 @@ export default function Settingsscreen(){
                             </DialogContentText>
                             </DialogContent>
                             <DialogActions>
-                            <Button onClick={handleCloseDialogDelete} color="primary">
+                            <Button 
+                                onClick={handleCloseDialogDelete} 
+                                color="primary" 
+                                autoFocus>
                                 Zurück
                             </Button>
-                            <Button onClick={handleCloseDialogDelete} color="secondary" autoFocus>
+                            <Button 
+                                onClick={handleCloseDialogDelete} 
+                                color="secondary">
                                 Ja
                             </Button>
                             </DialogActions>
