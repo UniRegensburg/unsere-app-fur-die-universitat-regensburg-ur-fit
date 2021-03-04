@@ -5,7 +5,7 @@ import firebaseConfig from "../../constants/firebase.config";
 
 firebase.initializeApp(firebaseConfig);
 
-firebaseCore
+firebase
   .firestore()
   .enablePersistence()
   .catch((err) => {
@@ -16,6 +16,6 @@ firebaseCore
     }
   });
 
-export const db = firebaseCore.firestore();
+export const db = firebase.firestore();
 
 export default firebase;
