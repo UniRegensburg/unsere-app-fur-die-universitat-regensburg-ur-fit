@@ -52,9 +52,7 @@ export default function Homescreen() {
                   if (Object.is(favs.length - 1, index)) {
                     setFavorites(
                       <div>
-                        <h3 data-testid="title" className={classes.text}>
-                          Deine Lieblingsübungen
-                        </h3>
+                        <h3 className={classes.text}>Deine Lieblingsübungen</h3>
                         {favorites.map((item, index) => {
                           item.favorite = true;
                           return (
@@ -83,7 +81,7 @@ export default function Homescreen() {
     <div className="Homescreen">
       <TopAppBar data-testid="appbar" title="URfit" />
       <div className={classes.container}>
-        <h4 className={classes.text}>
+        <h4 data-testid="title" className={classes.text}>
           Hallo {username}! Willkommen bei URfit.
         </h4>
         {spinner}

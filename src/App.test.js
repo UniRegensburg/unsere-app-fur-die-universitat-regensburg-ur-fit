@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import App from "./App";
 
 test("example test", () => {
-  render(<App />);
-  const linkElement = screen.getByText("Meine Lieblingsübungen");
-  expect(linkElement).toBeInTheDocument();
+  const { getByTestId } = render(<App />);
+  const title = getByTestId("title");
+  expect(title).toBeInTheDocument();
 });
