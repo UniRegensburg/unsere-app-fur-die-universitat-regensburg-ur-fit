@@ -6,6 +6,7 @@ import {
   withStyles,
   Paper,
   Grid,
+  Typography,
 } from "@material-ui/core/";
 import { Menu as BurgerMenu, Home } from "@material-ui/icons";
 import AppBarDrawer from "./AppBarDrawer";
@@ -122,9 +123,13 @@ class AppBarTitle extends React.Component {
   render() {
     return (
       <Grid item xs>
-        <h2 data-testid="appbar-header" className={this.props.class}>
+        <Typography
+          variant="h6"
+          data-testid="appbar-header"
+          className={this.props.class}
+        >
           {this.props.title}
-        </h2>
+        </Typography>
       </Grid>
     );
   }

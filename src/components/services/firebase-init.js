@@ -1,9 +1,9 @@
-import firebaseCore from "firebase/app";
+import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import firebaseConfig from "../../constants/firebase.config";
 
-const firebase = firebaseCore.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 firebaseCore
   .firestore()

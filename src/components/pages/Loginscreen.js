@@ -73,16 +73,22 @@ class Loginscreen extends React.Component {
       validPassword: true,
       initialUsername: true,
       initialPassword: true,
+      keepSignedIn: false,
       showLoader: false,
       showSnackbar: false,
       expandInfo: false,
     };
+    this.handleExpandInfoClick = this.handleExpandInfoClick.bind(this);
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleLogInClick = this.handleLogInClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleExpandInfoClick = this.handleExpandInfoClick.bind(this);
     this.snackbarOptions = null;
+  }
+
+  handleExpandInfoClick(event) {
+    this.setState({ expandInfo: !this.state.expandInfo });
   }
 
   handleChangeUsername(event) {
@@ -102,24 +108,28 @@ class Loginscreen extends React.Component {
     });
   }
 
+  handleCheckboxChange(event) {
+    this.setState({ keepSignedIn: !this.state.keepSignedIn });
+  }
+
   handleLogInClick(event) {
-    this.startLogin();
+    this.login();
   }
 
   handleKeyPress(event) {
     if (event.key === "Enter") {
-      this.startLogin();
+      this.login();
     }
   }
 
-  handleExpandInfoClick(event) {
-    this.setState({ expandInfo: !this.state.expandInfo });
-  }
-
-  startLogin() {
+  login() {
     this.setState({ showLoader: true });
     auth
-      .login(this.state.valueUsername, this.state.valuePassword)
+      .login(
+        this.state.valueUsername,
+        this.state.valuePassword,
+        this.state.keepSignedIn
+      )
       .then((user) => {
         if (user !== null) {
           this.props.history.replace(this.props.location.state.from.pathname);
@@ -239,7 +249,12 @@ class Loginscreen extends React.Component {
                 data-testid="formLabel"
                 value="start"
                 control={
-                  <Checkbox data-testid="formCheckbox" color="primary" />
+                  <Checkbox
+                    checked={this.state.keepSignedIn}
+                    onChange={this.handleCheckboxChange}
+                    data-testid="formCheckbox"
+                    color="primary"
+                  />
                 }
                 label="Eingeloggt bleiben?"
                 labelPlacement="start"

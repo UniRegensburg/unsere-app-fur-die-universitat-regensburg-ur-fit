@@ -28,16 +28,17 @@ async function requestAuthToken(username, password) {
 }
 
 // error messages are not propagates outside for security reasons
-async function authenticate(username, password) {
+async function authenticate(username, password, keepSignedIn = false) {
   if (!username || !password) {
     throw new Error("missing input parameters");
   }
 
+  let token = null;
   // request sign in token from authentication server
   try {
     const res = await requestAuthToken(username, password);
     if (res.token) {
-      var token = res.token;
+      token = res.token;
     } else {
       // auth server was unable to sign in the user
       return null;
@@ -46,8 +47,19 @@ async function authenticate(username, password) {
     throw new Error(error);
   }
 
-  // use JWT Token to authenticate with firebase authentication
-  // this should always work if the auth server did not throw any errors
+  // set persistence for sign in
+  try {
+    await firebase
+      .auth()
+      .setPersistence(
+        keepSignedIn
+          ? firebase.auth.Auth.Persistence.LOCAL
+          : firebase.auth.Auth.Persistence.SESSION
+      );
+  } catch (error) {
+    throw new Error(error);
+  }
+
   try {
     const userCredentials = await firebase.auth().signInWithCustomToken(token);
     if (userCredentials) {
@@ -68,9 +80,9 @@ class Authentication {
     });
   }
 
-  async login(username, password) {
+  async login(username, password, keepSignedIn) {
     try {
-      return await authenticate(username, password);
+      return await authenticate(username, password, keepSignedIn);
     } catch (error) {
       throw new Error(error);
     }
@@ -84,7 +96,7 @@ class Authentication {
     }
   }
 
-  get currentUser() {
+  get userId() {
     return firebase.auth().currentUser ? firebase.auth().currentUser.uid : null;
   }
 

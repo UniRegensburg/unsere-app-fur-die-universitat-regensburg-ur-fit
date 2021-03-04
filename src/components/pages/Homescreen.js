@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles, CircularProgress } from "@material-ui/core/";
+import { makeStyles, Typography, CircularProgress } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
 import { getUserFavorites, getContentById } from "../services/contentProvider";
@@ -19,17 +19,8 @@ const useStyles = makeStyles((theme) => ({
   text: {
     color: "#2E303C",
     textAlign: "start",
-  },
-
-  card: {
-    border: "solid 2px #00817B",
-    marginBottom: "16px",
-  },
-
-  cardContent: {
-    "&:last-child": {
-      paddingBottom: "16px",
-    },
+    marginTop: "8px",
+    marginBottom: "8px",
   },
 }));
 
@@ -52,7 +43,13 @@ export default function Homescreen() {
                   if (Object.is(favs.length - 1, index)) {
                     setFavorites(
                       <div>
-                        <h3 className={classes.text}>Deine Lieblingsübungen</h3>
+                        <Typography
+                          variant="subtitle2"
+                          data-testid="title"
+                          className={classes.text}
+                        >
+                          Deine Lieblingsübungen
+                        </Typography>
                         {favorites.map((item, index) => {
                           item.favorite = true;
                           return (
@@ -81,9 +78,9 @@ export default function Homescreen() {
     <div className="Homescreen">
       <TopAppBar data-testid="appbar" title="URfit" />
       <div className={classes.container}>
-        <h4 data-testid="title" className={classes.text}>
+        <Typography variant="subtitle1" className={classes.text}>
           Hallo {username}! Willkommen bei URfit.
-        </h4>
+        </Typography>
         {spinner}
       </div>
       <BottomNavigationBar />

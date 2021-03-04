@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Card, CardContent } from "@material-ui/core/";
+import { makeStyles, Card, CardContent, Typography } from "@material-ui/core/";
 import {
   Favorite as FavoriteIcon,
   Share as ShareIcon,
@@ -40,7 +40,7 @@ export default function InfoMessageCard() {
   return (
     <Card variant="outlined" className={classes.card}>
       <CardContent className={classes.cardContent}>
-        <p className={classes.text}>
+        <Typography variant="body1" className={classes.text}>
           Hier ist es noch ganz schön leer...
           <br />
           In den Bereichen Entspannung, Fitness, Wohlbefinden und Ernährung
@@ -55,7 +55,7 @@ export default function InfoMessageCard() {
           <br />
           <br />
           <ShareIcon className={classes.share} /> Teile Inhalte mit Freunden!
-        </p>
+        </Typography>
       </CardContent>
     </Card>
   );
