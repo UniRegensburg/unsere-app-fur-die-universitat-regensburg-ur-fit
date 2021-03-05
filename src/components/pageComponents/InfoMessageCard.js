@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
   text: {
     color: "#2E303C",
     textAlign: "start",
-    margin: "0",
   },
 
   heart: {

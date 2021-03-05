@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
     color: "black",
-    outline: 0,
+    outline: "0",
   },
 
   text: {
@@ -114,6 +114,7 @@ export default function ContentCard(props) {
           </IconButton>
         }
       />
+      {/* via CardMedia component a image could be added here */}
       <Link to={path} className={classes.link}>
         <CardActionArea>
           <CardContent className={classes.cardContent}>
