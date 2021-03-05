@@ -14,6 +14,7 @@ const styles = (theme) => ({
     marginStart: "16px",
     marginEnd: "16px",
     marginBottom: "60px",
+    marginTop: "16px",
   },
 
   text: {
@@ -43,8 +44,8 @@ class Homescreen extends React.Component {
           >
             Deine Lieblingsübungen
           </Typography>
-          {data.content.map((item) => (
-            <ContentCard data-testid="content-item" data={item} />
+          {data.content.map((item, index) => (
+            <ContentCard data-testid="content-item" data={item} key={index} />
           ))}
         </div>
       );
