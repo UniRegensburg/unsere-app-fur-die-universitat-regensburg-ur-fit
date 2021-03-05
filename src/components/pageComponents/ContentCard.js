@@ -5,6 +5,9 @@ import {
   CardContent,
   IconButton,
   Typography,
+  CardActionArea,
+  Chip,
+  CardHeader,
 } from "@material-ui/core/";
 import {
   Favorite as FavoriteIcon,
@@ -18,14 +21,11 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    border: "solid 2px #00817B",
     marginBottom: "16px",
   },
 
   cardContent: {
-    "&:last-child": {
-      paddingBottom: "16px",
-    },
+    paddingTop: "0px",
   },
 
   typeIcon: {
@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     color: "#2E303C",
     textAlign: "start",
-    marginTop: "8px",
     marginBottom: "8px",
   },
 
@@ -49,13 +48,20 @@ const useStyles = makeStyles((theme) => ({
   text: {
     color: "#2E303C",
     textAlign: "start",
-    display: "flex",
-    marginRight: "8px",
   },
 
   heartButton: {
     color: "#A7525E",
+    marginTop: "4px",
     marginLeft: "auto",
+  },
+
+  chip: {
+    marginRight: "8px",
+    marginBottom: "16px",
+    float: "left",
+    color: "#FBF9F9",
+    background: "#00817B99",
   },
 }));
 
@@ -90,34 +96,15 @@ export default function ContentCard(props) {
   };
 
   return (
-    <Card variant="outlined" className={classes.card}>
-      <CardContent className={classes.cardContent}>
-        <Link className={classes.link} to={path}>
-          <div className={classes.text}>
-            {typeIcon}
-            <Typography variant="body2" className={classes.text}>
-              {data.type}
-            </Typography>
-            <Typography variant="body2" className={classes.text}>
-              {data.duration}
-            </Typography>
-          </div>
-          <Typography variant="body1" id="test" className={classes.title}>
-            {data.title}
+    <Card className={classes.card}>
+      <CardHeader
+        avatar={typeIcon}
+        title={
+          <Typography variant="body2" className={classes.text}>
+            {data.type} {data.duration}
           </Typography>
-        </Link>
-        <div className={classes.text}>
-          {data.tags.map((tag, index) => {
-            return (
-              <Typography
-                variant="caption"
-                className={classes.text}
-                key={index}
-              >
-                {tag}
-              </Typography>
-            );
-          })}
+        }
+        action={
           <IconButton
             size="small"
             className={classes.heartButton}
@@ -125,8 +112,27 @@ export default function ContentCard(props) {
           >
             {favorite ? <FavoriteIcon /> : <FavoriteOutlinedIcon />}
           </IconButton>
-        </div>
-      </CardContent>
+        }
+      />
+      <Link to={path} className={classes.link}>
+        <CardActionArea>
+          <CardContent className={classes.cardContent}>
+            <Typography variant="body1" id="test" className={classes.title}>
+              {data.title}
+            </Typography>
+            {data.tags.map((tag, index) => {
+              return (
+                <Chip
+                  label={tag}
+                  size="small"
+                  key={index}
+                  className={classes.chip}
+                />
+              );
+            })}
+          </CardContent>
+        </CardActionArea>
+      </Link>
     </Card>
   );
 }
