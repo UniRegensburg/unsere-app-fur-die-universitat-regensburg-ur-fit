@@ -75,7 +75,12 @@ export default function Contentlistscreen(props) {
             return subcategory === item.value;
           })
           .content.map((item, index) => (
-            <ContentCard match={match} data-testid="content-item" data={item} />
+            <ContentCard
+              match={match}
+              data-testid="content-item"
+              data={item}
+              key={index}
+            />
           ))}
       </div>
     </div>
