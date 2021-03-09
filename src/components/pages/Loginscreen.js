@@ -15,7 +15,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  IconButton,
   CardActionArea,
 } from "@material-ui/core";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
@@ -29,12 +28,18 @@ const INFOTEXT =
 const style = (theme) => ({
   paper: {
     margin: theme.spacing(4),
+    backgroundColor: "#fbf9f9",
   },
 
   infoCard: {
     marginRight: "auto",
     marginLeft: "auto",
     maxWidth: "300px",
+  },
+
+  infoCardHeaderIcon: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
 
   textFields: {
@@ -189,12 +194,11 @@ class Loginscreen extends React.Component {
                     title="URfit: Die Fitness App der UR"
                     titleTypographyProps={{ variant: "body2" }}
                     action={
-                      <IconButton>
-                        <MoreHorizIcon
-                          aria-expanded={this.state.expandInfo}
-                          aria-label="show more"
-                        />
-                      </IconButton>
+                      <MoreHorizIcon
+                        className={classes.infoCardHeaderIcon}
+                        aria-expanded={this.state.expandInfo}
+                        aria-label="show more"
+                      />
                     }
                   ></CardHeader>
                 </CardActionArea>

@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     marginStart: "16px",
     marginEnd: "16px",
     marginBottom: "60px",
+    marginTop: "16px",
   },
 
   text: {
@@ -26,52 +27,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Homescreen() {
   const classes = useStyles();
-  const [spinner, setFavorites] = useState(<CircularProgress />);
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  function getFavorites() {
+  useEffect(() => {
     const unsubscribe = getUserFavorites(
       "701b389b848a2b1cfab867093101d8d5ac56addd",
       {
         next: (querySnapshot) => {
-          var favorites = [];
-          let userFavorites = querySnapshot.data().favorites;
-          userFavorites.length === 0
-            ? setFavorites(<InfoMessageCard />)
-            : userFavorites.forEach((favorite, index, favs) => {
-                getContentById(favorite.id).then((content) => {
-                  favorites.push(content.data());
-                  if (Object.is(favs.length - 1, index)) {
-                    setFavorites(
-                      <div>
-                        <Typography
-                          variant="subtitle2"
-                          className={classes.text}
-                        >
-                          Deine Lieblingsübungen
-                        </Typography>
-                        {favorites.map((item, index) => {
-                          item.favorite = true;
-                          return (
-                            <ContentCard
-                              data-testid="content-item"
-                              data={item}
-                            />
-                          );
-                        })}
-                      </div>
-                    );
-                  }
-                });
-              });
+          let contentRefs = querySnapshot.data().favorites;
+          Promise.all(
+            contentRefs.map((contentRef) => getContentById(contentRef.id))
+          ).then((results) => {
+            setFavorites(results.map((contentItem) => contentItem.data()));
+            setLoading(false);
+          });
         },
       }
     );
-    return unsubscribe;
-  }
-
-  useEffect(() => {
-    getFavorites();
-  });
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className="Homescreen">
@@ -84,7 +60,27 @@ export default function Homescreen() {
         >
           Hallo {username}! Willkommen bei URfit.
         </Typography>
-        {spinner}
+        {loading ? (
+          <CircularProgress />
+        ) : favorites.length === 0 ? (
+          <InfoMessageCard />
+        ) : (
+          <div>
+            <Typography variant="subtitle2" className={classes.text}>
+              Deine Lieblingsübungen
+            </Typography>
+            {favorites.map((item, index) => {
+              item.favorite = true;
+              return (
+                <ContentCard
+                  data-testid="content-item"
+                  data={item}
+                  key={index}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
       <BottomNavigationBar />
     </div>

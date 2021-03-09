@@ -86,7 +86,7 @@ class TopAppBar extends React.Component {
             {header}
             <Grid item>
               <IconButton
-                button
+                button="true"
                 component={Link}
                 to={"/"}
                 data-testid="home-button"

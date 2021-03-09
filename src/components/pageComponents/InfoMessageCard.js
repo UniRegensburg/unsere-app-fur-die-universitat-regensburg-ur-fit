@@ -6,10 +6,6 @@ import {
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
-  card: {
-    border: "solid 2px #00817B",
-  },
-
   cardContent: {
     "&:last-child": {
       paddingBottom: "16px",
@@ -19,8 +15,6 @@ const useStyles = makeStyles((theme) => ({
   text: {
     color: "#2E303C",
     textAlign: "start",
-    margin: "0",
-    // fontSize: "large",
   },
 
   heart: {
@@ -38,7 +32,7 @@ export default function InfoMessageCard() {
   const classes = useStyles();
 
   return (
-    <Card variant="outlined" className={classes.card}>
+    <Card>
       <CardContent className={classes.cardContent}>
         <Typography variant="body1" className={classes.text}>
           Hier ist es noch ganz schön leer...
