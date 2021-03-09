@@ -121,16 +121,18 @@ export default function ContentCard(props) {
             <Typography variant="body1" id="test" className={classes.title}>
               {data.title}
             </Typography>
-            {data.tags.map((tag, index) => {
-              return (
-                <Chip
-                  label={tag}
-                  size="small"
-                  key={index}
-                  className={classes.chip}
-                />
-              );
-            })}
+            {data.tags
+              ? data.tags.map((tag, index) => {
+                  return (
+                    <Chip
+                      label={tag}
+                      size="small"
+                      key={index}
+                      className={classes.chip}
+                    />
+                  );
+                })
+              : ""}
           </CardContent>
         </CardActionArea>
       </Link>

@@ -34,6 +34,7 @@
     "start": "concurrently \"npm run api\" \"npm run client\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:all": "npm run test -- --watchAll=false --coverage --silent",
     "eject": "react-scripts eject",
     "client": "react-scripts start",
     "ci": "node ci/ci-server.js",
