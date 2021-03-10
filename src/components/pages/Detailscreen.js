@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
   back: {
     float: "left",
+    color: theme.palette.text.main,
   },
 
   share: {

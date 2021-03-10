@@ -17,7 +17,7 @@ import * as Constants from "../../constants/constants.js";
 const useStyles = makeStyles((theme) => ({
   drawerLink: {
     textDecoration: "none",
-    color: "black",
+    color: theme.palette.text.main,
   },
 
   logo: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   listIcon: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
   },
 
   list: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   divider: {
-    backgroundColor: "#2E303C",
+    backgroundColor: theme.palette.text.main,
     height: 1,
   },
 }));

@@ -18,19 +18,24 @@ const styles = (theme) => ({
   },
 
   text: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     textAlign: "start",
     marginBottom: "8px",
   },
 
+  link: {
+    color: theme.palette.primary.main,
+  },
+
   textarea: {
-    border: "solid 1px #A7525E",
+    border: "solid 1px",
+    borderColor: theme.palette.secondary.main,
     boxSizing: "border-box",
     width: "100%",
   },
 
   button: {
-    color: "#00817B",
+    color: theme.palette.primary.main,
     float: "right",
   },
 
@@ -86,7 +91,12 @@ class Feedbackscreen extends React.Component {
             className={classes.text}
           >
             Feedback zu dieser App kannst du persönlich per&nbsp;
-            <a href="mailto:ur.fit.app@mailman.uni-regensburg.de">eMail</a>
+            <a
+              className={classes.link}
+              href="mailto:ur.fit.app@mailman.uni-regensburg.de"
+            >
+              eMail
+            </a>
             &nbsp;oder anonym über dieses Formular senden:
           </Typography>
           <form>

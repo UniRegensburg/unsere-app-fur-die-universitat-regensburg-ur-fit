@@ -20,15 +20,15 @@ const TYPES = ["success", "warning", "info", "error"];
 
 const useStyles = makeStyles((theme) => ({
   colorsSuccess: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     backgroundColor: theme.palette.success.light,
   },
   colorsWarning: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     backgroundColor: theme.palette.warning.light,
   },
   colorsError: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     backgroundColor: theme.palette.error.light,
   },
   colorsInfo: {

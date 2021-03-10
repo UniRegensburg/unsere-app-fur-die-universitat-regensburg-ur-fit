@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   text: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     textAlign: "start",
     marginTop: "8px",
     marginBottom: "8px",

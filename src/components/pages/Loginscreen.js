@@ -28,7 +28,7 @@ const INFOTEXT =
 const style = (theme) => ({
   paper: {
     margin: theme.spacing(4),
-    backgroundColor: "#fbf9f9",
+    backgroundColor: theme.palette.background.lightgrey,
   },
 
   infoCard: {

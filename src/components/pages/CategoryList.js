@@ -9,6 +9,9 @@ const styles = (theme) => ({
     marginStart: "16px",
     marginEnd: "16px",
   },
+  text: {
+    color: theme.palette.text.main,
+  },
 });
 
 class CategoryList extends React.Component {
@@ -20,7 +23,7 @@ class CategoryList extends React.Component {
         <div className={classes.container}>
           <List>
             <ListItem button>
-              <ListItemText>Alle Inhalte</ListItemText>
+              <ListItemText className={classes.text}>Alle Inhalte</ListItemText>
             </ListItem>
             {categories.map((item, index) => (
               <ExpandableListItem

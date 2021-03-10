@@ -12,10 +12,7 @@ import * as Constants from "../../constants/constants.js";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: "16px",
-    marginStart: "16px",
-    marginEnd: "16px",
-    marginBottom: "60px",
+    margin: "16px",
     position: "relative",
   },
 
@@ -26,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
   back: {
     float: "left",
+    color: theme.palette.text.main,
   },
 
   select: {

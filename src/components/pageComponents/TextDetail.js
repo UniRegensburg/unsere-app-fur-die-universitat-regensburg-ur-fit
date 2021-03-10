@@ -3,19 +3,19 @@ import { makeStyles, Typography } from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     textAlign: "start",
   },
 
   tag: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     marginRight: "8px",
     marginBottom: "8px",
     float: "left",
   },
 
   text: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     marginTop: "8px",
     float: "left",
     textAlign: "left",
