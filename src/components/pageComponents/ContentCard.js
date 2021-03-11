@@ -29,29 +29,28 @@ const useStyles = makeStyles((theme) => ({
   },
 
   typeIcon: {
-    float: "left",
-    marginRight: "8px",
+    color: theme.palette.text.main,
   },
 
   title: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     textAlign: "start",
     marginBottom: "8px",
   },
 
   link: {
     textDecoration: "none",
-    color: "black",
+    color: theme.palette.text.main,
     outline: "0",
   },
 
   text: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     textAlign: "start",
   },
 
   heartButton: {
-    color: "#A7525E",
+    color: theme.palette.secondary.main,
     marginTop: "4px",
     marginLeft: "auto",
   },
@@ -60,8 +59,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "8px",
     marginBottom: "16px",
     float: "left",
-    color: "#FBF9F9",
-    background: "#00817B99",
+    color: theme.palette.background.lightgrey,
+    background: theme.palette.primary.light,
   },
 }));
 

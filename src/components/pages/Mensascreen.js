@@ -27,15 +27,16 @@ const styles = (theme) => ({
     textAlign: "left",
     fontWeight: "bold",
     margin: "30px 0px 10px 15px",
+    color: theme.palette.text.main,
   },
   notSelectedButton: {
-    color: "grey",
+    color: theme.palette.text.light,
     fontSize: "20px",
   },
   selectedButton: {
     fontSize: "20px",
     fontWeight: "bold",
-    color: "#00817B",
+    color: theme.palette.primary.main,
   },
 });
 
@@ -50,25 +51,25 @@ export class Mensascreen extends React.Component {
   }
 
   recieveCurrentDay() {
-    let day = moment().format('dddd');
-    switch(day){
-      case 'Monday':
-        day = 'Mo';
+    let day = moment().format("dddd");
+    switch (day) {
+      case "Monday":
+        day = "Mo";
         break;
-      case 'Tuesday':
-        day = 'Di';
+      case "Tuesday":
+        day = "Di";
         break;
-      case 'Wednesday':
-        day = 'Mi';
+      case "Wednesday":
+        day = "Mi";
         break;
-      case 'Thursday':
-        day = 'Do';
+      case "Thursday":
+        day = "Do";
         break;
-      case 'Friday':
-        day = 'Fr';
+      case "Friday":
+        day = "Fr";
         break;
       default:
-        day = 'Mo';
+        day = "Mo";
         break;
     }
     return day;

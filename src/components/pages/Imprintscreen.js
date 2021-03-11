@@ -4,7 +4,7 @@ import TopAppBar from "../pageComponents/TopAppBar";
 
 const useStyles = makeStyles((theme) => ({
   text: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     textAlign: "start",
   },
   container: {

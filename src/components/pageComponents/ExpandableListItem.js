@@ -15,13 +15,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   topborder: {
-    borderTop: "1.5px solid #A7525E",
+    borderTop: "1.5px solid" + theme.palette.secondary.main,
     paddingLeft: "0",
   },
 
   link: {
     textDecoration: "none",
-    color: "black",
+    color: theme.palette.text.main,
   },
 
   expandIcon: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     paddingStart: "16px",
     marginBottom: "8px",
     paddingEnd: "16px",
-    color: "#2E303CAA",
+    color: theme.palette.text.light,
   },
 }));
 

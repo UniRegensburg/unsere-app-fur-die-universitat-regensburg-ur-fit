@@ -13,17 +13,17 @@ const useStyles = makeStyles((theme) => ({
   },
 
   text: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     textAlign: "start",
   },
 
   heart: {
-    color: "#A7525E",
+    color: theme.palette.secondary.main,
     height: "0.7em",
   },
 
   share: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
     height: "0.7em",
   },
 }));

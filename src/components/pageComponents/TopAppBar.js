@@ -33,7 +33,7 @@ const styles = (theme) => ({
   },
 
   title: {
-    color: "#2E303C",
+    color: theme.palette.text.main,
   },
 
   home: {
