@@ -30,7 +30,7 @@ export default function Imprintscreen(props) {
     <div className="Imprintscreen">
       <TopAppBar data-testid="appbar" title="Impressum" />
       <div className={classes.container}>
-        <Typography variant="body1" className={classes.text}>
+        <Typography variant="body1" className={classes.text} component="div">
           <ReactMarkdown source={imprint.text} />
         </Typography>
       </div>
