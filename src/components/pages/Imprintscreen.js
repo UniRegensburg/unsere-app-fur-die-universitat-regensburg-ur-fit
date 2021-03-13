@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { makeStyles, Typography } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
+import ImprintText from "../../assets/textfiles/imprint.md";
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -15,32 +17,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Imprintscreen(props) {
+  const [imprint, setImprint] = useState("");
+
+  useEffect(() => {
+    fetch(ImprintText)
+      .then((res) => res.text())
+      .then((text) => setImprint({ text }));
+  });
+
   const classes = useStyles();
   return (
     <div className="Imprintscreen">
       <TopAppBar data-testid="appbar" title="Impressum" />
       <div className={classes.container}>
-        <Typography variant="body1" className={classes.text}>
-          Diese App befindet sich zur Zeit in der Entwicklung und ist noch in
-          Arbeit.
-          <br />
-          <br />
-          Verantwortlich für den Inhalt dieser Seite:
-          <br />
-          Alexander Bazo
-          <br />
-          Lehrstuhl für Medieninformatik
-          <br />
-          Universitätsstraße 31
-          <br />
-          93053 Regensburg
-          <br />
-          Telefon: <a href="tel:0941 943 4958">0941 943 4958</a>
-          <br />
-          E-Mail:&nbsp;
-          <a href="mailto:alexanderbazo@googlemail.com">
-            alexanderbazo@googlemail.com
-          </a>
+        <Typography variant="body1" className={classes.text} component="div">
+          <ReactMarkdown source={imprint.text} />
         </Typography>
       </div>
     </div>
