@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
 import { ProtectedRoute } from "./components/navigation/ProtectedRoute";
-import { UserProvider } from "./components/hooks/useUser";
+import { ContextProvider } from "./components/hooks/contextProvider";
 
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
@@ -19,7 +19,7 @@ import {
 
 function App() {
   return (
-    <UserProvider>
+    <ContextProvider>
       <Router>
         <div data-testid="app" className="App">
           <Switch>
@@ -51,7 +51,7 @@ function App() {
           </Switch>
         </div>
       </Router>
-    </UserProvider>
+    </ContextProvider>
   );
 }
 

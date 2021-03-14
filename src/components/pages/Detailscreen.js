@@ -1,5 +1,5 @@
-import React from "react";
-import { makeStyles, IconButton } from "@material-ui/core/";
+import React, { useEffect, useState } from "react";
+import { makeStyles, IconButton, CircularProgress } from "@material-ui/core/";
 import {
   ArrowBack as ArrowBackIcon,
   Favorite as FavoriteIcon,
@@ -11,6 +11,7 @@ import AudioDetail from "../pageComponents/Audiodetail";
 import TextDetail from "../pageComponents/TextDetail";
 import { Link } from "react-router-dom";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
+import { getContentById } from "../services/contentProvider";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -57,8 +58,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Detailscreen(props) {
   const classes = useStyles();
-  const [favorite, setFavorite] = React.useState(false);
-  const [snackbarOpen, toggleOpen] = React.useState(false);
+  const [favorite, setFavorite] = useState(false);
+  const [content, setContent] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [snackbarOpen, toggleOpen] = useState(false);
   const snackbarMessage = "Link in Zwischenablage kopiert";
 
   const { match } = props;
@@ -75,6 +78,12 @@ export default function Detailscreen(props) {
     // todo: save state to backend
   };
 
+  useEffect(() => {
+    getContentById(match.params.contentId).then((content) => {
+      setContentType(content.data());
+    });
+  }, [match.params.contentId]);
+
   const handleShareClick = () => {
     if (navigator.share) {
       navigator.share({
@@ -86,55 +95,63 @@ export default function Detailscreen(props) {
       toggleSnackbar();
     }
   };
-
-  const contentData = props.item;
-
-  let typeContent;
-  switch (contentData.type) {
-    case "Audio":
-      typeContent = <AudioDetail data={contentData} />;
-      break;
-    case "Video":
-      typeContent = <VideoDetail data={contentData} />;
-      break;
-    case "Text":
-      typeContent = <TextDetail data={contentData} />;
-      break;
-    default:
-      typeContent = null;
-      break;
-  }
+  const setContentType = (item) => {
+    switch (item.type) {
+      case "Audio":
+        setContent(<AudioDetail data={item} />);
+        setLoading(false);
+        break;
+      case "Video":
+        setContent(<VideoDetail data={item} />);
+        setLoading(false);
+        break;
+      case "Text":
+        setContent(<TextDetail data={item} />);
+        setLoading(false);
+        break;
+      default:
+        setContent(null);
+        setLoading(false);
+        break;
+    }
+  };
 
   return (
     <div className={classes.container}>
-      <div className={classes.header}>
-        <Link to={backPath} replace>
-          <ArrowBackIcon className={classes.back} />
-        </Link>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <div>
+          <div className={classes.header}>
+            <Link to={backPath} replace>
+              <ArrowBackIcon className={classes.back} />
+            </Link>
 
-        <IconButton
-          size="small"
-          className={classes.share}
-          onClick={handleShareClick}
-        >
-          <ShareIcon />
-        </IconButton>
+            <IconButton
+              size="small"
+              className={classes.share}
+              onClick={handleShareClick}
+            >
+              <ShareIcon />
+            </IconButton>
 
-        <IconButton
-          size="small"
-          className={classes.favorite}
-          onClick={handleFavoriteClick}
-        >
-          {favorite ? <FavoriteIcon /> : <FavoriteOutlinedIcon />}
-        </IconButton>
-        <CustomSnackbar
-          open={snackbarOpen}
-          onClose={toggleSnackbar}
-          message={snackbarMessage}
-        ></CustomSnackbar>
-      </div>
+            <IconButton
+              size="small"
+              className={classes.favorite}
+              onClick={handleFavoriteClick}
+            >
+              {favorite ? <FavoriteIcon /> : <FavoriteOutlinedIcon />}
+            </IconButton>
+            <CustomSnackbar
+              open={snackbarOpen}
+              onClose={toggleSnackbar}
+              message={snackbarMessage}
+            ></CustomSnackbar>
+          </div>
 
-      {typeContent}
+          {content}
+        </div>
+      )}
     </div>
   );
 }

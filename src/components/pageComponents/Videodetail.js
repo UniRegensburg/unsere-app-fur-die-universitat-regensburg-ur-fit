@@ -29,7 +29,7 @@ export default function VideoDetail(props) {
       <iframe
         title="testvideo"
         className={classes.video}
-        src={data.src}
+        src={data.source}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
