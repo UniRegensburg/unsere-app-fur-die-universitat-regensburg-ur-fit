@@ -136,7 +136,7 @@ class Loginscreen extends React.Component {
 
   handleKeyPress(event) {
     if (event.key === "Enter") {
-      this.login();
+      this.setState({ dialogConditionsOfUseOpen: true });
     }
   }
 
