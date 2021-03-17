@@ -1,7 +1,5 @@
 import { useContext } from "react";
 
-import * as Constants from "../../constants/constants";
-
 import Contentlistscreen from "../pages/Contentlistscreen";
 import Detailscreen from "../pages/Detailscreen";
 import Mensascreen from "../pages/Mensascreen";
@@ -15,11 +13,7 @@ export const Category = ({ match }) => {
   );
   return (
     <>
-      <CategoryList
-        title={category.title}
-        categories={category.subcategories}
-        match={match}
-      />
+      <CategoryList category={category} match={match} />
     </>
   );
 };
