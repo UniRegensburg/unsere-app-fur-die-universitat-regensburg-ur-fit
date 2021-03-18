@@ -120,8 +120,6 @@ export default function AppBarDrawer(props) {
             data-testid="drawer-divider"
             className={classes.divider}
           />
-        </Grid>
-        <Grid className={classes.list} item xs={9}>
           <List>
             {otherPages.map((item, index) => (
               <ListItem
