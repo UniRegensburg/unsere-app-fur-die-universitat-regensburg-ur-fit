@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "20px",
     boxShadow: "none",
     border: "2px solid",
-    borderColor: "#00817B",
+    borderColor: theme.palette.primary.main,
     paddingBottom: "5px",
   },
   cardContent: {

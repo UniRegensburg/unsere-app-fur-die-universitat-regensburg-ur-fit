@@ -12,10 +12,7 @@ import * as Constants from "../../constants/constants.js";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: "16px",
-    marginStart: "16px",
-    marginEnd: "16px",
-    marginBottom: "60px",
+    margin: "16px",
     position: "relative",
   },
 
@@ -26,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
   back: {
     float: "left",
+    color: theme.palette.text.main,
   },
 
   select: {
@@ -75,7 +73,12 @@ export default function Contentlistscreen(props) {
             return subcategory === item.value;
           })
           .content.map((item, index) => (
-            <ContentCard match={match} data-testid="content-item" data={item} />
+            <ContentCard
+              match={match}
+              data-testid="content-item"
+              data={item}
+              key={index}
+            />
           ))}
       </div>
     </div>
