@@ -1,19 +1,19 @@
-import * as Constants from "../../constants/constants";
+import { useContext } from "react";
 
 import Contentlistscreen from "../pages/Contentlistscreen";
 import Detailscreen from "../pages/Detailscreen";
 import Mensascreen from "../pages/Mensascreen";
 import CategoryList from "../pages/CategoryList";
+import { structureContext } from "../hooks/useStructure";
 
 export const Category = ({ match }) => {
-  const category = Constants.pages[match.params.category];
+  const structure = useContext(structureContext);
+  const category = structure.find(
+    (element) => element.value === match.params.category
+  );
   return (
     <>
-      <CategoryList
-        title={category.title}
-        categories={category.subcategories}
-        match={match}
-      />
+      <CategoryList category={category} match={match} />
     </>
   );
 };
@@ -26,41 +26,17 @@ export const Subcategory = ({ match }) => {
       </>
     );
   }
-  const subcategory = Constants.pages[match.params.category].subcategories.find(
-    (item) => {
-      return match.params.subcategory === item.value;
-    }
-  );
   return (
     <>
-      <Contentlistscreen match={match} title={subcategory.title} />
+      <Contentlistscreen match={match} />
     </>
   );
 };
 
 export const Content = ({ match }) => {
-  if (match.url.split("/")[1] === "content") {
-    const content = Constants.pages.favorites.content.find((item) => {
-      return match.params.contentId === item.id;
-    });
-    return (
-      <>
-        <Detailscreen match={match} item={content} />
-      </>
-    );
-  }
-  const subcategory = Constants.pages[match.params.category].subcategories.find(
-    (item) => {
-      return match.params.subcategory === item.value;
-    }
-  );
-  const content = subcategory.content.find((item) => {
-    return match.params.contentId === item.id;
-  });
-
   return (
     <>
-      <Detailscreen match={match} item={content} />
+      <Detailscreen match={match} />
     </>
   );
 };

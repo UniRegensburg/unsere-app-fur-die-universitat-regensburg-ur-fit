@@ -31,7 +31,7 @@ export default function AudioDetail(props) {
       </Typography>
 
       <audio controls className={classes.audio}>
-        <source src={data.src} type="audio/mpeg" />
+        <source src={data.source} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
 
