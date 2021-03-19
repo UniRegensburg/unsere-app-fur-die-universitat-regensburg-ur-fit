@@ -10,13 +10,12 @@ export function StructureProvider({ children }) {
   useEffect(() => {
     const unsubscribe = ContentProvider.getStructure({
       next: (querySnapshot) => {
-        let appStructure = [];
         let structure = querySnapshot.docs;
-        Promise.all(
-          structure.map((category) => appStructure.push(category.data()))
-        ).then(() => {
-          setStructure(appStructure);
-        });
+        Promise.all(structure.map((category) => category.data())).then(
+          (appStructure) => {
+            setStructure(appStructure);
+          }
+        );
       },
     });
     // Cleanup subscription on unmount
