@@ -39,7 +39,13 @@ export default function Homescreen() {
           Promise.all(
             contentRefs.map((contentRef) => getContentById(contentRef.id))
           ).then((results) => {
-            setFavorites(results.map((contentItem) => contentItem.data()));
+            setFavorites(
+              results.map((contentItem) => {
+                let content = contentItem.data();
+                content.favorite = true;
+                return content;
+              })
+            );
             setLoading(false);
           });
         },
@@ -69,13 +75,12 @@ export default function Homescreen() {
             <Typography variant="subtitle2" className={classes.text}>
               Deine Lieblingsübungen
             </Typography>
-            {favorites.map((item, index) => {
-              item.favorite = true;
+            {favorites.map((item) => {
               return (
                 <ContentCard
                   data-testid="content-item"
                   data={item}
-                  key={index}
+                  key={item.id}
                 />
               );
             })}

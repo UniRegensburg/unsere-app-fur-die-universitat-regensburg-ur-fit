@@ -18,6 +18,10 @@ import {
   EmojiSymbols,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import {
+  setFavoriteItem,
+  deleteFavoriteItem,
+} from "../services/contentProvider";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -90,8 +94,15 @@ export default function ContentCard(props) {
   }
 
   const handleFavoriteClick = () => {
-    setFavorite(!favorite);
-    // todo: save state to backend
+    if (favorite) {
+      deleteFavoriteItem(data.id, "701b389b848a2b1cfab867093101d8d5ac56addd")
+        .then((_) => setFavorite(false))
+        .catch((error) => console.log("Error deleting favorite: ", error));
+    } else {
+      setFavoriteItem(data.id, "701b389b848a2b1cfab867093101d8d5ac56addd")
+        .then((_) => setFavorite(true))
+        .catch((error) => console.log("Error setting favorite: ", error));
+    }
   };
 
   return (

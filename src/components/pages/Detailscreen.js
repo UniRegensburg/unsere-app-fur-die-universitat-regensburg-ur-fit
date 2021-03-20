@@ -11,7 +11,12 @@ import AudioDetail from "../pageComponents/Audiodetail";
 import TextDetail from "../pageComponents/TextDetail";
 import { Link } from "react-router-dom";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
-import { getContentById } from "../services/contentProvider";
+import {
+  getContentById,
+  getUserFavoritesOnce,
+  setFavoriteItem,
+  deleteFavoriteItem,
+} from "../services/contentProvider";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,15 +79,45 @@ export default function Detailscreen(props) {
   };
 
   const handleFavoriteClick = () => {
-    setFavorite(!favorite);
-    // todo: save state to backend
+    if (favorite) {
+      deleteFavoriteItem(
+        match.params.contentId,
+        "701b389b848a2b1cfab867093101d8d5ac56addd"
+      )
+        .then((_) => setFavorite(false))
+        .catch((error) => console.log("Error deleting favorite: ", error));
+    } else {
+      setFavoriteItem(
+        match.params.contentId,
+        "701b389b848a2b1cfab867093101d8d5ac56addd"
+      )
+        .then((_) => setFavorite(true))
+        .catch((error) => console.log("Error setting favorite: ", error));
+    }
   };
 
   useEffect(() => {
     getContentById(match.params.contentId).then((content) => {
-      setContentType(content.data());
+      checkFavorite(content.data());
     });
-  }, [match.params.contentId]);
+  });
+
+  const checkFavorite = async (contentItem) => {
+    let content = contentItem;
+    getUserFavoritesOnce("701b389b848a2b1cfab867093101d8d5ac56addd").then(
+      (user) => {
+        let favorites = user.data().favorites;
+        let favoritesIds = favorites.map((item) => item.id);
+        if (favoritesIds.includes(content.id)) {
+          content.favorite = true;
+          setFavorite(true);
+        } else {
+          content.favorite = false;
+        }
+        setContentType(content);
+      }
+    );
+  };
 
   const handleShareClick = () => {
     if (navigator.share) {

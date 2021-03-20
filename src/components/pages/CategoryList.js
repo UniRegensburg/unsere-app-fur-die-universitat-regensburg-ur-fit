@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  List,
-  ListItem,
-  ListItemText,
-  makeStyles,
-  CircularProgress,
-} from "@material-ui/core/";
+import { List, makeStyles, CircularProgress } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 import ExpandableListItem from "../pageComponents/ExpandableListItem";
@@ -27,6 +21,11 @@ export default function CategoryList(props) {
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [categories, setCategories] = useState([]);
+  const allElements = {
+    description: "Alle Inhalte aus dieser Kategorie",
+    title: "Alle Inhalte",
+    value: "allContents",
+  };
 
   useEffect(() => {
     let unsubscribe = () => {};
@@ -65,10 +64,7 @@ export default function CategoryList(props) {
       ) : (
         <div className={classes.container}>
           <List>
-            <ListItem button>
-              <ListItemText className={classes.text}>Alle Inhalte</ListItemText>
-            </ListItem>
-            {categories.map((item, index) => (
+            {[allElements].concat(categories).map((item, index) => (
               <ExpandableListItem
                 key={index}
                 name={item.title}
