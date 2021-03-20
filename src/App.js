@@ -9,6 +9,7 @@ import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 import Loginscreen from "./components/pages/Loginscreen";
 import Imprintscreen from "./components/pages/Imprintscreen";
+import ConditionsOfUseScreen from "./components/pages/ConditionsOfUsescreen";
 import Settingsscreen from "./components/pages/Settingsscreen";
 
 import {
@@ -28,6 +29,11 @@ function App() {
             <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
             <ProtectedRoute exact path="/settings" component={Settingsscreen} />
             <ProtectedRoute exact path="/imprint" component={Imprintscreen} />
+            <ProtectedRoute
+              exact
+              path="/conditions"
+              component={ConditionsOfUseScreen}
+            />
             <ProtectedRoute
               exact
               path="/category/:category"

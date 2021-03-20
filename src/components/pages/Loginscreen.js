@@ -1,5 +1,6 @@
 import React from "react";
-
+import ReactMarkdown from "react-markdown";
+import ConditionsOfUseText from "../../assets/textfiles/conditions-of-use.md";
 import {
   Paper,
   Button,
@@ -11,19 +12,18 @@ import {
   CircularProgress,
   withStyles,
   Typography,
-  Collapse,
-  Card,
-  CardContent,
-  CardHeader,
-  CardActionArea,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@material-ui/core";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import Logo from "../../assets/images/ur-logo-bildmarke-grau.jpg";
+import Logo from "../../assets/images/URFitLogo.png";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
 import auth from "../services/authentication";
 
 const INFOTEXT =
-  "Die URfit-App bringt mehr Bewegung und Gesundheit in deinen Alltag. Sie enthält verschiedene Sport- und Bewegungsangebote und den aktuellen Mensaplan. Viel Spaß beim Ausprobieren!";
+  "Die URfit-App enthält verschiedene Sport- und Bewegungsangebote und den aktuellen Mensaplan.";
 
 const style = (theme) => ({
   paper: {
@@ -31,15 +31,10 @@ const style = (theme) => ({
     backgroundColor: theme.palette.background.lightgrey,
   },
 
-  infoCard: {
-    marginRight: "auto",
-    marginLeft: "auto",
-    maxWidth: "300px",
-  },
-
-  infoCardHeaderIcon: {
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1),
+  infotext: {
+    color: theme.palette.text.main,
+    marginStart: "16px",
+    marginEnd: "8px",
   },
 
   textFields: {
@@ -81,19 +76,27 @@ class Loginscreen extends React.Component {
       keepSignedIn: false,
       showLoader: false,
       showSnackbar: false,
-      expandInfo: false,
+      dialogConditionsOfUseOpen: false,
+      conditionsOfUseText: "",
     };
-    this.handleExpandInfoClick = this.handleExpandInfoClick.bind(this);
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangePassword = this.handleChangePassword.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.handleLogInClick = this.handleLogInClick.bind(this);
+    this.handleConditionsOfUseAcception = this.handleConditionsOfUseAcception.bind(
+      this
+    );
+    this.handleConditionsOfUseRejection = this.handleConditionsOfUseRejection.bind(
+      this
+    );
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.snackbarOptions = null;
   }
 
-  handleExpandInfoClick(event) {
-    this.setState({ expandInfo: !this.state.expandInfo });
+  componentDidMount() {
+    fetch(ConditionsOfUseText)
+      .then((res) => res.text())
+      .then((text) => this.setState({ conditionsOfUseText: text }));
   }
 
   handleChangeUsername(event) {
@@ -118,12 +121,22 @@ class Loginscreen extends React.Component {
   }
 
   handleLogInClick(event) {
+    this.setState({ dialogConditionsOfUseOpen: true });
+  }
+
+  handleConditionsOfUseAcception(event) {
+    this.setState({ dialogConditionsOfUseOpen: false });
     this.login();
+  }
+
+  handleConditionsOfUseRejection(event) {
+    this.setState({ dialogConditionsOfUseOpen: false });
+    this.provideUserFeedback("warning", "Nutzungsbedingungen abgelehnt.");
   }
 
   handleKeyPress(event) {
     if (event.key === "Enter") {
-      this.login();
+      this.setState({ dialogConditionsOfUseOpen: true });
     }
   }
 
@@ -180,37 +193,9 @@ class Loginscreen extends React.Component {
               />
             </Grid>
             <Grid item>
-              <Card
-                variant="outlined"
-                elevation={0}
-                className={classes.infoCard}
-              >
-                <CardActionArea
-                  onClick={this.handleExpandInfoClick}
-                  aria-expanded={this.state.expandInfo}
-                  aria-label="show more"
-                >
-                  <CardHeader
-                    title="URfit: Die Fitness App der UR"
-                    titleTypographyProps={{ variant: "body2" }}
-                    action={
-                      <MoreHorizIcon
-                        className={classes.infoCardHeaderIcon}
-                        aria-expanded={this.state.expandInfo}
-                        aria-label="show more"
-                      />
-                    }
-                  ></CardHeader>
-                </CardActionArea>
-                <Collapse
-                  in={this.state.expandInfo}
-                  className={classes.infoText}
-                >
-                  <CardContent>
-                    <Typography variant="body2">{INFOTEXT}</Typography>
-                  </CardContent>
-                </Collapse>
-              </Card>
+              <Typography variant="body2" className={classes.infotext}>
+                {INFOTEXT}
+              </Typography>
             </Grid>
             <Grid item>
               <TextField
@@ -270,13 +255,13 @@ class Loginscreen extends React.Component {
                 className={classes.button}
                 id="buttonLogin"
                 data-testid="buttonLogin"
-                variant="contained"
+                variant="outlined"
                 disabled={
                   !(this.state.validUsername && this.state.validPassword) ||
                   this.state.initialUsername ||
                   this.state.initialPassword
                 }
-                color="default"
+                color="primary"
                 onClick={this.handleLogInClick}
               >
                 LogIn
@@ -284,6 +269,33 @@ class Loginscreen extends React.Component {
             </Grid>
           </Grid>
         </Paper>
+
+        <Dialog
+          open={this.state.dialogConditionsOfUseOpen}
+          onClose={this.handleConditionsOfUseRejection}
+        >
+          <DialogTitle>Nutzungsbedingungen</DialogTitle>
+          <DialogContent>
+            <DialogContentText component="div">
+              <ReactMarkdown source={this.state.conditionsOfUseText} />
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={this.handleConditionsOfUseRejection}
+              color="primary"
+            >
+              Ablehnen
+            </Button>
+            <Button
+              onClick={this.handleConditionsOfUseAcception}
+              color="primary"
+            >
+              Annehmen
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <CustomSnackbar
           open={this.state.showSnackbar}
           onClose={() => this.setState({ showSnackbar: false })}
