@@ -6,7 +6,11 @@ import Select from "@material-ui/core/Select";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
 import { Link } from "react-router-dom";
-import { getContentItemsBySubcategory } from "../services/contentProvider";
+import {
+  getContentItemsBySubcategory,
+  getContentItemsByCategory,
+  getUserFavoritesOnce,
+} from "../services/contentProvider";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,27 +40,59 @@ export default function Contentlistscreen(props) {
   const classes = useStyles();
   const { match } = props;
   let subcategory = match.params.subcategory;
+  let category = match.params.category;
 
   useEffect(() => {
     let unsubscribe = () => null;
     try {
-      unsubscribe = getContentItemsBySubcategory(subcategory, {
-        next: (querySnapshot) => {
-          let contentRefs = querySnapshot.docs;
-          Promise.all(contentRefs.map((contentRef) => contentRef.data())).then(
-            (results) => {
-              setContentList(results);
-              setLoading(false);
-            }
-          );
-        },
-      });
+      if (subcategory !== "allContents") {
+        unsubscribe = getContentItemsBySubcategory(category, subcategory, {
+          next: (querySnapshot) => {
+            let contentRefs = querySnapshot.docs;
+            Promise.all(
+              contentRefs.map((contentRef) => contentRef.data())
+            ).then((results) => {
+              checkFavorite(results);
+            });
+          },
+        });
+      } else {
+        unsubscribe = getContentItemsByCategory(category, {
+          next: (querySnapshot) => {
+            let contentRefs = querySnapshot.docs;
+            Promise.all(
+              contentRefs.map((contentRef) => contentRef.data())
+            ).then((results) => {
+              checkFavorite(results);
+            });
+          },
+        });
+      }
     } catch {
       setLoading(false);
     }
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [subcategory]);
+  }, [subcategory, category]);
+
+  const checkFavorite = async (contents) => {
+    let contentItems = contents;
+    getUserFavoritesOnce("701b389b848a2b1cfab867093101d8d5ac56addd").then(
+      (user) => {
+        let favorites = user.data().favorites;
+        let favoritesIds = favorites.map((item) => item.id);
+        contentItems.forEach((content) => {
+          if (favoritesIds.includes(content.id)) {
+            content.favorite = true;
+          } else {
+            content.favorite = false;
+          }
+        });
+        setContentList(contentItems);
+        setLoading(false);
+      }
+    );
+  };
 
   const handleSortChange = (event) => {
     setSort(event.target.value);
