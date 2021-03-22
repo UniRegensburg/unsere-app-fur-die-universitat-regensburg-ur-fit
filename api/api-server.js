@@ -22,7 +22,7 @@ app.use(
 app.use(
   "/proxy/authentication",
   createProxyMiddleware({
-    target: "https://mistudent.ddns.net",
+    target: "https://pro.mi.ur.de/ldap/urfit",
     changeOrigin: true,
     pathRewrite: { "^/proxy/authentication": "" },
   })
