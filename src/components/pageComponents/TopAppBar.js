@@ -8,7 +8,7 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core/";
-import { Menu as BurgerMenu, Home } from "@material-ui/icons";
+import { Menu as BurgerMenu, Favorite } from "@material-ui/icons";
 import AppBarDrawer from "./AppBarDrawer";
 import Logo from "../../assets/images/URFitLogo.png";
 import { Link } from "react-router-dom";
@@ -91,7 +91,7 @@ class TopAppBar extends React.Component {
                 to={"/"}
                 data-testid="home-button"
               >
-                <Home className={classes.home} style={visibilityOfHomeIcon} />
+                <Favorite className={classes.home} style={visibilityOfHomeIcon} />
               </IconButton>
             </Grid>
           </Grid>
