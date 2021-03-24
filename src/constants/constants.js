@@ -6,7 +6,7 @@ import {
   Feedback,
   Info as Conditions,
   ExitToApp as Logout,
-  Home,
+  Favorite,
 } from "@material-ui/icons";
 import { ReactComponent as Relaxation } from "../assets/images/relaxation.svg";
 
@@ -15,7 +15,7 @@ export const pages = {
     key: "MY_PAGE",
     value: "/",
     title: "Meine Seite",
-    icon: <Home />,
+    icon: <Favorite />,
   },
   favorites: {
     value: "favorites",

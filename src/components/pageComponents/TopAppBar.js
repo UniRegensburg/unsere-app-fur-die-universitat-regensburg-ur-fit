@@ -8,7 +8,7 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core/";
-import { Menu as BurgerMenu, Home } from "@material-ui/icons";
+import { Menu as BurgerMenu, Favorite } from "@material-ui/icons";
 import AppBarDrawer from "./AppBarDrawer";
 import Logo from "../../assets/images/URFitLogo.png";
 import { Link } from "react-router-dom";
@@ -36,7 +36,7 @@ const styles = (theme) => ({
     color: theme.palette.text.main,
   },
 
-  home: {
+  favorites: {
     width: "33px",
     height: "33px",
   },
@@ -57,13 +57,13 @@ class TopAppBar extends React.Component {
 
   render() {
     const { classes } = this.props;
-    let header, visibilityOfHomeIcon;
+    let header, visibilityOfFavoritesIcon;
     if (this.props.title === "URfit") {
       header = <AppBarLogo class={classes.logo} />;
-      visibilityOfHomeIcon = { visibility: "hidden" };
+      visibilityOfFavoritesIcon = { visibility: "hidden" };
     } else {
       header = <AppBarTitle class={classes.title} title={this.props.title} />;
-      visibilityOfHomeIcon = { visibility: "visible" };
+      visibilityOfFavoritesIcon = { visibility: "visible" };
     }
     return (
       <AppBar data-testid="appbar" className={classes.appBar}>
@@ -89,9 +89,9 @@ class TopAppBar extends React.Component {
                 button="true"
                 component={Link}
                 to={"/"}
-                data-testid="home-button"
+                data-testid="favorites-button"
               >
-                <Home className={classes.home} style={visibilityOfHomeIcon} />
+                <Favorite className={classes.favorites} style={visibilityOfFavoritesIcon} />
               </IconButton>
             </Grid>
           </Grid>
