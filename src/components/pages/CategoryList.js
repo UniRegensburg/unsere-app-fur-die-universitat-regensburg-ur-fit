@@ -58,7 +58,7 @@ export default function CategoryList(props) {
 
   return (
     <div>
-      <TopAppBar data-testid="appbar" title={title} />
+      <TopAppBar data-testid="appbar" title={title} favIcon="visible" />
       {loading ? (
         <CircularProgress />
       ) : (

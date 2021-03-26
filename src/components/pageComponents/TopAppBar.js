@@ -56,15 +56,8 @@ class TopAppBar extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-    let header, visibilityOfFavoritesIcon;
-    if (this.props.title === "URfit") {
-      header = <AppBarLogo class={classes.logo} />;
-      visibilityOfFavoritesIcon = { visibility: "hidden" };
-    } else {
-      header = <AppBarTitle class={classes.title} title={this.props.title} />;
-      visibilityOfFavoritesIcon = { visibility: "visible" };
-    }
+    const { classes, title, favIcon } = this.props;
+
     return (
       <AppBar data-testid="appbar" className={classes.appBar}>
         <Toolbar>
@@ -83,7 +76,11 @@ class TopAppBar extends React.Component {
                 <BurgerMenu fontSize="large" />
               </IconButton>
             </Grid>
-            {header}
+            {this.props.title === "URfit" ? (
+              <AppBarLogo class={classes.logo} />
+            ) : (
+              <AppBarTitle class={classes.title} title={title} />
+            )}
             <Grid item>
               <IconButton
                 button="true"
@@ -91,7 +88,14 @@ class TopAppBar extends React.Component {
                 to={"/"}
                 data-testid="favorites-button"
               >
-                <Favorite className={classes.favorites} style={visibilityOfFavoritesIcon} />
+                <Favorite
+                  className={classes.favorites}
+                  style={
+                    favIcon === "visible"
+                      ? { visibility: "visible" }
+                      : { visibility: "hidden" }
+                  }
+                />
               </IconButton>
             </Grid>
           </Grid>

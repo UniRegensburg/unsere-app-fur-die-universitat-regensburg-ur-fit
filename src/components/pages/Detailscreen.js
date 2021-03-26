@@ -6,6 +6,7 @@ import {
   Share as ShareIcon,
   FavoriteBorder as FavoriteOutlinedIcon,
 } from "@material-ui/icons";
+import TopAppBar from "../pageComponents/TopAppBar";
 import VideoDetail from "../pageComponents/Videodetail";
 import AudioDetail from "../pageComponents/Audiodetail";
 import TextDetail from "../pageComponents/TextDetail";
@@ -152,41 +153,44 @@ export default function Detailscreen(props) {
   };
 
   return (
-    <div className={classes.container}>
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <div>
-          <div className={classes.header}>
-            <Link to={backPath} replace>
-              <ArrowBackIcon className={classes.back} />
-            </Link>
+    <div>
+      <TopAppBar data-testid="appbar" title="URfit" favIcon="visible" />
+      <div className={classes.container}>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <div>
+            <div className={classes.header}>
+              <Link to={backPath} replace>
+                <ArrowBackIcon className={classes.back} />
+              </Link>
 
-            <IconButton
-              size="small"
-              className={classes.share}
-              onClick={handleShareClick}
-            >
-              <ShareIcon />
-            </IconButton>
+              <IconButton
+                size="small"
+                className={classes.share}
+                onClick={handleShareClick}
+              >
+                <ShareIcon />
+              </IconButton>
 
-            <IconButton
-              size="small"
-              className={classes.favorite}
-              onClick={handleFavoriteClick}
-            >
-              {favorite ? <FavoriteIcon /> : <FavoriteOutlinedIcon />}
-            </IconButton>
-            <CustomSnackbar
-              open={snackbarOpen}
-              onClose={toggleSnackbar}
-              message={snackbarMessage}
-            ></CustomSnackbar>
+              <IconButton
+                size="small"
+                className={classes.favorite}
+                onClick={handleFavoriteClick}
+              >
+                {favorite ? <FavoriteIcon /> : <FavoriteOutlinedIcon />}
+              </IconButton>
+              <CustomSnackbar
+                open={snackbarOpen}
+                onClose={toggleSnackbar}
+                message={snackbarMessage}
+              ></CustomSnackbar>
+            </div>
+
+            {content}
           </div>
-
-          {content}
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

@@ -83,7 +83,7 @@ class Feedbackscreen extends React.Component {
     const { classes } = this.props;
     return (
       <div className="Feedbackscreen">
-        <TopAppBar data-testid="appbar" title="Feedback" />
+        <TopAppBar data-testid="appbar" title="Feedback" favIcon="visible" />
         <div className={classes.container}>
           <Typography
             variant="body1"

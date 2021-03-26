@@ -28,7 +28,7 @@ export default function Imprintscreen(props) {
   const classes = useStyles();
   return (
     <div className="Imprintscreen">
-      <TopAppBar data-testid="appbar" title="Impressum" />
+      <TopAppBar data-testid="appbar" title="Impressum" favIcon="visible" />
       <div className={classes.container}>
         <Typography variant="body1" className={classes.text} component="div">
           <ReactMarkdown source={imprint.text} />
