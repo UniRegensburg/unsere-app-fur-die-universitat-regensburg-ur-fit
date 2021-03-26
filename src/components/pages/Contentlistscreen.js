@@ -107,6 +107,7 @@ export default function Contentlistscreen(props) {
           match.params.subcategory.charAt(0).toUpperCase() +
           match.params.subcategory.slice(1)
         }
+        favIcon="visible"
       />
       <div className={classes.container}>
         <div className={classes.header}>

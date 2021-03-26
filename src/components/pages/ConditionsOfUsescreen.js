@@ -28,7 +28,11 @@ export default function ConditionsOfUseScreen(props) {
   const classes = useStyles();
   return (
     <div className="ConditionsOfUseScreen">
-      <TopAppBar data-testid="appbar" title="Nutzungsbedingungen" />
+      <TopAppBar
+        data-testid="appbar"
+        title="Nutzungsbedingungen"
+        favIcon="visible"
+      />
       <div className={classes.container}>
         <Typography variant="body1" className={classes.text} component="div">
           <ReactMarkdown source={conditions.text} />

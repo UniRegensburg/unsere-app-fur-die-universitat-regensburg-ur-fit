@@ -123,7 +123,11 @@ export class Mensascreen extends React.Component {
     } else {
       return (
         <div className="Mensascreen">
-          <TopAppBar data-testid="mensa-appBar" title="URfit" />
+          <TopAppBar
+            data-testid="mensa-appBar"
+            title="URfit"
+            favIcon="visible"
+          />
           <Grid container direction="column">
             <Grid
               container
