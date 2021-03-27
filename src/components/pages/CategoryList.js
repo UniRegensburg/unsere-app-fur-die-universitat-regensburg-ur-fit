@@ -35,7 +35,6 @@ export default function CategoryList(props) {
         next: (querySnapshot) => {
           let appStructure = [];
           let structure = querySnapshot.docs;
-          console.log(structure);
           Promise.all(
             structure.map((category) => appStructure.push(category.data()))
           ).then(() => {
