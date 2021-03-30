@@ -5,7 +5,7 @@ import {
   Collapse,
   makeStyles,
 } from "@material-ui/core/";
-import { ExpandLess, ExpandMore } from "@material-ui/icons/";
+import { InfoOutlined } from "@material-ui/icons/";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,8 +24,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.main,
   },
 
-  expandIcon: {
+  infoIcon: {
     marginLeft: "auto",
+    height: "18px",
+    width: "18px",
+    color: theme.palette.text.light,
   },
 
   text: {
@@ -42,7 +45,7 @@ export default function ExpandableListItem(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
-  const handleExpandClick = () => {
+  const handleInfoClick = () => {
     setOpen(!open);
   };
 
@@ -52,19 +55,8 @@ export default function ExpandableListItem(props) {
         <Link to={link} className={classes.link}>
           <ListItemText>{name}</ListItemText>
         </Link>
-        {open ? (
-          <ExpandLess
-            className={classes.expandIcon}
-            onClick={handleExpandClick}
-          />
-        ) : (
-          <ExpandMore
-            className={classes.expandIcon}
-            onClick={handleExpandClick}
-          />
-        )}
+        <InfoOutlined className={classes.infoIcon} onClick={handleInfoClick} />
       </ListItem>
-
       <Collapse in={open} timeout="auto" unmountOnExit>
         <ListItemText className={classes.text}>{description}</ListItemText>
       </Collapse>
