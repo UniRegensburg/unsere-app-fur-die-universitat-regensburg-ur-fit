@@ -22,8 +22,11 @@ export default function Imprintscreen(props) {
   useEffect(() => {
     fetch(ImprintText)
       .then((res) => res.text())
-      .then((text) => setImprint({ text }));
-  });
+      .then((text) => setImprint({ text }))
+      .catch((error) =>
+        setImprint({ text: "Fehler beim Laden der Nutzungsbedinungen!" })
+      );
+  }, []);
 
   const classes = useStyles();
   return (

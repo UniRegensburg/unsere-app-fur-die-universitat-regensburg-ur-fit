@@ -22,8 +22,9 @@ export default function ConditionsOfUseScreen(props) {
   useEffect(() => {
     fetch(ConditionsText)
       .then((res) => res.text())
-      .then((text) => setConditions({ text }));
-  });
+      .then((text) => setConditions({ text }))
+      .catch((error) => setConditions({ text: "Fehler beim Laden der AGB!" }));
+  }, []);
 
   const classes = useStyles();
   return (
