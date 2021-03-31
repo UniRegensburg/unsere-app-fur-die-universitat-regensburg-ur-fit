@@ -76,7 +76,7 @@ export class Mensascreen extends React.Component {
   }
 
   componentDidMount() {
-    let week = moment().week();
+    let week = moment().week() - 1;
     getMensaData(week).then((data) => {
       if (typeof data !== "undefined" && data !== null) {
         this.setState({ mensaPlan: addCategories(data) });
