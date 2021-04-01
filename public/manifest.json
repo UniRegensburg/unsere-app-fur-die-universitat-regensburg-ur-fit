@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "UrFit",
+  "name": "UrFit - Die Fitnessapp der Universität Regensburg",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,9 +18,15 @@
       "sizes": "512x512"
     },
     {
-      "src": "maskable_icon.png",
+      "src": "maskable_icon_x48.png",
       "type": "image/png",
-      "sizes": "512x512",
+      "sizes": "48x48",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "maskable_icon_x72.png",
+      "type": "image/png",
+      "sizes": "72x72",
       "purpose": "any maskable"
     }
   ],
