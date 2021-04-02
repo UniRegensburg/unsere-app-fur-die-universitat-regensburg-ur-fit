@@ -98,27 +98,27 @@ export default function Detailscreen(props) {
   };
 
   useEffect(() => {
+    const checkFavorite = async (contentItem) => {
+      let content = contentItem;
+      getUserFavoritesOnce("701b389b848a2b1cfab867093101d8d5ac56addd").then(
+        (user) => {
+          let favorites = user.data().favorites;
+          let favoritesIds = favorites.map((item) => item.id);
+          if (favoritesIds.includes(content.id)) {
+            content.favorite = true;
+            setFavorite(true);
+          } else {
+            content.favorite = false;
+          }
+          setContentType(content);
+        }
+      );
+    };
+
     getContentById(match.params.contentId).then((content) => {
       checkFavorite(content.data());
     });
-  });
-
-  const checkFavorite = async (contentItem) => {
-    let content = contentItem;
-    getUserFavoritesOnce("701b389b848a2b1cfab867093101d8d5ac56addd").then(
-      (user) => {
-        let favorites = user.data().favorites;
-        let favoritesIds = favorites.map((item) => item.id);
-        if (favoritesIds.includes(content.id)) {
-          content.favorite = true;
-          setFavorite(true);
-        } else {
-          content.favorite = false;
-        }
-        setContentType(content);
-      }
-    );
-  };
+  }, [match.params.contentId]);
 
   const handleShareClick = () => {
     if (navigator.share) {
