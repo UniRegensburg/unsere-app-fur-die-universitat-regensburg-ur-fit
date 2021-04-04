@@ -191,7 +191,7 @@ export default function Loginscreen() {
 
   return (
     <div className="Loginscreen">
-      <Paper className={classes.paper} elevation={0} data-testid="bgPaper">
+      <Paper className={classes.paper} elevation={0}>
         <Grid
           className={classes.grid}
           container
@@ -201,7 +201,6 @@ export default function Loginscreen() {
         >
           <Grid item>
             <img
-              data-testid="logo"
               src={Logo}
               alt="Uni Regensburg Logo"
               className={classes.logo}
@@ -216,7 +215,6 @@ export default function Loginscreen() {
             <TextField
               fullWidth
               className={classes.textFields}
-              data-testid="inputUsername"
               id="inputUsername"
               onChange={handleChangeUsername}
               onKeyPress={handleKeyPress}
@@ -234,7 +232,6 @@ export default function Loginscreen() {
             <TextField
               fullWidth
               className={classes.textFields}
-              data-testid="inputPassword"
               id="inputPassword"
               onChange={handleChangePassword}
               onKeyPress={handleKeyPress}
@@ -250,13 +247,11 @@ export default function Loginscreen() {
           <Grid item>
             <FormControlLabel
               className={classes.form}
-              data-testid="formLabel"
               value="start"
               control={
                 <Checkbox
                   checked={keepSignedIn}
                   onChange={handleCheckboxChange}
-                  data-testid="formCheckbox"
                   color="primary"
                 />
               }
@@ -269,7 +264,6 @@ export default function Loginscreen() {
               fullWidth
               className={classes.button}
               id="buttonLogin"
-              data-testid="buttonLogin"
               variant="outlined"
               disabled={
                 !(validUsername && validPassword) ||
