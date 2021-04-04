@@ -18,6 +18,7 @@ import {
   setFavoriteItem,
   deleteFavoriteItem,
 } from "../services/contentProvider";
+import { useAuthState } from "../hooks/useAuthState";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Detailscreen(props) {
   const classes = useStyles();
+  const userId = useAuthState();
   const [favorite, setFavorite] = useState(false);
   const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true);
@@ -81,17 +83,11 @@ export default function Detailscreen(props) {
 
   const handleFavoriteClick = () => {
     if (favorite) {
-      deleteFavoriteItem(
-        match.params.contentId,
-        "701b389b848a2b1cfab867093101d8d5ac56addd"
-      )
+      deleteFavoriteItem(match.params.contentId, userId)
         .then((_) => setFavorite(false))
         .catch((error) => console.log("Error deleting favorite: ", error));
     } else {
-      setFavoriteItem(
-        match.params.contentId,
-        "701b389b848a2b1cfab867093101d8d5ac56addd"
-      )
+      setFavoriteItem(match.params.contentId, userId)
         .then((_) => setFavorite(true))
         .catch((error) => console.log("Error setting favorite: ", error));
     }
@@ -100,25 +96,23 @@ export default function Detailscreen(props) {
   useEffect(() => {
     const checkFavorite = async (contentItem) => {
       let content = contentItem;
-      getUserFavoritesOnce("701b389b848a2b1cfab867093101d8d5ac56addd").then(
-        (user) => {
-          let favorites = user.data().favorites;
-          let favoritesIds = favorites.map((item) => item.id);
-          if (favoritesIds.includes(content.id)) {
-            content.favorite = true;
-            setFavorite(true);
-          } else {
-            content.favorite = false;
-          }
-          setContentType(content);
+      getUserFavoritesOnce(userId).then((user) => {
+        let favorites = user.data().favorites;
+        let favoritesIds = favorites.map((item) => item.id);
+        if (favoritesIds.includes(content.id)) {
+          content.favorite = true;
+          setFavorite(true);
+        } else {
+          content.favorite = false;
         }
-      );
+        setContentType(content);
+      });
     };
 
     getContentById(match.params.contentId).then((content) => {
       checkFavorite(content.data());
     });
-  }, [match.params.contentId]);
+  }, [match.params.contentId, userId]);
 
   const handleShareClick = () => {
     if (navigator.share) {

@@ -5,5 +5,5 @@ export const getUser = (id) => {
 };
 
 export const createUser = (id, name) => {
-  return database.collection("users").doc(id).set({ id, name });
+  return database.collection("users").doc(id).set({ id, name, favorites: [] });
 };
