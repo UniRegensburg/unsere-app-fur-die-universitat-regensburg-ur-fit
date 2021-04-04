@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import ConditionsOfUseText from "../../assets/textfiles/conditions-of-use.md";
 import {
@@ -10,13 +11,13 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
-  withStyles,
   Typography,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
+  makeStyles,
 } from "@material-ui/core";
 import Logo from "../../assets/images/URFitLogo.png";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
@@ -25,7 +26,7 @@ import auth from "../services/authService";
 const INFOTEXT =
   "Die URfit-App enthält verschiedene Sport- und Bewegungsangebote und den aktuellen Mensaplan.";
 
-const style = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     margin: theme.spacing(4),
     backgroundColor: theme.palette.background.lightgrey,
@@ -33,23 +34,26 @@ const style = (theme) => ({
 
   infotext: {
     color: theme.palette.text.main,
-    marginStart: "16px",
-    marginEnd: "8px",
+    marginStart: theme.spacing(2),
+    maringEnd: theme.spacing(1),
+    marginLeft: "auto",
+    marginRight: "auto",
+    maxWidth: "320px",
   },
 
   textFields: {
     margin: theme.spacing(1),
-    maxWidth: "300px",
+    maxWidth: "320px",
   },
 
   button: {
     margin: theme.spacing(1),
-    maxWidth: "300px",
+    maxWidth: "320px",
   },
 
   form: {
     margin: theme.spacing(1),
-    maxWidth: "300px",
+    maxWidth: "320px",
   },
 
   logo: {
@@ -61,252 +65,232 @@ const style = (theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: "#fff",
   },
-});
+}));
 
-class Loginscreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      valueUsername: "",
-      valuePassword: "",
-      validUsername: true,
-      validPassword: true,
-      initialUsername: true,
-      initialPassword: true,
-      keepSignedIn: false,
-      showLoader: false,
-      showSnackbar: false,
-      dialogConditionsOfUseOpen: false,
-      conditionsOfUseText: "",
-    };
-    this.handleChangeUsername = this.handleChangeUsername.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-    this.handleLogInClick = this.handleLogInClick.bind(this);
-    this.handleConditionsOfUseAcception = this.handleConditionsOfUseAcception.bind(
-      this
-    );
-    this.handleConditionsOfUseRejection = this.handleConditionsOfUseRejection.bind(
-      this
-    );
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.snackbarOptions = null;
-  }
+export default function Loginscreen() {
+  const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
+  const [valueUsername, setValueUsername] = useState("");
+  const [valuePassword, setValuePassword] = useState("");
+  const [validUsername, setValidUsername] = useState(true);
+  const [validPassword, setValidPassword] = useState(true);
+  const [initialUsername, setInitialUsername] = useState(true);
+  const [initialPassword, setInitialPassword] = useState(true);
+  const [keepSignedIn, setKeepSignedIn] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
+  const [dialogConditionsOfUseOpen, setDialogConditionsOfUseOpen] = useState(
+    false
+  );
+  const [conditionsOfUseText, setConditionsOfUseText] = useState("");
+  const [snackbarOptions, setSnackbarOptions] = useState({
+    open: false,
+    type: "error",
+    message: "Fehler!",
+  });
 
-  componentDidMount() {
+  useEffect(() => {
     fetch(ConditionsOfUseText)
       .then((res) => res.text())
-      .then((text) => this.setState({ conditionsOfUseText: text }));
-  }
+      .then((text) => setConditionsOfUseText(text))
+      .catch((error) => setConditionsOfUseText("Fehler beim Laden der AGB!"));
+  }, []);
 
-  handleChangeUsername(event) {
+  const handleChangeUsername = (event) => {
     const re = /[öäüa-z]{3}\d{5}\b/; //Regular expression to test uni regensburg nds account
-    this.setState({
-      valueUsername: event.target.value,
-      validUsername: re.test(event.target.value) ? true : false,
-      initialUsername: false,
-    });
-  }
+    setValueUsername(event.target.value);
+    setValidUsername(re.test(event.target.value) ? true : false);
+    setInitialUsername(false);
+  };
 
-  handleChangePassword(event) {
-    this.setState({
-      valuePassword: event.target.value,
-      validPassword: event.target.value.length > 0 ? true : false,
-      initialPassword: false,
-    });
-  }
+  const handleChangePassword = (event) => {
+    setValuePassword(event.target.value);
+    setValidPassword(event.target.value.length > 0 ? true : false);
+    setInitialPassword(false);
+  };
 
-  handleCheckboxChange(event) {
-    this.setState({ keepSignedIn: !this.state.keepSignedIn });
-  }
+  const handleCheckboxChange = (event) => {
+    setKeepSignedIn(!keepSignedIn);
+  };
 
-  handleLogInClick(event) {
-    this.setState({ dialogConditionsOfUseOpen: true });
-  }
+  const handleLogInClick = (event) => {
+    setDialogConditionsOfUseOpen(true);
+  };
 
-  handleConditionsOfUseAcception(event) {
-    this.setState({ dialogConditionsOfUseOpen: false });
-    this.login();
-  }
+  const handleConditionsOfUseAcception = (event) => {
+    setDialogConditionsOfUseOpen(false);
+    login();
+  };
 
-  handleConditionsOfUseRejection(event) {
-    this.setState({ dialogConditionsOfUseOpen: false });
-    this.provideUserFeedback("warning", "Nutzungsbedingungen abgelehnt.");
-  }
+  const handleConditionsOfUseRejection = (event) => {
+    setDialogConditionsOfUseOpen(false);
+    provideUserFeedback("warning", "Nutzungsbedingungen abgelehnt.");
+  };
 
-  handleKeyPress(event) {
+  const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      this.setState({ dialogConditionsOfUseOpen: true });
+      setDialogConditionsOfUseOpen(true);
     }
-  }
+  };
 
-  login() {
-    this.setState({ showLoader: true });
+  const login = () => {
+    setShowLoader(true);
     auth
-      .login(
-        this.state.valueUsername,
-        this.state.valuePassword,
-        this.state.keepSignedIn
-      )
-      .then((user) => {
-        if (user !== null) {
-          this.props.history.replace(this.props.location.state.from.pathname);
+      .login(valueUsername, valuePassword, keepSignedIn)
+      .then((userId) => {
+        if (userId !== null) {
+          history.replace(location.state.from.pathname);
         } else {
-          this.provideUserFeedback(
-            "warning",
-            "Nutzername oder Passwort falsch"
-          );
+          provideUserFeedback("warning", "Nutzername oder Passwort falsch");
         }
       })
       .catch((error) => {
-        this.provideUserFeedback("error", "Anmeldung nicht möglich");
+        console.log(error);
+        provideUserFeedback("error", "Anmeldung nicht möglich");
       });
-  }
+  };
 
-  provideUserFeedback(type, message) {
-    this.setState({ showLoader: false });
-    this.snackbarOptions = {
+  const provideUserFeedback = (type, message) => {
+    setShowLoader(false);
+    setSnackbarOptions({
+      open: true,
       type: type,
       message: message,
-    };
-    this.setState({ showSnackbar: true });
-  }
+    });
+  };
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className="Loginscreen">
-        <Paper className={classes.paper} elevation={0} data-testid="bgPaper">
-          <Grid
-            className={classes.grid}
-            container
-            justify="flex-start"
-            alignItems="stretch"
-            direction="column"
-          >
-            <Grid item>
-              <img
-                data-testid="logo"
-                src={Logo}
-                alt="Uni Regensburg Logo"
-                className={classes.logo}
-              />
-            </Grid>
-            <Grid item>
-              <Typography variant="body2" className={classes.infotext}>
-                {INFOTEXT}
-              </Typography>
-            </Grid>
-            <Grid item>
-              <TextField
-                fullWidth
-                className={classes.textFields}
-                data-testid="inputUsername"
-                id="inputUsername"
-                onChange={this.handleChangeUsername}
-                onKeyPress={this.handleKeyPress}
-                value={this.state.valueUsername}
-                error={!this.state.validUsername}
-                label="RZ-Account"
-                placeholder="abc13245"
-                required={true}
-                type="text"
-                size="medium"
-                variant="standard"
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                fullWidth
-                className={classes.textFields}
-                data-testid="inputPassword"
-                id="inputPassword"
-                onChange={this.handleChangePassword}
-                onKeyPress={this.handleKeyPress}
-                value={this.state.valuePassword}
-                error={!this.state.validPassword && !this.state.initialPassword}
-                label="Passwort"
-                required={true}
-                type="password"
-                size="medium"
-                variant="standard"
-              />
-            </Grid>
-            <Grid item>
-              <FormControlLabel
-                className={classes.form}
-                data-testid="formLabel"
-                value="start"
-                control={
-                  <Checkbox
-                    checked={this.state.keepSignedIn}
-                    onChange={this.handleCheckboxChange}
-                    data-testid="formCheckbox"
-                    color="primary"
-                  />
-                }
-                label="Eingeloggt bleiben?"
-                labelPlacement="start"
-              />
-            </Grid>
-            <Grid item>
-              <Button
-                fullWidth
-                className={classes.button}
-                id="buttonLogin"
-                data-testid="buttonLogin"
-                variant="outlined"
-                disabled={
-                  !(this.state.validUsername && this.state.validPassword) ||
-                  this.state.initialUsername ||
-                  this.state.initialPassword
-                }
-                color="primary"
-                onClick={this.handleLogInClick}
-              >
-                LogIn
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
+  const handleOnSnackbarClose = () => {
+    setSnackbarOptions((prevState) => {
+      return {
+        ...prevState,
+        open: false,
+      };
+    });
+  };
 
-        <Dialog
-          open={this.state.dialogConditionsOfUseOpen}
-          onClose={this.handleConditionsOfUseRejection}
+  return (
+    <div className="Loginscreen">
+      <Paper className={classes.paper} elevation={0} data-testid="bgPaper">
+        <Grid
+          className={classes.grid}
+          container
+          justify="flex-start"
+          alignItems="stretch"
+          direction="column"
         >
-          <DialogTitle>Nutzungsbedingungen</DialogTitle>
-          <DialogContent>
-            <DialogContentText component="div">
-              <ReactMarkdown source={this.state.conditionsOfUseText} />
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
+          <Grid item>
+            <img
+              data-testid="logo"
+              src={Logo}
+              alt="Uni Regensburg Logo"
+              className={classes.logo}
+            />
+          </Grid>
+          <Grid item>
+            <Typography variant="body2" className={classes.infotext}>
+              {INFOTEXT}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <TextField
+              fullWidth
+              className={classes.textFields}
+              data-testid="inputUsername"
+              id="inputUsername"
+              onChange={handleChangeUsername}
+              onKeyPress={handleKeyPress}
+              value={valueUsername}
+              error={!validUsername}
+              label="RZ-Account"
+              placeholder="abc13245"
+              required={true}
+              type="text"
+              size="medium"
+              variant="standard"
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              fullWidth
+              className={classes.textFields}
+              data-testid="inputPassword"
+              id="inputPassword"
+              onChange={handleChangePassword}
+              onKeyPress={handleKeyPress}
+              value={valuePassword}
+              error={!validPassword && !initialPassword}
+              label="Passwort"
+              required={true}
+              type="password"
+              size="medium"
+              variant="standard"
+            />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              className={classes.form}
+              data-testid="formLabel"
+              value="start"
+              control={
+                <Checkbox
+                  checked={keepSignedIn}
+                  onChange={handleCheckboxChange}
+                  data-testid="formCheckbox"
+                  color="primary"
+                />
+              }
+              label="Eingeloggt bleiben?"
+              labelPlacement="start"
+            />
+          </Grid>
+          <Grid item>
             <Button
-              onClick={this.handleConditionsOfUseRejection}
+              fullWidth
+              className={classes.button}
+              id="buttonLogin"
+              data-testid="buttonLogin"
+              variant="outlined"
+              disabled={
+                !(validUsername && validPassword) ||
+                initialUsername ||
+                initialPassword
+              }
               color="primary"
+              onClick={handleLogInClick}
             >
-              Ablehnen
+              LogIn
             </Button>
-            <Button
-              onClick={this.handleConditionsOfUseAcception}
-              color="primary"
-            >
-              Annehmen
-            </Button>
-          </DialogActions>
-        </Dialog>
+          </Grid>
+        </Grid>
+      </Paper>
 
-        <CustomSnackbar
-          open={this.state.showSnackbar}
-          onClose={() => this.setState({ showSnackbar: false })}
-          {...this.snackbarOptions}
-        ></CustomSnackbar>
-        <Backdrop className={classes.backdrop} open={this.state.showLoader}>
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      </div>
-    );
-  }
+      <Dialog
+        open={dialogConditionsOfUseOpen}
+        onClose={handleConditionsOfUseRejection}
+      >
+        <DialogTitle>Nutzungsbedingungen</DialogTitle>
+        <DialogContent>
+          <DialogContentText component="div">
+            <ReactMarkdown source={conditionsOfUseText} />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConditionsOfUseRejection} color="primary">
+            Ablehnen
+          </Button>
+          <Button onClick={handleConditionsOfUseAcception} color="primary">
+            Annehmen
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <CustomSnackbar
+        onClose={handleOnSnackbarClose}
+        {...snackbarOptions}
+      ></CustomSnackbar>
+      <Backdrop className={classes.backdrop} open={showLoader}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </div>
+  );
 }
-
-export default withStyles(style, { withTheme: true })(Loginscreen);
