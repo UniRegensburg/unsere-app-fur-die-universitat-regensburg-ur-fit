@@ -22,6 +22,7 @@ import {
 import Logo from "../../assets/images/URFitLogo.png";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
 import auth from "../services/authService";
+import { getUser, createUser } from "../services/userService";
 
 const INFOTEXT =
   "Die URfit-App enthält verschiedene Sport- und Bewegungsangebote und den aktuellen Mensaplan.";
@@ -139,7 +140,9 @@ export default function Loginscreen() {
       .login(valueUsername, valuePassword, keepSignedIn)
       .then((userId) => {
         if (userId !== null) {
-          history.replace(location.state.from.pathname);
+          performOnboading(userId).then(() => {
+            redirectToIntendedPage();
+          });
         } else {
           provideUserFeedback("warning", "Nutzername oder Passwort falsch");
         }
@@ -148,6 +151,24 @@ export default function Loginscreen() {
         console.log(error);
         provideUserFeedback("error", "Anmeldung nicht möglich");
       });
+  };
+
+  const performOnboading = async (userId) => {
+    const user = await getUser(userId);
+    if (user.exists) {
+      return true;
+    } else {
+      try {
+        // TODO: let user input a username
+        await createUser(userId, "unknown");
+      } catch (error) {
+        provideUserFeedback("error", "Anlegen des Profils nicht möglich!");
+      }
+    }
+  };
+
+  const redirectToIntendedPage = () => {
+    history.replace(location.state.from.pathname);
   };
 
   const provideUserFeedback = (type, message) => {
