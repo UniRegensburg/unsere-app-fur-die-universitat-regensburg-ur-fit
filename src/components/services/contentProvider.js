@@ -1,4 +1,4 @@
-import { db as database } from "./firebase-init";
+import { db as database } from "./firebaseProvider";
 import firebase from "firebase/app";
 
 export const getStructure = (observer) => {

@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 import Logo from "../../assets/images/URFitLogo.png";
 import * as Constants from "../../constants/constants.js";
-import auth from "../services/authentication";
+import auth from "../services/authService";
 
 const useStyles = makeStyles((theme) => ({
   drawerLink: {

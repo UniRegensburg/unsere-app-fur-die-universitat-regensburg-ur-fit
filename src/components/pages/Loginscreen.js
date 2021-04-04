@@ -20,7 +20,7 @@ import {
 } from "@material-ui/core";
 import Logo from "../../assets/images/URFitLogo.png";
 import CustomSnackbar from "../pageComponents/CustomSnackbar";
-import auth from "../services/authentication";
+import auth from "../services/authService";
 
 const INFOTEXT =
   "Die URfit-App enthält verschiedene Sport- und Bewegungsangebote und den aktuellen Mensaplan.";

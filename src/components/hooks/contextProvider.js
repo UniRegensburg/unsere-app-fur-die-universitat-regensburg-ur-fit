@@ -1,5 +1,5 @@
 import React from "react";
-import { UserProvider } from "./useUser";
+import { AuthStateProvider } from "./useAuthState";
 import { StructureProvider } from "./useStructure";
 
 function ProviderComposer({ contexts, children }) {
@@ -14,7 +14,7 @@ function ProviderComposer({ contexts, children }) {
 
 function ContextProvider({ children }) {
   return (
-    <ProviderComposer contexts={[<UserProvider />, <StructureProvider />]}>
+    <ProviderComposer contexts={[<AuthStateProvider />, <StructureProvider />]}>
       {children}
     </ProviderComposer>
   );
