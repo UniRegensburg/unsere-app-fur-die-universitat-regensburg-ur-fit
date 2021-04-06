@@ -11,6 +11,7 @@ import {
   getContentItemsByCategory,
   getUserFavoritesOnce,
 } from "../services/contentProvider";
+import { useAuthState } from "../hooks/useAuthState";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,15 +35,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Contentlistscreen(props) {
+  const classes = useStyles();
+  const userId = useAuthState();
   const [sort, setSort] = useState("Länge");
   const [contentList, setContentList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const classes = useStyles();
   const { match } = props;
   let subcategory = match.params.subcategory;
   let category = match.params.category;
 
   useEffect(() => {
+    const checkFavorite = async (contents) => {
+      let contentItems = contents;
+      getUserFavoritesOnce(userId).then((user) => {
+        let favorites = user.data().favorites;
+        let favoritesIds = favorites.map((item) => item.id);
+        contentItems.forEach((content) => {
+          if (favoritesIds.includes(content.id)) {
+            content.favorite = true;
+          } else {
+            content.favorite = false;
+          }
+        });
+        setContentList(contentItems);
+        setLoading(false);
+      });
+    };
+
     let unsubscribe = () => null;
     try {
       if (subcategory !== "allContents") {
@@ -73,26 +92,7 @@ export default function Contentlistscreen(props) {
     }
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [subcategory, category]);
-
-  const checkFavorite = async (contents) => {
-    let contentItems = contents;
-    getUserFavoritesOnce("701b389b848a2b1cfab867093101d8d5ac56addd").then(
-      (user) => {
-        let favorites = user.data().favorites;
-        let favoritesIds = favorites.map((item) => item.id);
-        contentItems.forEach((content) => {
-          if (favoritesIds.includes(content.id)) {
-            content.favorite = true;
-          } else {
-            content.favorite = false;
-          }
-        });
-        setContentList(contentItems);
-        setLoading(false);
-      }
-    );
-  };
+  }, [subcategory, category, userId]);
 
   const handleSortChange = (event) => {
     setSort(event.target.value);

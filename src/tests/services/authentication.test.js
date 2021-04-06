@@ -1,7 +1,7 @@
 import nock from "nock";
-import auth from "../../components/services/authentication";
-import firebase from "../../components/services/firebase-init";
-jest.mock("../../components/services/firebase-init");
+import auth from "../../components/services/authService";
+import firebase from "../../components/services/firebaseProvider";
+jest.mock("../../components/services/firebaseProvider");
 
 nock.disableNetConnect();
 const user = { displayName: "testName", uid: "1234" };

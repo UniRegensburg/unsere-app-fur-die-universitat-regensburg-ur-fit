@@ -22,6 +22,7 @@ import {
   setFavoriteItem,
   deleteFavoriteItem,
 } from "../services/contentProvider";
+import { useAuthState } from "../hooks/useAuthState";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -70,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentCard(props) {
   const classes = useStyles();
+  const userId = useAuthState();
   const { data, match } = props;
   const [favorite, setFavorite] = React.useState(data.favorite);
 
@@ -95,11 +97,11 @@ export default function ContentCard(props) {
 
   const handleFavoriteClick = () => {
     if (favorite) {
-      deleteFavoriteItem(data.id, "701b389b848a2b1cfab867093101d8d5ac56addd")
+      deleteFavoriteItem(data.id, userId)
         .then((_) => setFavorite(false))
         .catch((error) => console.log("Error deleting favorite: ", error));
     } else {
-      setFavoriteItem(data.id, "701b389b848a2b1cfab867093101d8d5ac56addd")
+      setFavoriteItem(data.id, userId)
         .then((_) => setFavorite(true))
         .catch((error) => console.log("Error setting favorite: ", error));
     }
