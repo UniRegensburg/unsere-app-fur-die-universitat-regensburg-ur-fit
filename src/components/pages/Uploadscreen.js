@@ -19,7 +19,13 @@ import {
   ListItem,
   ListItemText,
   ListSubheader,
+  Dialog,
+  DialogActions,
+  DialogContentText,
+  DialogContent,
+  DialogTitle,
 } from "@material-ui/core/";
+import AddIcon from "@material-ui/icons/Add";
 import { withStyles } from "@material-ui/core/styles";
 import {
   ArrowBack as ArrowBackIcon,
@@ -55,11 +61,17 @@ const useStyles = makeStyles((theme) => ({
     margin: "16px",
   },
   list: {
-    maxWidth: "200px;",
+    maxWidth: "230px;",
   },
-  lable_category: {
-    marginTop: "21px",
+  lable: {
+    marginTop: "8px",
+    fontSize: "120%",
+    textAligh: "end",
   },
+  test: {
+    minWidth: "1000px",
+  },
+
   input_title: {
     maxWidth: "350px",
     margin: "8px",
@@ -70,10 +82,31 @@ const useStyles = makeStyles((theme) => ({
   },
   senden_Button: {
     margin: "16px",
-    textAlign: "start",
+    color: theme.palette.secondary.main,
   },
-  topborder: {
-    borderLeft: "1.5px solid" + theme.palette.secondary.main,
+  addTagButton: {
+    textTransform: "none",
+    /* color: "#2E303C", */
+    color: "#000000",
+    fontWeight: "normal",
+  },
+  hide: {
+    display: "none",
+  },
+  textarea: {
+    /* border: "solid 1px", */
+    borderColor: theme.palette.primary.main,
+    /*     borderColor: "#7a7979",
+     */
+    /* boxSizing: "border-box", */
+    width: "100%",
+    /* marginLeft: "8px", */
+
+    length_video: {
+      /* marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1), */
+      width: 500,
+    },
   },
 }));
 
@@ -95,27 +128,6 @@ export default function Uploadscreen(props) {
     Constants.pages.wellbeing.title,
     Constants.pages.nutrition.title,
   ];
-
-  const [stateCategories, setStateCategories] = React.useState({
-    stateRelaxation: false,
-    stateFitness: false,
-    stateWellbeing: false,
-    stateNutrition: false,
-  });
-
-  const handleChangeCategory = (event) => {
-    setStateCategories({
-      ...stateCategories,
-      [event.target.name]: event.target.checked,
-    });
-  };
-
-  const {
-    stateRelaxation,
-    stateFitness,
-    stateWellbeing,
-    stateNutrition,
-  } = stateCategories;
 
   // Subcategory
   // Fitness
@@ -143,12 +155,6 @@ export default function Uploadscreen(props) {
       subcategoryClicked,
       valueOfClick
     );
-    if (clickedSubcategoriesRelaxation.length > 0) {
-      setStateCategories({
-        ...stateCategories,
-        stateRelaxation: true,
-      });
-    }
   }
 
   const [
@@ -162,12 +168,6 @@ export default function Uploadscreen(props) {
       subcategoryClicked,
       valueOfClick
     );
-    if (clickedSubcategoriesFitness.length > 0) {
-      setStateCategories({
-        ...stateCategories,
-        stateFitness: true,
-      });
-    }
   }
 
   const [
@@ -181,12 +181,6 @@ export default function Uploadscreen(props) {
       subcategoryClicked,
       valueOfClick
     );
-    if (clickedSubcategoriesWellbeing.length > 0) {
-      setStateCategories({
-        ...stateCategories,
-        stateWellbeing: true,
-      });
-    }
   }
 
   const [
@@ -201,13 +195,8 @@ export default function Uploadscreen(props) {
       subcategoryClicked,
       valueOfClick
     );
-    if (clickedSubcategoriesNutrition.length > 0) {
-      setStateCategories({
-        ...stateCategories,
-        stateNutrition: true,
-      });
-    }
   }
+
   // ändert die Checkboxarrays die aktiv sind
   function handleCheckboxArrayChange(
     checkboxArray,
@@ -237,6 +226,13 @@ export default function Uploadscreen(props) {
     setValue(event.target.value);
   };
 
+  //Titel
+  const [titleInput, setTitleInput] = React.useState("");
+
+  const handleTitleInput = (event) => {
+    setTitleInput(event.target.value);
+  };
+
   //Tags
   let allTags = ["fit", "zwischendrin", "Anfängerr", "Profi", "Nacken"];
   let allTagsObject = {};
@@ -246,19 +242,6 @@ export default function Uploadscreen(props) {
   const [checkedTag, setCheckedTag] = React.useState(false);
 
   const handleChangeTags = (event) => {
-    /* if (event.target.checked) {
-      console.log(allClickedTags);
-      allClickedTags.push(event.target.name);
-      console.log(allClickedTags);
-    }
-    if (!event.target.checked) {
-      console.log(allClickedTags);
-      const index = allClickedTags.indexOf(event.target.name);
-      if (index > -1) {
-        allClickedTags.splice(index, 1);
-      }
-      console.log(allClickedTags);
-    } */
     setCheckedTag(event.target.checkedTag);
     handleCheckboxArrayChange(
       allClickedTags,
@@ -266,6 +249,28 @@ export default function Uploadscreen(props) {
       event.target.name,
       event.target.checked
     );
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  //eingabe in datenbank
+  //dannn irgendwas zurück und damit state ändern
+  const handleAddTag = () => {
+    console.log("Eingabe:", inputTag);
+    setOpen(false);
+  };
+
+  const [inputTag, setInputTag] = React.useState("");
+
+  const handleinputTag = (event) => {
+    setInputTag(event.target.value);
   };
 
   // Submitt-Button
@@ -279,9 +284,95 @@ export default function Uploadscreen(props) {
       clickedSubcategoriesWellbeing,
       clickedSubcategoriesFitness
     );
+    console.log("Radiogroup:", value);
+    console.log("Titel:", titleInput);
     console.log("Tags:", allClickedTags);
-    console.log("Radiogroup", value);
+    console.log("Inhalt Text:", textInput);
   };
+
+  // handel Video/Audio/Text Input
+  const handleContentShown = (aktiveRadio) => {
+    switch (aktiveRadio) {
+      case "video":
+        console.log("video");
+        return (
+          <div>
+            <Grid container spacing={1}>
+              <Grid item>
+                <FormLabel component="legend" className={classes.lable}>
+                  Video hochladen:
+                </FormLabel>
+              </Grid>
+              <Grid item xs={7}>
+                <TextField
+                  id="time"
+                  label="Länge des Videos:"
+                  type="number"
+                  defaultValue="00"
+                  min="1"
+                  max="2"
+                  /* className={classes.length_video} */
+                />
+                <textarea
+                  data-testid="length-Video_Input"
+                  /* className={classes.length_video}
+              value={this.state.value} */
+                  placeholder="Länge des Videos:"
+                  /* onChange={this.handleChange} */
+                  rows="1"
+                  min="1"
+                  max="2"
+                />
+              </Grid>
+            </Grid>
+          </div>
+        );
+
+      case "text":
+        console.log("text");
+        return (
+          <div>
+            <Grid container spacing={1}>
+              <Grid item>
+                <FormLabel component="legend" className={classes.lable}>
+                  Texteingabe:
+                </FormLabel>
+              </Grid>
+              <Grid item xs={7}>
+                <TextField
+                  value={textInput}
+                  onChange={handleTextInput}
+                  id="text-input"
+                  label="Bitte fügen sie hier ihren Text ein."
+                  defaultValue="Text"
+                  fullWidth
+                  multiline
+                  className={classes.textarea}
+                  variant="outlined"
+                  rows={7}
+                />
+              </Grid>
+            </Grid>
+          </div>
+        );
+
+      case "audio":
+        console.log("audio");
+        return (
+          <div>
+            <h6>Audio</h6>
+            <input type="file"></input>
+          </div>
+        );
+    }
+  };
+  //--Text
+  const [textInput, setTextInput] = React.useState("");
+
+  const handleTextInput = (event) => {
+    setTextInput(event.target.value);
+  };
+
   /*
   - https://onestepcode.com/creating-a-material-ui-form/
   */
@@ -293,8 +384,8 @@ export default function Uploadscreen(props) {
 
       <Grid container spacing={1}>
         <Grid item xs={1}>
-          <FormLabel component="legend" className={classes.lable_category}>
-            Kategorie:
+          <FormLabel component="legend" className={classes.lable}>
+            Kategorie: *
           </FormLabel>
         </Grid>
         <Grid container item spacing={1} xs={11}>
@@ -306,98 +397,61 @@ export default function Uploadscreen(props) {
             >
               <li>
                 <ul>
-                  <ListItem>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={stateRelaxation}
-                          onChange={handleChangeCategory}
-                          name="stateRelaxation"
-                          color={"primary"}
-                        />
-                      }
-                      label={categories[0]}
-                    />
-                    {console.log("rerender")}
-                  </ListItem>
                   <SubcategoryList
                     onSubcategoryChange={handleSubcategoryChangeRelaxation}
                     subcategoriesNames={subcategoriesRelaxation}
+                    category={categories[0]}
                   ></SubcategoryList>
                 </ul>
               </li>
             </List>
           </Grid>
           <Grid item>
-            <List className={classes.root} subheader={<li />}>
+            <List
+              className={classes.root}
+              subheader={<li />}
+              className={classes.list}
+            >
               <li>
                 <ul>
-                  <ListItem>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={stateFitness}
-                          onChange={handleChangeCategory}
-                          name="stateFitness"
-                          color={"primary"}
-                        />
-                      }
-                      label={categories[1]}
-                    />
-                  </ListItem>
                   <SubcategoryList
                     onSubcategoryChange={handleSubcategoryChangeFitness}
                     subcategoriesNames={subcategoriesFitness}
+                    category={categories[1]}
                   ></SubcategoryList>
                 </ul>
               </li>
             </List>
           </Grid>
           <Grid item>
-            <List className={classes.root} subheader={<li />}>
+            <List
+              className={classes.root}
+              subheader={<li />}
+              className={classes.list}
+            >
               <li>
                 <ul>
-                  <ListItem>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={stateWellbeing}
-                          onChange={handleChangeCategory}
-                          name="stateWellbeing"
-                          color={"primary"}
-                        />
-                      }
-                      label={categories[2]}
-                    />
-                  </ListItem>
                   <SubcategoryList
                     onSubcategoryChange={handleSubcategoryChangeWellbeing}
                     subcategoriesNames={subcategoriesWellbeing}
+                    category={categories[2]}
                   ></SubcategoryList>
                 </ul>
               </li>
             </List>
           </Grid>
           <Grid item>
-            <List className={classes.root} subheader={<li />}>
+            <List
+              className={classes.root}
+              subheader={<li />}
+              className={classes.list}
+            >
               <li>
                 <ul>
-                  <ListItem>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={stateNutrition}
-                          onChange={handleChangeCategory}
-                          name="stateNutrition"
-                          color={"primary"}
-                        />
-                      }
-                      label={categories[3]}
-                    />
-                  </ListItem>
                   <SubcategoryList
                     onSubcategoryChange={handleSubcategoryChangeNutrition}
                     subcategoriesNames={subcategoriesNutrition}
+                    category={categories[3]}
                   ></SubcategoryList>
                 </ul>
               </li>
@@ -411,7 +465,9 @@ export default function Uploadscreen(props) {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <Grid item xs={1}>
-            <FormLabel component="legend">Typ:</FormLabel>
+            <FormLabel component="legend" className={classes.lable}>
+              Typ: *
+            </FormLabel>
           </Grid>
           <Grid item xs={11}>
             <FormControl component="fieldset" className={classes.radioButton}>
@@ -444,17 +500,17 @@ export default function Uploadscreen(props) {
 
         <Grid container spacing={1}>
           <Grid item xs={1}>
-            <FormLabel component="legend" className={classes.lable_category}>
-              Titel:
+            <FormLabel component="legend" className={classes.lable}>
+              Titel: *
             </FormLabel>
           </Grid>
           <Grid item xs={11}>
             <TextField
-              /*  value={name}
-          onChange={handleChange} */
+              value={titleInput}
+              onChange={handleTitleInput}
               required
               id="title-input"
-              label="Titel"
+              label="Geben sie den Titel an"
               defaultValue="title"
               fullWidth
               className={classes.input_title}
@@ -464,11 +520,14 @@ export default function Uploadscreen(props) {
           </Grid>
         </Grid>
         <Divider className={classes.divider} variant="middle" />
+        {handleContentShown(value)}
+        <Divider className={classes.divider} variant="middle" />
         <Grid container spacing={1}>
           <Grid item xs={1}>
-            <FormLabel component="legend">Tags:</FormLabel>
+            <FormLabel component="legend" className={classes.lable}>
+              Tags:
+            </FormLabel>
           </Grid>
-          {console.log(allTags)}
           {allTags.map((tag, index) => (
             <Grid item>
               <FormControlLabel
@@ -485,16 +544,51 @@ export default function Uploadscreen(props) {
               />
             </Grid>
           ))}
+          <Grid item>
+            <Button
+              color="secondary"
+              size="large"
+              className={classes.addTagButton}
+              onClick={handleClickOpen}
+              startIcon={<AddIcon color={"secondary"} />}
+            >
+              Tag hinzufügen
+            </Button>
+          </Grid>
         </Grid>
-        {/* nur ausführbar wenn man requestet Felder ausgefüllt hat */}
-        <Button
-          variant="text"
-          color="secondary"
-          type="submit"
-          className={classes.senden_Button}
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
         >
+          <DialogTitle id="form-dialog-title">Tag hienzufügen</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Geben sie eine neue Tag ein:</DialogContentText>
+            <TextField
+              autoFocus
+              value={inputTag}
+              onChange={handleinputTag}
+              margin="dense"
+              id="name"
+              label="Tag"
+              type="text"
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="secondary">
+              abbrechen
+            </Button>
+            <Button onClick={handleAddTag} color="secondary">
+              hinzufügen
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {/* nur ausführbar wenn man requestet Felder ausgefüllt hat */}
+        <Button variant="text" type="submit" className={classes.senden_Button}>
           Content absenden
         </Button>
+        {/* abbrechen butten*/}
       </form>
     </div>
   );
