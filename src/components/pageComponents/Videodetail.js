@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Typography } from "@material-ui/core/";
+import { makeStyles, Typography, Chip } from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
   video: {
@@ -13,10 +13,13 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "8px",
   },
 
-  tag: {
-    color: theme.palette.text.main,
+  chip: {
     marginRight: "8px",
+    marginBottom: "16px",
+    marginTop: "8px",
     float: "left",
+    color: theme.palette.background.lightgrey,
+    background: theme.palette.primary.light,
   },
 }));
 
@@ -26,22 +29,20 @@ export default function VideoDetail(props) {
 
   return (
     <div>
+      <Typography variant="h6" className={classes.title}>
+        {data.title}
+      </Typography>
       <iframe
         title="testvideo"
         className={classes.video}
-        src={data.src}
+        src={data.source}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       ></iframe>
-      <Typography variant="body1" className={classes.title}>
-        {data.title}
-      </Typography>
       {data.tags.map((tag, index) => {
         return (
-          <Typography variant="caption" className={classes.tag} key={index}>
-            {tag}
-          </Typography>
+          <Chip label={tag} size="small" key={index} className={classes.chip} />
         );
       })}
     </div>

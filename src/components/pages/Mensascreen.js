@@ -76,7 +76,7 @@ export class Mensascreen extends React.Component {
   }
 
   componentDidMount() {
-    let week = moment().week();
+    let week = moment().week() - 1;
     getMensaData(week).then((data) => {
       if (typeof data !== "undefined" && data !== null) {
         this.setState({ mensaPlan: addCategories(data) });
@@ -123,7 +123,11 @@ export class Mensascreen extends React.Component {
     } else {
       return (
         <div className="Mensascreen">
-          <TopAppBar data-testid="mensa-appBar" title="URfit" />
+          <TopAppBar
+            data-testid="mensa-appBar"
+            title="URfit"
+            favIcon="visible"
+          />
           <Grid container direction="column">
             <Grid
               container

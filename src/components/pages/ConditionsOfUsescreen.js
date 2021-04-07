@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { makeStyles, Typography } from "@material-ui/core/";
 import TopAppBar from "../pageComponents/TopAppBar";
-import ImprintText from "../../assets/textfiles/imprint.md";
+import ConditionsText from "../../assets/textfiles/conditions-of-use.md";
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -16,25 +16,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Imprintscreen(props) {
-  const [imprint, setImprint] = useState("");
+export default function ConditionsOfUseScreen(props) {
+  const [conditions, setConditions] = useState("");
 
   useEffect(() => {
-    fetch(ImprintText)
+    fetch(ConditionsText)
       .then((res) => res.text())
-      .then((text) => setImprint({ text }))
-      .catch((error) =>
-        setImprint({ text: "Fehler beim Laden der Nutzungsbedinungen!" })
-      );
+      .then((text) => setConditions({ text }))
+      .catch((error) => setConditions({ text: "Fehler beim Laden der AGB!" }));
   }, []);
 
   const classes = useStyles();
   return (
-    <div className="Imprintscreen">
-      <TopAppBar data-testid="appbar" title="Impressum" favIcon="visible" />
+    <div className="ConditionsOfUseScreen">
+      <TopAppBar
+        data-testid="appbar"
+        title="Nutzungsbedingungen"
+        favIcon="visible"
+      />
       <div className={classes.container}>
         <Typography variant="body1" className={classes.text} component="div">
-          <ReactMarkdown source={imprint.text} />
+          <ReactMarkdown source={conditions.text} />
         </Typography>
       </div>
     </div>

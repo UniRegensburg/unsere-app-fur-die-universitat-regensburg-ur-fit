@@ -6,6 +6,7 @@ import { getUserFavorites, getContentById } from "../services/contentProvider";
 import InfoMessageCard from "../pageComponents/InfoMessageCard";
 
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
+import { useAuthState } from "../hooks/useAuthState";
 
 const username = "Viktor"; // get from db
 
@@ -27,27 +28,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Homescreen() {
   const classes = useStyles();
+  const userId = useAuthState();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = getUserFavorites(
-      "701b389b848a2b1cfab867093101d8d5ac56addd",
-      {
-        next: (querySnapshot) => {
-          let contentRefs = querySnapshot.data().favorites;
-          Promise.all(
-            contentRefs.map((contentRef) => getContentById(contentRef.id))
-          ).then((results) => {
-            setFavorites(results.map((contentItem) => contentItem.data()));
-            setLoading(false);
-          });
-        },
-      }
-    );
+    const unsubscribe = getUserFavorites(userId, {
+      next: (querySnapshot) => {
+        let contentRefs = querySnapshot.data().favorites;
+        Promise.all(
+          contentRefs.map((contentRef) => getContentById(contentRef.id))
+        ).then((results) => {
+          setFavorites(
+            results.map((contentItem) => {
+              let content = contentItem.data();
+              content.favorite = true;
+              return content;
+            })
+          );
+          setLoading(false);
+        });
+      },
+    });
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []);
+  }, [userId]);
 
   return (
     <div className="Homescreen">
@@ -69,13 +74,12 @@ export default function Homescreen() {
             <Typography variant="subtitle2" className={classes.text}>
               Deine Lieblingsübungen
             </Typography>
-            {favorites.map((item, index) => {
-              item.favorite = true;
+            {favorites.map((item) => {
               return (
                 <ContentCard
                   data-testid="content-item"
                   data={item}
-                  key={index}
+                  key={item.id}
                 />
               );
             })}

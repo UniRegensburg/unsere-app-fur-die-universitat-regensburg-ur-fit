@@ -1,14 +1,17 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/";
+import React, { useState, useEffect } from "react";
+import { makeStyles, Typography, CircularProgress } from "@material-ui/core/";
 import { ArrowBack as ArrowBackIcon } from "@material-ui/icons";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
 import { Link } from "react-router-dom";
-
-// obviously this data has to be replaced by real data according to the subcategory
-import * as Constants from "../../constants/constants.js";
+import {
+  getContentItemsBySubcategory,
+  getContentItemsByCategory,
+  getUserFavoritesOnce,
+} from "../services/contentProvider";
+import { useAuthState } from "../hooks/useAuthState";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,12 +35,64 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Contentlistscreen(props) {
-  const [sort, setSort] = React.useState("Länge");
   const classes = useStyles();
-  const { title, match } = props;
-  let data = Constants.pages;
-  let category = match.params.category;
+  const userId = useAuthState();
+  const [sort, setSort] = useState("Länge");
+  const [contentList, setContentList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { match } = props;
   let subcategory = match.params.subcategory;
+  let category = match.params.category;
+
+  useEffect(() => {
+    const checkFavorite = async (contents) => {
+      let contentItems = contents;
+      getUserFavoritesOnce(userId).then((user) => {
+        let favorites = user.data().favorites;
+        let favoritesIds = favorites.map((item) => item.id);
+        contentItems.forEach((content) => {
+          if (favoritesIds.includes(content.id)) {
+            content.favorite = true;
+          } else {
+            content.favorite = false;
+          }
+        });
+        setContentList(contentItems);
+        setLoading(false);
+      });
+    };
+
+    let unsubscribe = () => null;
+    try {
+      if (subcategory !== "allContents") {
+        unsubscribe = getContentItemsBySubcategory(category, subcategory, {
+          next: (querySnapshot) => {
+            let contentRefs = querySnapshot.docs;
+            Promise.all(
+              contentRefs.map((contentRef) => contentRef.data())
+            ).then((results) => {
+              checkFavorite(results);
+            });
+          },
+        });
+      } else {
+        unsubscribe = getContentItemsByCategory(category, {
+          next: (querySnapshot) => {
+            let contentRefs = querySnapshot.docs;
+            Promise.all(
+              contentRefs.map((contentRef) => contentRef.data())
+            ).then((results) => {
+              checkFavorite(results);
+            });
+          },
+        });
+      }
+    } catch {
+      setLoading(false);
+    }
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, [subcategory, category, userId]);
 
   const handleSortChange = (event) => {
     setSort(event.target.value);
@@ -46,7 +101,14 @@ export default function Contentlistscreen(props) {
 
   return (
     <div className="Contentlistscreen">
-      <TopAppBar data-testid="appbar" title={title} />
+      <TopAppBar
+        data-testid="appbar"
+        title={
+          match.params.subcategory.charAt(0).toUpperCase() +
+          match.params.subcategory.slice(1)
+        }
+        favIcon="visible"
+      />
       <div className={classes.container}>
         <div className={classes.header}>
           <Link to={`/category/${match.params.category}`} replace>
@@ -68,18 +130,24 @@ export default function Contentlistscreen(props) {
             </Select>
           </FormControl>
         </div>
-        {data[category].subcategories
-          .find((item) => {
-            return subcategory === item.value;
-          })
-          .content.map((item, index) => (
-            <ContentCard
-              match={match}
-              data-testid="content-item"
-              data={item}
-              key={index}
-            />
-          ))}
+        {loading ? (
+          <CircularProgress />
+        ) : contentList.length === 0 ? (
+          <Typography variant="subtitle2" className={classes.text}>
+            Leider bisher keine Übungen verfügbar :(
+          </Typography>
+        ) : (
+          <div>
+            {contentList.map((item, index) => (
+              <ContentCard
+                match={match}
+                data-testid="content-item"
+                data={item}
+                key={index}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

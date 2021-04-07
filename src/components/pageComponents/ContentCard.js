@@ -18,6 +18,11 @@ import {
   EmojiSymbols,
 } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import {
+  setFavoriteItem,
+  deleteFavoriteItem,
+} from "../services/contentProvider";
+import { useAuthState } from "../hooks/useAuthState";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -66,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContentCard(props) {
   const classes = useStyles();
+  const userId = useAuthState();
   const { data, match } = props;
   const [favorite, setFavorite] = React.useState(data.favorite);
 
@@ -90,8 +96,15 @@ export default function ContentCard(props) {
   }
 
   const handleFavoriteClick = () => {
-    setFavorite(!favorite);
-    // todo: save state to backend
+    if (favorite) {
+      deleteFavoriteItem(data.id, userId)
+        .then((_) => setFavorite(false))
+        .catch((error) => console.log("Error deleting favorite: ", error));
+    } else {
+      setFavoriteItem(data.id, userId)
+        .then((_) => setFavorite(true))
+        .catch((error) => console.log("Error setting favorite: ", error));
+    }
   };
 
   return (

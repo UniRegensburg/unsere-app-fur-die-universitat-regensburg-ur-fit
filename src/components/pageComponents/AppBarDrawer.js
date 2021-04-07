@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 
 import Logo from "../../assets/images/URFitLogo.png";
 import * as Constants from "../../constants/constants.js";
+import auth from "../services/authService";
 
 const useStyles = makeStyles((theme) => ({
   drawerLink: {
@@ -47,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AppBarDrawer(props) {
   const classes = useStyles();
+
+  const handleOnLogoutEntryClick = () => {
+    auth.logout();
+  };
+
   let contentPages = [
       Constants.pages.relaxation,
       Constants.pages.fitness,
@@ -58,8 +64,9 @@ export default function AppBarDrawer(props) {
       Constants.pages.feedback,
       Constants.pages.imprint,
       Constants.pages.conditions,
-      Constants.pages.logout,
-    ];
+    ],
+    homeEntry = Constants.pages.home,
+    logoutEntry = Constants.pages.logout;
 
   return (
     <Drawer
@@ -90,14 +97,14 @@ export default function AppBarDrawer(props) {
             <ListItem
               button
               component={Link}
-              to={Constants.pages.home.value}
+              to={homeEntry.value}
               onClick={props.onToggleDrawer}
               data-testid="drawer-listitem"
             >
               <ListItemIcon className={classes.listIcon}>
-                {Constants.pages.home.icon}
+                {homeEntry.icon}
               </ListItemIcon>
-              <ListItemText>{Constants.pages.home.title}</ListItemText>
+              <ListItemText>{homeEntry.title}</ListItemText>
             </ListItem>
             {contentPages.map((item, index) => (
               <ListItem
@@ -136,6 +143,19 @@ export default function AppBarDrawer(props) {
                 <ListItemText>{item.title}</ListItemText>
               </ListItem>
             ))}
+            <ListItem
+              button
+              // component={Link}
+              // to={item.value}
+              onClick={handleOnLogoutEntryClick}
+              key={logoutEntry.value}
+              data-testid="drawer-listitem"
+            >
+              <ListItemIcon className={classes.listIcon}>
+                {logoutEntry.icon}
+              </ListItemIcon>
+              <ListItemText>{logoutEntry.title}</ListItemText>
+            </ListItem>
           </List>
         </Grid>
         <Grid item xs></Grid>

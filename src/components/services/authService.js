@@ -1,4 +1,4 @@
-import firebase from "./firebase-init";
+import firebase from "./firebaseProvider";
 const AUTH_URL = "/proxy/authentication/auth.php";
 
 // requesting JWT Token from authentication server, this request needs strict http rules

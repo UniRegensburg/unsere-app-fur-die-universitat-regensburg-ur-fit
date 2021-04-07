@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
 import { ProtectedRoute } from "./components/navigation/ProtectedRoute";
-import { UserProvider } from "./components/hooks/useUser";
+import { ContextProvider } from "./components/hooks/contextProvider";
 
 import Feedbackscreen from "./components/pages/Feedbackscreen";
 import Homescreen from "./components/pages/Homescreen";
 import Loginscreen from "./components/pages/Loginscreen";
 import Imprintscreen from "./components/pages/Imprintscreen";
+import ConditionsOfUseScreen from "./components/pages/ConditionsOfUsescreen";
 import Uploadscreen from "./components/pages/Uploadscreen";
 import Settingsscreen from "./components/pages/Settingsscreen";
 
@@ -20,7 +21,7 @@ import {
 
 function App() {
   return (
-    <UserProvider>
+    <ContextProvider>
       <Router>
         <div data-testid="app" className="App">
           <Switch>
@@ -29,6 +30,11 @@ function App() {
             <ProtectedRoute exact path="/feedback" component={Feedbackscreen} />
             <ProtectedRoute exact path="/settings" component={Settingsscreen} />
             <ProtectedRoute exact path="/imprint" component={Imprintscreen} />
+            <ProtectedRoute
+              exact
+              path="/conditions"
+              component={ConditionsOfUseScreen}
+            />
             <ProtectedRoute
               exact
               path="/category/:category"
@@ -53,7 +59,7 @@ function App() {
           </Switch>
         </div>
       </Router>
-    </UserProvider>
+    </ContextProvider>
   );
 }
 

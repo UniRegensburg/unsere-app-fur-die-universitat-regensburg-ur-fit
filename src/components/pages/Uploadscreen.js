@@ -51,13 +51,16 @@ const useStyles = makeStyles((theme) => ({
     marginEnd: "16px",
     position: "relative",
   },
+  body: {
+    padding: 20,
+    paddingTop: 0,
+  },
   divider: {
     marginTop: "24px",
     marginBottom: "24px",
   },
   headline: {
     color: "#2E303C",
-    /* textAlign: "start", */
     margin: "16px",
   },
   list: {
@@ -69,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     textAligh: "end",
   },
   test: {
-    minWidth: "1000px",
+    minWidth: "400px",
   },
 
   input_title: {
@@ -86,7 +89,6 @@ const useStyles = makeStyles((theme) => ({
   },
   addTagButton: {
     textTransform: "none",
-    /* color: "#2E303C", */
     color: "#000000",
     fontWeight: "normal",
   },
@@ -101,12 +103,12 @@ const useStyles = makeStyles((theme) => ({
     /* boxSizing: "border-box", */
     width: "100%",
     /* marginLeft: "8px", */
-
-    length_video: {
-      /* marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1), */
-      width: 500,
-    },
+  },
+  input_Audio: {
+    marginTop: "8px",
+  },
+  input_url: {
+    minWidth: "400px",
   },
 }));
 
@@ -187,7 +189,6 @@ export default function Uploadscreen(props) {
     clickedSubcategoriesNutrition,
     setClickedSubcategoriesNutrition,
   ] = React.useState([]);
-
   function handleSubcategoryChangeNutrition(subcategoryClicked, valueOfClick) {
     handleCheckboxArrayChange(
       clickedSubcategoriesNutrition,
@@ -273,23 +274,6 @@ export default function Uploadscreen(props) {
     setInputTag(event.target.value);
   };
 
-  // Submitt-Button
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("hier die Arrays");
-    console.log(
-      "Kategorien:",
-      clickedSubcategoriesNutrition,
-      clickedSubcategoriesRelaxation,
-      clickedSubcategoriesWellbeing,
-      clickedSubcategoriesFitness
-    );
-    console.log("Radiogroup:", value);
-    console.log("Titel:", titleInput);
-    console.log("Tags:", allClickedTags);
-    console.log("Inhalt Text:", textInput);
-  };
-
   // handel Video/Audio/Text Input
   const handleContentShown = (aktiveRadio) => {
     switch (aktiveRadio) {
@@ -297,31 +281,32 @@ export default function Uploadscreen(props) {
         console.log("video");
         return (
           <div>
-            <Grid container spacing={1}>
+            <Grid container spacing={3}>
               <Grid item>
                 <FormLabel component="legend" className={classes.lable}>
                   Video hochladen:
                 </FormLabel>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item>
                 <TextField
-                  id="time"
-                  label="Länge des Videos:"
-                  type="number"
-                  defaultValue="00"
-                  min="1"
-                  max="2"
-                  /* className={classes.length_video} */
+                  value={urlVideoInput}
+                  onChange={handleUrlVideoInput}
+                  id="urlVideoInput"
+                  label="Geben sie die URL des Videos an"
+                  defaultValue="url"
+                  shrink
+                  className={classes.input_url}
                 />
-                <textarea
-                  data-testid="length-Video_Input"
-                  /* className={classes.length_video}
-              value={this.state.value} */
-                  placeholder="Länge des Videos:"
-                  /* onChange={this.handleChange} */
-                  rows="1"
-                  min="1"
-                  max="2"
+              </Grid>
+              <Grid item>
+                <TextField
+                  value={lengthVideoInput}
+                  onChange={handleLengthVideoInput}
+                  id="lengthVideo"
+                  label="Länge des Videos:"
+                  /* type="number" */
+                  defaultValue="00:00:00"
+                  helperText="Format: hh:mm:ss"
                 />
               </Grid>
             </Grid>
@@ -360,24 +345,99 @@ export default function Uploadscreen(props) {
         console.log("audio");
         return (
           <div>
-            <h6>Audio</h6>
-            <input type="file"></input>
+            <Grid container spacing={3}>
+              <Grid item>
+                <FormLabel component="legend" className={classes.lable}>
+                  Audio hochladen:
+                </FormLabel>
+              </Grid>
+              <Grid item>
+                <input
+                  type="file"
+                  name="audioInput"
+                  onChange={handleAudioInput}
+                  className={classes.input_Audio}
+                ></input>
+              </Grid>
+              <Grid item>
+                <TextField
+                  value={lengthAudioInput}
+                  onChange={handleLengthAudioInput}
+                  id="lengthAudio"
+                  label="Länge des Audios:"
+                  defaultValue="00:00:00"
+                  helperText="Format: hh:mm:ss"
+                />
+              </Grid>
+            </Grid>
           </div>
         );
     }
   };
   //--Text
   const [textInput, setTextInput] = React.useState("");
-
   const handleTextInput = (event) => {
     setTextInput(event.target.value);
+  };
+
+  //--Audio
+  const [selectedAudio, setSelectedAudio] = React.useState();
+  /*   const [isFilePicked, setIsFilePicked] = React.useState(false); */
+  const handleAudioInput = (event) => {
+    setSelectedAudio(event.target.files[0]);
+    /* setIsFilePicked(true); */
+  };
+
+  const [lengthAudioInput, setLengthAudioInput] = React.useState("");
+  const handleLengthAudioInput = (event) => {
+    setLengthAudioInput(event.target.value);
+  };
+
+  //--Video
+  const [urlVideoInput, setUrlVideoInput] = React.useState("");
+  const handleUrlVideoInput = (event) => {
+    setUrlVideoInput(event.target.value);
+  };
+
+  const [lengthVideoInput, setLengthVideoInput] = React.useState("");
+  const handleLengthVideoInput = (event) => {
+    setLengthVideoInput(event.target.value);
+  };
+
+  // Submitt-Button
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("hier die Arrays");
+    console.log(
+      "Kategorien:",
+      clickedSubcategoriesNutrition,
+      clickedSubcategoriesRelaxation,
+      clickedSubcategoriesWellbeing,
+      clickedSubcategoriesFitness
+    );
+    console.log("Radiogroup:", value);
+    console.log("Titel:", titleInput);
+    console.log("Tags:", allClickedTags);
+    /* console.log("Inhalt Text:", textInput); */
+    console.log(value);
+    switch (value) {
+      case "video":
+        console.log("video:", urlVideoInput, lengthVideoInput);
+        break;
+      case "text":
+        console.log("text:", textInput);
+        break;
+      case "audio":
+        console.log("audio:", selectedAudio, lengthAudioInput);
+        break;
+    }
   };
 
   /*
   - https://onestepcode.com/creating-a-material-ui-form/
   */
   return (
-    <div>
+    <div className={classes.body}>
       <Typography variant="h4" className={classes.headline}>
         Neuen Eintrag anlegen
       </Typography>
@@ -514,8 +574,6 @@ export default function Uploadscreen(props) {
               defaultValue="title"
               fullWidth
               className={classes.input_title}
-              /* Style auslagern !!! */
-              style={{ margin: 8 }}
             />
           </Grid>
         </Grid>

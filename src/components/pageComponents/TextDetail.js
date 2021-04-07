@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Typography } from "@material-ui/core/";
+import { makeStyles, Typography, Chip } from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -7,11 +7,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "start",
   },
 
-  tag: {
-    color: theme.palette.text.main,
+  chip: {
     marginRight: "8px",
-    marginBottom: "8px",
+    marginBottom: "16px",
+    marginTop: "8px",
     float: "left",
+    color: theme.palette.background.lightgrey,
+    background: theme.palette.primary.light,
   },
 
   text: {
@@ -27,14 +29,12 @@ export default function TextDetail(props) {
   const { data } = props;
   return (
     <div className="ContentDetailText">
-      <Typography variant="body1" className={classes.title}>
+      <Typography variant="h6" className={classes.title}>
         {data.title}
       </Typography>
       {data.tags.map((tag, index) => {
         return (
-          <Typography variant="caption" className={classes.tag} key={index}>
-            {tag}
-          </Typography>
+          <Chip label={tag} size="small" key={index} className={classes.chip} />
         );
       })}
       <br></br>

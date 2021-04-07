@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Typography } from "@material-ui/core/";
+import { makeStyles, Typography, Chip } from "@material-ui/core/";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -13,10 +13,13 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "8px",
   },
 
-  tag: {
-    color: theme.palette.text.main,
+  chip: {
     marginRight: "8px",
+    marginBottom: "16px",
+    marginTop: "8px",
     float: "left",
+    color: theme.palette.background.lightgrey,
+    background: theme.palette.primary.light,
   },
 }));
 
@@ -26,20 +29,16 @@ export default function AudioDetail(props) {
 
   return (
     <div>
-      <Typography variant="body1" className={classes.title}>
+      <Typography variant="h6" className={classes.title}>
         {data.title}
       </Typography>
-
       <audio controls className={classes.audio}>
-        <source src={data.src} type="audio/mpeg" />
+        <source src={data.source} type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
-
       {data.tags.map((tag, index) => {
         return (
-          <Typography variant="caption" className={classes.tag} key={index}>
-            {tag}
-          </Typography>
+          <Chip label={tag} size="small" key={index} className={classes.chip} />
         );
       })}
     </div>
