@@ -96,13 +96,8 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   textarea: {
-    /* border: "solid 1px", */
     borderColor: theme.palette.primary.main,
-    /*     borderColor: "#7a7979",
-     */
-    /* boxSizing: "border-box", */
     width: "100%",
-    /* marginLeft: "8px", */
   },
   input_Audio: {
     marginTop: "8px",
@@ -238,8 +233,7 @@ export default function Uploadscreen(props) {
   let allTags = ["fit", "zwischendrin", "Anfängerr", "Profi", "Nacken"];
   let allTagsObject = {};
   const [allClickedTags, setallClickedTags] = React.useState([]);
-  /*   let allAktivTags = [];
-   */ allTags.reduce(reducer, allTagsObject);
+  allTags.reduce(reducer, allTagsObject);
   const [checkedTag, setCheckedTag] = React.useState(false);
 
   const handleChangeTags = (event) => {
@@ -251,7 +245,7 @@ export default function Uploadscreen(props) {
       event.target.checked
     );
   };
-
+  // Tags-Dialog
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -431,6 +425,21 @@ export default function Uploadscreen(props) {
         console.log("audio:", selectedAudio, lengthAudioInput);
         break;
     }
+  };
+  // dialog cancel-button
+  const [openCancelDialog, setOpenCancelDialog] = React.useState(false);
+
+  const handleClickOpenCancelDialog = () => {
+    setOpenCancelDialog(true);
+  };
+
+  const handleCloseCancelDialogNegative = () => {
+    setOpenCancelDialog(false);
+  };
+  const handleCloseCancelDialogPositive = () => {
+    setOpenCancelDialog(false);
+    /* setClickedSubcategoriesNutrition(); */
+    window.location.reload(false);
   };
 
   /*
@@ -643,10 +652,48 @@ export default function Uploadscreen(props) {
           </DialogActions>
         </Dialog>
         {/* nur ausführbar wenn man requestet Felder ausgefüllt hat */}
+
+        {/* abbrechen Button */}
+        <Button
+          variant="text"
+          color="secondary"
+          className={classes.senden_Button}
+          onClick={handleClickOpenCancelDialog}
+        >
+          Abbrechen
+        </Button>
+        <Dialog
+          open={openCancelDialog}
+          onClose={handleCloseCancelDialogNegative}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Wollen sie die Eingaben löschen?"}
+          </DialogTitle>
+          {/* <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Wollen sie die aktuellen Eingaben löschen und ein neues Element
+              anlegen?
+            </DialogContentText>
+          </DialogContent> */}
+          <DialogActions>
+            <Button onClick={handleCloseCancelDialogPositive} color="primary">
+              ja
+            </Button>
+            <Button
+              onClick={handleCloseCancelDialogNegative}
+              color="primary"
+              autoFocus
+            >
+              nein
+            </Button>
+          </DialogActions>
+        </Dialog>
+
         <Button variant="text" type="submit" className={classes.senden_Button}>
           Content absenden
         </Button>
-        {/* abbrechen butten*/}
       </form>
     </div>
   );

@@ -5,7 +5,6 @@ import {
   Checkbox,
   FormControlLabel,
   FormLabel,
-  Typography,
   ListItemIcon,
   ListItemText,
   Dialog,
@@ -15,13 +14,8 @@ import {
   DialogContentText,
   DialogContent,
   DialogTitle,
-  ListItemSecondaryAction,
 } from "@material-ui/core/";
 import AddIcon from "@material-ui/icons/Add";
-
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import * as Constants from "../../constants/constants.js";
 
 const useStyles = makeStyles((theme) => ({
   subcategoryList: {
@@ -56,21 +50,19 @@ export default function SubcategoryList(props) {
 
   subcategories.reduce(reducer, subcategoriesObject);
 
-  const [stateSubcategoryNutrition, setStateCategoryNutrition] = React.useState(
-    {
-      subcategoriesObject,
-    }
-  );
+  const [stateSubcategory, setStateCategory] = React.useState({
+    subcategoriesObject,
+  });
   const handleChangeSubcategory = (event) => {
-    setStateCategoryNutrition({
-      ...stateSubcategoryNutrition,
+    setStateCategory({
+      ...stateSubcategory,
       [event.target.name]: event.target.checked,
     });
     console.log(event.target.checked);
     props.onSubcategoryChange(event.target.name, event.target.checked);
   };
 
-  subcategoriesObject = stateSubcategoryNutrition;
+  subcategoriesObject = stateSubcategory;
 
   // Dialog
   const [open, setOpen] = React.useState(false);
