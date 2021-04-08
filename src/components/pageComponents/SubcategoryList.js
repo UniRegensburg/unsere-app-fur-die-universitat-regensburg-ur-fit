@@ -30,10 +30,6 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "35px",
     color: theme.palette.secondary.main,
   },
-  addButtonText: {
-    fontSize: "10%",
-    color: theme.palette.secondary.main,
-  },
 }));
 
 export default function SubcategoryList(props) {
@@ -58,13 +54,12 @@ export default function SubcategoryList(props) {
       ...stateSubcategory,
       [event.target.name]: event.target.checked,
     });
-    console.log(event.target.checked);
     props.onSubcategoryChange(event.target.name, event.target.checked);
   };
 
   subcategoriesObject = stateSubcategory;
 
-  // Dialog
+  // dialog
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -74,8 +69,8 @@ export default function SubcategoryList(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  //eingabe in datenbank
-  //dannn irgendwas zurück und damit state ändern
+  // todo: einpflegen Datenbank
+  //neues array dann wieder in den State
   const handleAddSubcategory = () => {
     console.log("Eingabe:", inputSubcategory);
     setOpen(false);
@@ -119,9 +114,9 @@ export default function SubcategoryList(props) {
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="form-dialog-title"
+        aria-labelledby="add-subcategory-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">
+        <DialogTitle id="add-subcategory-dialog-title">
           Subkategorie hienzufügen
         </DialogTitle>
         <DialogContent>

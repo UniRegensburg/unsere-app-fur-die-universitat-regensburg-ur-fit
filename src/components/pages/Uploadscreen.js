@@ -1,13 +1,10 @@
 import React from "react";
 import {
   makeStyles,
-  IconButton,
   Checkbox,
   FormControlLabel,
   Grid,
   Button,
-  GridList,
-  GridListTile,
   TextField,
   FormLabel,
   FormControl,
@@ -16,9 +13,6 @@ import {
   Divider,
   Typography,
   List,
-  ListItem,
-  ListItemText,
-  ListSubheader,
   Dialog,
   DialogActions,
   DialogContentText,
@@ -26,19 +20,6 @@ import {
   DialogTitle,
 } from "@material-ui/core/";
 import AddIcon from "@material-ui/icons/Add";
-import { withStyles } from "@material-ui/core/styles";
-import {
-  ArrowBack as ArrowBackIcon,
-  Favorite as FavoriteIcon,
-  Share as ShareIcon,
-  FavoriteBorder as FavoriteOutlinedIcon,
-} from "@material-ui/icons";
-import VideoDetail from "../pageComponents/Videodetail";
-import AudioDetail from "../pageComponents/Audiodetail";
-import TextDetail from "../pageComponents/TextDetail";
-import CustomSnackbar from "../pageComponents/CustomSnackbar";
-import { Link } from "react-router-dom";
-//import firebase from "../services/firebase-init";
 
 // obviously this data has to be replaced by real data according to the subcategory
 import * as Constants from "../../constants/constants.js";
@@ -71,10 +52,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "120%",
     textAligh: "end",
   },
-  test: {
-    minWidth: "400px",
-  },
-
   input_title: {
     maxWidth: "350px",
     margin: "8px",
@@ -83,17 +60,14 @@ const useStyles = makeStyles((theme) => ({
   radioButton: {
     display: "flex",
   },
-  senden_Button: {
+  form_Button: {
     margin: "16px",
     color: theme.palette.secondary.main,
   },
-  addTagButton: {
+  add_Tag_Button: {
     textTransform: "none",
     color: "#000000",
     fontWeight: "normal",
-  },
-  hide: {
-    display: "none",
   },
   textarea: {
     borderColor: theme.palette.primary.main,
@@ -112,12 +86,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Uploadscreen(props) {
   const classes = useStyles();
 
-  // reducer für generierte Checkboxen
+  // reducer for generated Checkboxes
   const reducer = (accumulator, currentValue) => {
     let wert = Object.assign(accumulator, { [currentValue.value]: false });
     return wert;
   };
-
+  // todo: Datenbank
   // Categories
   let categories = [
     Constants.pages.relaxation.title,
@@ -127,24 +101,26 @@ export default function Uploadscreen(props) {
   ];
 
   // Subcategory
-  // Fitness
+  // todo: Datenbank
+  // fitness
   let subcategoriesFitness = Constants.pages.fitness.subcategories;
 
-  // Entspannung
+  // relaxation
   let subcategoriesRelaxation = Constants.pages.relaxation.subcategories;
 
-  // Wohlbefinden
+  // wellbeing
   let subcategoriesWellbeing = Constants.pages.wellbeing.subcategories;
 
-  // Ernährung Nutrition
+  // nutrition
   //todo: Mensa rausnehmen !!
   let subcategoriesNutrition = Constants.pages.nutrition.subcategories;
 
-  //Gecklickte Subkategorien
+  //klicked Subkategories
   const [
     clickedSubcategoriesRelaxation,
     setClickedSubcategoriesRelaxation,
   ] = React.useState([]);
+
   function handleSubcategoryChangeRelaxation(subcategoryClicked, valueOfClick) {
     handleCheckboxArrayChange(
       clickedSubcategoriesRelaxation,
@@ -193,7 +169,7 @@ export default function Uploadscreen(props) {
     );
   }
 
-  // ändert die Checkboxarrays die aktiv sind
+  // change Checkboxarray
   function handleCheckboxArrayChange(
     checkboxArray,
     setArray,
@@ -203,7 +179,6 @@ export default function Uploadscreen(props) {
     if (valueOfClick) {
       checkboxArray.push(checkboxClicked);
       setArray(checkboxArray);
-      console.log(checkboxArray);
     }
     if (!valueOfClick) {
       const index = checkboxArray.indexOf(checkboxClicked);
@@ -211,25 +186,25 @@ export default function Uploadscreen(props) {
         checkboxArray.splice(index, 1);
         setArray(checkboxArray);
       }
-      console.log(checkboxArray);
     }
   }
 
-  // Radio-Buttons
+  // radio-buttons
   const [value, setValue] = React.useState("video");
 
   const handleChangeRadio = (event) => {
     setValue(event.target.value);
   };
 
-  //Titel
+  //title-input
   const [titleInput, setTitleInput] = React.useState("");
 
   const handleTitleInput = (event) => {
     setTitleInput(event.target.value);
   };
 
-  //Tags
+  //tags
+  // todo: Datenbank
   let allTags = ["fit", "zwischendrin", "Anfängerr", "Profi", "Nacken"];
   let allTagsObject = {};
   const [allClickedTags, setallClickedTags] = React.useState([]);
@@ -245,7 +220,7 @@ export default function Uploadscreen(props) {
       event.target.checked
     );
   };
-  // Tags-Dialog
+  // tag-dialog
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -255,10 +230,9 @@ export default function Uploadscreen(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  //eingabe in datenbank
-  //dannn irgendwas zurück und damit state ändern
+  // todo: einpflegen Datenbank
+  //neues array dann wieder in den State
   const handleAddTag = () => {
-    console.log("Eingabe:", inputTag);
     setOpen(false);
   };
 
@@ -268,11 +242,10 @@ export default function Uploadscreen(props) {
     setInputTag(event.target.value);
   };
 
-  // handel Video/Audio/Text Input
+  // handle video-/audio-/text-input
   const handleContentShown = (aktiveRadio) => {
     switch (aktiveRadio) {
       case "video":
-        console.log("video");
         return (
           <div>
             <Grid container spacing={3}>
@@ -298,7 +271,6 @@ export default function Uploadscreen(props) {
                   onChange={handleLengthVideoInput}
                   id="lengthVideo"
                   label="Länge des Videos:"
-                  /* type="number" */
                   defaultValue="00:00:00"
                   helperText="Format: hh:mm:ss"
                 />
@@ -308,7 +280,6 @@ export default function Uploadscreen(props) {
         );
 
       case "text":
-        console.log("text");
         return (
           <div>
             <Grid container spacing={1}>
@@ -321,7 +292,7 @@ export default function Uploadscreen(props) {
                 <TextField
                   value={textInput}
                   onChange={handleTextInput}
-                  id="text-input"
+                  id="textInput"
                   label="Bitte fügen sie hier ihren Text ein."
                   defaultValue="Text"
                   fullWidth
@@ -336,7 +307,6 @@ export default function Uploadscreen(props) {
         );
 
       case "audio":
-        console.log("audio");
         return (
           <div>
             <Grid container spacing={3}>
@@ -376,10 +346,8 @@ export default function Uploadscreen(props) {
 
   //--Audio
   const [selectedAudio, setSelectedAudio] = React.useState();
-  /*   const [isFilePicked, setIsFilePicked] = React.useState(false); */
   const handleAudioInput = (event) => {
     setSelectedAudio(event.target.files[0]);
-    /* setIsFilePicked(true); */
   };
 
   const [lengthAudioInput, setLengthAudioInput] = React.useState("");
@@ -398,7 +366,8 @@ export default function Uploadscreen(props) {
     setLengthVideoInput(event.target.value);
   };
 
-  // Submitt-Button
+  // submitt-button
+  // todo: Datenbank
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("hier die Arrays");
@@ -412,7 +381,6 @@ export default function Uploadscreen(props) {
     console.log("Radiogroup:", value);
     console.log("Titel:", titleInput);
     console.log("Tags:", allClickedTags);
-    /* console.log("Inhalt Text:", textInput); */
     console.log(value);
     switch (value) {
       case "video":
@@ -438,19 +406,14 @@ export default function Uploadscreen(props) {
   };
   const handleCloseCancelDialogPositive = () => {
     setOpenCancelDialog(false);
-    /* setClickedSubcategoriesNutrition(); */
     window.location.reload(false);
   };
 
-  /*
-  - https://onestepcode.com/creating-a-material-ui-form/
-  */
   return (
     <div className={classes.body}>
       <Typography variant="h4" className={classes.headline}>
         Neuen Eintrag anlegen
       </Typography>
-
       <Grid container spacing={1}>
         <Grid item xs={1}>
           <FormLabel component="legend" className={classes.lable}>
@@ -530,7 +493,6 @@ export default function Uploadscreen(props) {
       </Grid>
 
       <Divider className={classes.divider} variant="middle" />
-      {/* <h2>Typ:</h2> */}
       <form onSubmit={handleSubmit}>
         <Grid container spacing={1}>
           <Grid item xs={1}>
@@ -615,7 +577,7 @@ export default function Uploadscreen(props) {
             <Button
               color="secondary"
               size="large"
-              className={classes.addTagButton}
+              className={classes.add_Tag_Button}
               onClick={handleClickOpen}
               startIcon={<AddIcon color={"secondary"} />}
             >
@@ -626,9 +588,9 @@ export default function Uploadscreen(props) {
         <Dialog
           open={open}
           onClose={handleClose}
-          aria-labelledby="form-dialog-title"
+          aria-labelledby="add-tag-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Tag hienzufügen</DialogTitle>
+          <DialogTitle id="add-tag-dialog-title">Tag hienzufügen</DialogTitle>
           <DialogContent>
             <DialogContentText>Geben sie eine neue Tag ein:</DialogContentText>
             <TextField
@@ -651,13 +613,10 @@ export default function Uploadscreen(props) {
             </Button>
           </DialogActions>
         </Dialog>
-        {/* nur ausführbar wenn man requestet Felder ausgefüllt hat */}
-
-        {/* abbrechen Button */}
         <Button
           variant="text"
           color="secondary"
-          className={classes.senden_Button}
+          className={classes.form_Button}
           onClick={handleClickOpenCancelDialog}
         >
           Abbrechen
@@ -665,18 +624,11 @@ export default function Uploadscreen(props) {
         <Dialog
           open={openCancelDialog}
           onClose={handleCloseCancelDialogNegative}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          aria-labelledby="cansel-dialog-title"
         >
-          <DialogTitle id="alert-dialog-title">
+          <DialogTitle id="cansel-dialog-title">
             {"Wollen sie die Eingaben löschen?"}
           </DialogTitle>
-          {/* <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Wollen sie die aktuellen Eingaben löschen und ein neues Element
-              anlegen?
-            </DialogContentText>
-          </DialogContent> */}
           <DialogActions>
             <Button onClick={handleCloseCancelDialogPositive} color="primary">
               ja
@@ -690,8 +642,7 @@ export default function Uploadscreen(props) {
             </Button>
           </DialogActions>
         </Dialog>
-
-        <Button variant="text" type="submit" className={classes.senden_Button}>
+        <Button variant="text" type="submit" className={classes.form_Button}>
           Content absenden
         </Button>
       </form>
