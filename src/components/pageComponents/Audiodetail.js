@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AudioDetail(props) {
   const classes = useStyles();
   const { data } = props;
-
   return (
     <div>
       <Typography variant="h6" className={classes.title}>

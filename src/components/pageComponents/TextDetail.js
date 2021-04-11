@@ -39,7 +39,7 @@ export default function TextDetail(props) {
       })}
       <br></br>
       <Typography variant="body2" className={classes.text}>
-        {data.content}
+        {data.source}
       </Typography>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   makeStyles,
   Checkbox,
@@ -20,6 +20,15 @@ import {
   DialogTitle,
 } from "@material-ui/core/";
 import AddIcon from "@material-ui/icons/Add";
+import {
+  getContentsBySubcategories,
+  getStructureOnce,
+  getContentById,
+  uploadFileToFirebaseStorage,
+  getFileReference,
+  uploadContentToFirestorage,
+  addNewSubcategory,
+} from "../services/contentProvider";
 
 // obviously this data has to be replaced by real data according to the subcategory
 import * as Constants from "../../constants/constants.js";
@@ -85,6 +94,29 @@ const useStyles = makeStyles((theme) => ({
 // todo: replace with firebase-call
 export default function Uploadscreen(props) {
   const classes = useStyles();
+  const [
+    clickedSubcategoriesRelaxation,
+    setClickedSubcategoriesRelaxation,
+  ] = useState([]);
+  const [
+    clickedSubcategoriesFitness,
+    setClickedSubcategoriesFitness,
+  ] = useState([]);
+  const [
+    clickedSubcategoriesWellbeing,
+    setClickedSubcategoriesWellbeing,
+  ] = useState([]);
+  const [
+    clickedSubcategoriesNutrition,
+    setClickedSubcategoriesNutrition,
+  ] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [newTags, setNewTags] = useState([]);
+  const [subcategoryFitness, setSubcategoryFitness] = useState([]);
+  const [subcategoryRelaxation, setSubcategoryRelaxation] = useState([]);
+  const [subcategoryNutrition, setSubcategoryNutrition] = useState([]);
+  const [subcategoryWellbeing, setSubcategoryWellbeing] = useState([]);
+  const [formChanges, setFormChanges] = useState(0);
 
   // reducer for generated Checkboxes
   const reducer = (accumulator, currentValue) => {
@@ -100,26 +132,65 @@ export default function Uploadscreen(props) {
     Constants.pages.nutrition.title,
   ];
 
-  // Subcategory
-  // todo: Datenbank
-  // fitness
-  let subcategoriesFitness = Constants.pages.fitness.subcategories;
+  useEffect(() => {
+    getStructureOnce().then((structure) => {
+      Promise.all(structure.docs.map((content) => content.data())).then(
+        (appStructure) => {
+          let fitnessSubcategories = appStructure.find(
+            (subcategory) => subcategory.value === "fitness"
+          ).subcategories;
+          let nutritionSubcategories = appStructure.find(
+            (subcategory) => subcategory.value === "nutrition"
+          ).subcategories;
+          let wellbeiongSubcategories = appStructure.find(
+            (subcategory) => subcategory.value === "wellbeing"
+          ).subcategories;
+          let relaxationSubcategories = appStructure.find(
+            (subcategory) => subcategory.value === "relaxation"
+          ).subcategories;
+          setSubcategoryFitness(fitnessSubcategories);
+          setSubcategoryNutrition(nutritionSubcategories);
+          setSubcategoryRelaxation(relaxationSubcategories);
+          setSubcategoryWellbeing(wellbeiongSubcategories);
+        }
+      );
+    });
+  }, []);
 
-  // relaxation
-  let subcategoriesRelaxation = Constants.pages.relaxation.subcategories;
-
-  // wellbeing
-  let subcategoriesWellbeing = Constants.pages.wellbeing.subcategories;
-
-  // nutrition
-  //todo: Mensa rausnehmen !!
-  let subcategoriesNutrition = Constants.pages.nutrition.subcategories;
+  useEffect(() => {
+    if (
+      clickedSubcategoriesFitness.length > 0 ||
+      clickedSubcategoriesNutrition.length > 0 ||
+      clickedSubcategoriesWellbeing.length > 0 ||
+      clickedSubcategoriesRelaxation.length > 0
+    ) {
+      let subcategoriesChosen = clickedSubcategoriesFitness.concat(
+        clickedSubcategoriesNutrition,
+        clickedSubcategoriesRelaxation,
+        clickedSubcategoriesWellbeing
+      );
+      getContentsBySubcategories(subcategoriesChosen).then((result) => {
+        let contents = result.docs;
+        let tagList = [];
+        Promise.all(contents.map((content) => getContentById(content.id)))
+          .then((result) =>
+            result.map((contentItem) => {
+              let contentData = contentItem.data();
+              tagList = tagList.concat(contentData.tags);
+              return "success";
+            })
+          )
+          .then(() => {
+            let uniqueTags = [...new Set(tagList)];
+            setTags(uniqueTags.concat(newTags));
+          });
+      });
+    } else {
+      setTags(newTags);
+    }
+  }, [formChanges]);
 
   //klicked Subkategories
-  const [
-    clickedSubcategoriesRelaxation,
-    setClickedSubcategoriesRelaxation,
-  ] = React.useState([]);
 
   function handleSubcategoryChangeRelaxation(subcategoryClicked, valueOfClick) {
     handleCheckboxArrayChange(
@@ -130,10 +201,6 @@ export default function Uploadscreen(props) {
     );
   }
 
-  const [
-    clickedSubcategoriesFitness,
-    setClickedSubcategoriesFitness,
-  ] = React.useState([]);
   function handleSubcategoryChangeFitness(subcategoryClicked, valueOfClick) {
     handleCheckboxArrayChange(
       clickedSubcategoriesFitness,
@@ -143,10 +210,6 @@ export default function Uploadscreen(props) {
     );
   }
 
-  const [
-    clickedSubcategoriesWellbeing,
-    setClickedSubcategoriesWellbeing,
-  ] = React.useState([]);
   function handleSubcategoryChangeWellbeing(subcategoryClicked, valueOfClick) {
     handleCheckboxArrayChange(
       clickedSubcategoriesWellbeing,
@@ -156,10 +219,6 @@ export default function Uploadscreen(props) {
     );
   }
 
-  const [
-    clickedSubcategoriesNutrition,
-    setClickedSubcategoriesNutrition,
-  ] = React.useState([]);
   function handleSubcategoryChangeNutrition(subcategoryClicked, valueOfClick) {
     handleCheckboxArrayChange(
       clickedSubcategoriesNutrition,
@@ -178,19 +237,21 @@ export default function Uploadscreen(props) {
   ) {
     if (valueOfClick) {
       checkboxArray.push(checkboxClicked);
+      setFormChanges(formChanges + 1);
       setArray(checkboxArray);
     }
     if (!valueOfClick) {
       const index = checkboxArray.indexOf(checkboxClicked);
       if (index > -1) {
         checkboxArray.splice(index, 1);
+        setFormChanges(formChanges + 1);
         setArray(checkboxArray);
       }
     }
   }
 
   // radio-buttons
-  const [value, setValue] = React.useState("video");
+  const [value, setValue] = React.useState("Video");
 
   const handleChangeRadio = (event) => {
     setValue(event.target.value);
@@ -205,10 +266,9 @@ export default function Uploadscreen(props) {
 
   //tags
   // todo: Datenbank
-  let allTags = ["fit", "zwischendrin", "Anfängerr", "Profi", "Nacken"];
   let allTagsObject = {};
   const [allClickedTags, setallClickedTags] = React.useState([]);
-  allTags.reduce(reducer, allTagsObject);
+  tags.reduce(reducer, allTagsObject);
   const [checkedTag, setCheckedTag] = React.useState(false);
 
   const handleChangeTags = (event) => {
@@ -233,10 +293,14 @@ export default function Uploadscreen(props) {
   // todo: einpflegen Datenbank
   //neues array dann wieder in den State
   const handleAddTag = () => {
+    let newTagList = newTags;
+    newTagList.push(inputTag);
+    setNewTags(newTagList);
+    setFormChanges(formChanges + 1);
     setOpen(false);
   };
 
-  const [inputTag, setInputTag] = React.useState("");
+  const [inputTag, setInputTag] = useState("");
 
   const handleinputTag = (event) => {
     setInputTag(event.target.value);
@@ -245,7 +309,7 @@ export default function Uploadscreen(props) {
   // handle video-/audio-/text-input
   const handleContentShown = (aktiveRadio) => {
     switch (aktiveRadio) {
-      case "video":
+      case "Video":
         return (
           <div>
             <Grid container spacing={3}>
@@ -279,7 +343,7 @@ export default function Uploadscreen(props) {
           </div>
         );
 
-      case "text":
+      case "Text":
         return (
           <div>
             <Grid container spacing={1}>
@@ -306,7 +370,7 @@ export default function Uploadscreen(props) {
           </div>
         );
 
-      case "audio":
+      case "Audio":
         return (
           <div>
             <Grid container spacing={3}>
@@ -336,6 +400,8 @@ export default function Uploadscreen(props) {
             </Grid>
           </div>
         );
+      default:
+        return null;
     }
   };
   //--Text
@@ -365,33 +431,82 @@ export default function Uploadscreen(props) {
   const handleLengthVideoInput = (event) => {
     setLengthVideoInput(event.target.value);
   };
+  const constructFirebaseObjects = (
+    objectDuration,
+    objectSource,
+    objectSubcategory,
+    objectTags,
+    objectTitle,
+    objectType
+  ) => {
+    let firebaseObjects = [];
+    objectSubcategory.forEach((subcategory) => {
+      let object = {};
+      object.category = subcategory.category;
+      object.duration = objectDuration;
+      object.source = objectSource;
+      object.subcategory = subcategory.value;
+      object.tags = objectTags;
+      object.title = objectTitle;
+      object.type = objectType;
+      firebaseObjects.push(object);
+      if (subcategory.new !== undefined) {
+        addNewSubcategory(subcategory);
+      }
+    });
+    return firebaseObjects;
+  };
 
-  // submitt-button
-  // todo: Datenbank
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("hier die Arrays");
-    console.log(
-      "Kategorien:",
-      clickedSubcategoriesNutrition,
+    let totalSubcategories = clickedSubcategoriesNutrition.concat(
       clickedSubcategoriesRelaxation,
       clickedSubcategoriesWellbeing,
       clickedSubcategoriesFitness
     );
-    console.log("Radiogroup:", value);
-    console.log("Titel:", titleInput);
-    console.log("Tags:", allClickedTags);
-    console.log(value);
-    switch (value) {
-      case "video":
-        console.log("video:", urlVideoInput, lengthVideoInput);
-        break;
-      case "text":
-        console.log("text:", textInput);
-        break;
-      case "audio":
-        console.log("audio:", selectedAudio, lengthAudioInput);
-        break;
+    let type = value;
+    let title = titleInput;
+    let tags = allClickedTags;
+    let audioFile = selectedAudio;
+    let audioLength = lengthAudioInput;
+
+    if (type === "Audio") {
+      let fileName = title + Math.random().toString(36);
+      uploadFileToFirebaseStorage(audioFile, fileName).then(() => {
+        getFileReference(fileName).then((ref) => {
+          let firebaseObjects = constructFirebaseObjects(
+            audioLength,
+            ref,
+            totalSubcategories,
+            tags,
+            title,
+            type
+          );
+          uploadContentToFirestorage(firebaseObjects).then(() => {
+            window.location.reload(false);
+          });
+        });
+      });
+    } else {
+      let source = "";
+      let length = "";
+      if (type === "Video") {
+        source = urlVideoInput;
+        length = lengthVideoInput;
+      } else {
+        source = textInput;
+      }
+      let firebaseObjects = constructFirebaseObjects(
+        length,
+        source,
+        totalSubcategories,
+        tags,
+        title,
+        type
+      );
+      uploadContentToFirestorage(firebaseObjects).then(() => {
+        window.location.reload(false);
+      });
     }
   };
   // dialog cancel-button
@@ -422,16 +537,13 @@ export default function Uploadscreen(props) {
         </Grid>
         <Grid container item spacing={1} xs={11}>
           <Grid item>
-            <List
-              className={classes.root}
-              subheader={<li />}
-              className={classes.list}
-            >
+            <List subheader={<li />} className={classes.list}>
               <li>
                 <ul>
                   <SubcategoryList
                     onSubcategoryChange={handleSubcategoryChangeRelaxation}
-                    subcategoriesNames={subcategoriesRelaxation}
+                    subcategories={subcategoryRelaxation}
+                    setSubcategory={setSubcategoryRelaxation}
                     category={categories[0]}
                   ></SubcategoryList>
                 </ul>
@@ -439,16 +551,13 @@ export default function Uploadscreen(props) {
             </List>
           </Grid>
           <Grid item>
-            <List
-              className={classes.root}
-              subheader={<li />}
-              className={classes.list}
-            >
+            <List subheader={<li />} className={classes.list}>
               <li>
                 <ul>
                   <SubcategoryList
                     onSubcategoryChange={handleSubcategoryChangeFitness}
-                    subcategoriesNames={subcategoriesFitness}
+                    subcategories={subcategoryFitness}
+                    setSubcategory={setSubcategoryFitness}
                     category={categories[1]}
                   ></SubcategoryList>
                 </ul>
@@ -456,16 +565,13 @@ export default function Uploadscreen(props) {
             </List>
           </Grid>
           <Grid item>
-            <List
-              className={classes.root}
-              subheader={<li />}
-              className={classes.list}
-            >
+            <List subheader={<li />} className={classes.list}>
               <li>
                 <ul>
                   <SubcategoryList
                     onSubcategoryChange={handleSubcategoryChangeWellbeing}
-                    subcategoriesNames={subcategoriesWellbeing}
+                    subcategories={subcategoryWellbeing}
+                    setSubcategory={setSubcategoryWellbeing}
                     category={categories[2]}
                   ></SubcategoryList>
                 </ul>
@@ -473,16 +579,13 @@ export default function Uploadscreen(props) {
             </List>
           </Grid>
           <Grid item>
-            <List
-              className={classes.root}
-              subheader={<li />}
-              className={classes.list}
-            >
+            <List subheader={<li />} className={classes.list}>
               <li>
                 <ul>
                   <SubcategoryList
                     onSubcategoryChange={handleSubcategoryChangeNutrition}
-                    subcategoriesNames={subcategoriesNutrition}
+                    subcategories={subcategoryNutrition}
+                    setSubcategory={setSubcategoryNutrition}
                     category={categories[3]}
                   ></SubcategoryList>
                 </ul>
@@ -510,17 +613,17 @@ export default function Uploadscreen(props) {
                 onChange={handleChangeRadio}
               >
                 <FormControlLabel
-                  value="video"
+                  value="Video"
                   control={<Radio color={"primary"} />}
                   label="Video"
                 />
                 <FormControlLabel
-                  value="audio"
+                  value="Audio"
                   control={<Radio color={"primary"} />}
                   label="Audio"
                 />
                 <FormControlLabel
-                  value="text"
+                  value="Text"
                   control={<Radio color={"primary"} />}
                   label="Text"
                 />
@@ -557,7 +660,7 @@ export default function Uploadscreen(props) {
               Tags:
             </FormLabel>
           </Grid>
-          {allTags.map((tag, index) => (
+          {tags.map((tag, index) => (
             <Grid item>
               <FormControlLabel
                 control={

@@ -32,7 +32,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SubcategoryList(props) {
+export default function SubcategoryList({
+  subcategories,
+  category,
+  onSubcategoryChange,
+  setSubcategory,
+}) {
   const classes = useStyles();
 
   const reducer = (accumulator, currentValue) => {
@@ -40,24 +45,20 @@ export default function SubcategoryList(props) {
     return wert;
   };
 
-  let subcategories = props.subcategoriesNames;
   let subcategoriesObject = {};
-  let category = props.category;
 
   subcategories.reduce(reducer, subcategoriesObject);
 
   const [stateSubcategory, setStateCategory] = React.useState({
     subcategoriesObject,
   });
-  const handleChangeSubcategory = (event) => {
+  const handleChangeSubcategory = (subcategory, event) => {
     setStateCategory({
       ...stateSubcategory,
-      [event.target.name]: event.target.checked,
+      [subcategory.value]: event.target.checked,
     });
-    props.onSubcategoryChange(event.target.name, event.target.checked);
+    onSubcategoryChange(subcategory, event.target.checked);
   };
-
-  subcategoriesObject = stateSubcategory;
 
   // dialog
   const [open, setOpen] = React.useState(false);
@@ -72,15 +73,32 @@ export default function SubcategoryList(props) {
   // todo: einpflegen Datenbank
   //neues array dann wieder in den State
   const handleAddSubcategory = () => {
-    console.log("Eingabe:", inputSubcategory);
+    let subcategoryList = subcategories;
+    let newSubcategory = {};
+    newSubcategory.title = inputSubcategoryTitle;
+    newSubcategory.description = inputSubcategoryDescription;
+    newSubcategory.value = inputSubcategoryTitle.toLowerCase();
+    newSubcategory.category = category.toLowerCase();
+    newSubcategory.new = true;
+    subcategoryList.push(newSubcategory);
+    setSubcategory(subcategoryList);
     setOpen(false);
   };
 
-  const [inputSubcategory, setInputSubcategory] = React.useState("");
+  const [inputSubcategoryTitle, setInputSubcategoryTitle] = React.useState("");
+  const [
+    inputSubcategoryDescription,
+    setInputSubcategoryDescription,
+  ] = React.useState("");
 
-  const handleinputSubcategory = (event) => {
-    setInputSubcategory(event.target.value);
+  const handleinputSubcategoryTitle = (event) => {
+    setInputSubcategoryTitle(event.target.value);
   };
+
+  const handleinputSubcategoryDescription = (event) => {
+    setInputSubcategoryDescription(event.target.value);
+  };
+
   return (
     <div>
       <ListItem>
@@ -93,8 +111,10 @@ export default function SubcategoryList(props) {
           <FormControlLabel
             control={
               <Checkbox
-                checked={subcategoriesObject.subcategory}
-                onChange={handleChangeSubcategory}
+                checked={subcategory.subcategoriesObject}
+                onChange={(e) => {
+                  handleChangeSubcategory(subcategory, e);
+                }}
                 size="small"
                 name={subcategory.value}
                 key={index}
@@ -125,11 +145,21 @@ export default function SubcategoryList(props) {
           </DialogContentText>
           <TextField
             autoFocus
-            value={inputSubcategory}
-            onChange={handleinputSubcategory}
+            value={inputSubcategoryTitle}
+            onChange={handleinputSubcategoryTitle}
             margin="dense"
             id="name"
             label="Subkategorie"
+            type="text"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            value={inputSubcategoryDescription}
+            onChange={handleinputSubcategoryDescription}
+            margin="dense"
+            id="name"
+            label="Beschreibung"
             type="text"
             fullWidth
           />
