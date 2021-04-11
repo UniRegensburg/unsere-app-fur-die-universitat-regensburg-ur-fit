@@ -29,8 +29,8 @@ import {
   uploadContentToFirestorage,
   addNewSubcategory,
 } from "../services/contentProvider";
+import HandleContentShown from "../pageComponents/UploadscreenContent";
 
-// obviously this data has to be replaced by real data according to the subcategory
 import * as Constants from "../../constants/constants.js";
 import SubcategoryList from "../pageComponents/SubcategoryList";
 
@@ -90,8 +90,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// mimics firebase behavior
-// todo: replace with firebase-call
 export default function Uploadscreen(props) {
   const classes = useStyles();
   const [
@@ -123,8 +121,7 @@ export default function Uploadscreen(props) {
     let wert = Object.assign(accumulator, { [currentValue.value]: false });
     return wert;
   };
-  // todo: Datenbank
-  // Categories
+
   let categories = [
     Constants.pages.relaxation.title,
     Constants.pages.fitness.title,
@@ -174,10 +171,9 @@ export default function Uploadscreen(props) {
         let tagList = [];
         Promise.all(contents.map((content) => getContentById(content.id)))
           .then((result) =>
-            result.map((contentItem) => {
+            result.forEach((contentItem) => {
               let contentData = contentItem.data();
               tagList = tagList.concat(contentData.tags);
-              return "success";
             })
           )
           .then(() => {
@@ -188,9 +184,14 @@ export default function Uploadscreen(props) {
     } else {
       setTags(newTags);
     }
-  }, [formChanges]);
-
-  //klicked Subkategories
+  }, [
+    formChanges,
+    clickedSubcategoriesNutrition,
+    clickedSubcategoriesRelaxation,
+    clickedSubcategoriesWellbeing,
+    clickedSubcategoriesFitness,
+    newTags,
+  ]);
 
   function handleSubcategoryChangeRelaxation(subcategoryClicked, valueOfClick) {
     handleCheckboxArrayChange(
@@ -251,28 +252,24 @@ export default function Uploadscreen(props) {
   }
 
   // radio-buttons
-  const [value, setValue] = React.useState("Video");
+  const [value, setValue] = useState("Video");
 
   const handleChangeRadio = (event) => {
     setValue(event.target.value);
   };
 
   //title-input
-  const [titleInput, setTitleInput] = React.useState("");
+  const [titleInput, setTitleInput] = useState("");
 
   const handleTitleInput = (event) => {
     setTitleInput(event.target.value);
   };
 
-  //tags
-  // todo: Datenbank
   let allTagsObject = {};
-  const [allClickedTags, setallClickedTags] = React.useState([]);
+  const [allClickedTags, setallClickedTags] = useState([]);
   tags.reduce(reducer, allTagsObject);
-  const [checkedTag, setCheckedTag] = React.useState(false);
 
   const handleChangeTags = (event) => {
-    setCheckedTag(event.target.checkedTag);
     handleCheckboxArrayChange(
       allClickedTags,
       setallClickedTags,
@@ -290,8 +287,7 @@ export default function Uploadscreen(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  // todo: einpflegen Datenbank
-  //neues array dann wieder in den State
+
   const handleAddTag = () => {
     let newTagList = newTags;
     newTagList.push(inputTag);
@@ -306,104 +302,6 @@ export default function Uploadscreen(props) {
     setInputTag(event.target.value);
   };
 
-  // handle video-/audio-/text-input
-  const handleContentShown = (aktiveRadio) => {
-    switch (aktiveRadio) {
-      case "Video":
-        return (
-          <div>
-            <Grid container spacing={3}>
-              <Grid item>
-                <FormLabel component="legend" className={classes.lable}>
-                  Video hochladen:
-                </FormLabel>
-              </Grid>
-              <Grid item>
-                <TextField
-                  value={urlVideoInput}
-                  onChange={handleUrlVideoInput}
-                  id="urlVideoInput"
-                  label="Geben sie die URL des Videos an"
-                  defaultValue="url"
-                  shrink
-                  className={classes.input_url}
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  value={lengthVideoInput}
-                  onChange={handleLengthVideoInput}
-                  id="lengthVideo"
-                  label="Länge des Videos:"
-                  defaultValue="00:00:00"
-                  helperText="Format: hh:mm:ss"
-                />
-              </Grid>
-            </Grid>
-          </div>
-        );
-
-      case "Text":
-        return (
-          <div>
-            <Grid container spacing={1}>
-              <Grid item>
-                <FormLabel component="legend" className={classes.lable}>
-                  Texteingabe:
-                </FormLabel>
-              </Grid>
-              <Grid item xs={7}>
-                <TextField
-                  value={textInput}
-                  onChange={handleTextInput}
-                  id="textInput"
-                  label="Bitte fügen sie hier ihren Text ein."
-                  defaultValue="Text"
-                  fullWidth
-                  multiline
-                  className={classes.textarea}
-                  variant="outlined"
-                  rows={7}
-                />
-              </Grid>
-            </Grid>
-          </div>
-        );
-
-      case "Audio":
-        return (
-          <div>
-            <Grid container spacing={3}>
-              <Grid item>
-                <FormLabel component="legend" className={classes.lable}>
-                  Audio hochladen:
-                </FormLabel>
-              </Grid>
-              <Grid item>
-                <input
-                  type="file"
-                  name="audioInput"
-                  onChange={handleAudioInput}
-                  className={classes.input_Audio}
-                ></input>
-              </Grid>
-              <Grid item>
-                <TextField
-                  value={lengthAudioInput}
-                  onChange={handleLengthAudioInput}
-                  id="lengthAudio"
-                  label="Länge des Audios:"
-                  defaultValue="00:00:00"
-                  helperText="Format: hh:mm:ss"
-                />
-              </Grid>
-            </Grid>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
   //--Text
   const [textInput, setTextInput] = React.useState("");
   const handleTextInput = (event) => {
@@ -431,7 +329,7 @@ export default function Uploadscreen(props) {
   const handleLengthVideoInput = (event) => {
     setLengthVideoInput(event.target.value);
   };
-  const constructFirebaseObjects = (
+  const constructFirebaseObjects = async (
     objectDuration,
     objectSource,
     objectSubcategory,
@@ -440,7 +338,7 @@ export default function Uploadscreen(props) {
     objectType
   ) => {
     let firebaseObjects = [];
-    objectSubcategory.forEach((subcategory) => {
+    await objectSubcategory.forEach(async (subcategory) => {
       let object = {};
       object.category = subcategory.category;
       object.duration = objectDuration;
@@ -451,13 +349,13 @@ export default function Uploadscreen(props) {
       object.type = objectType;
       firebaseObjects.push(object);
       if (subcategory.new !== undefined) {
-        addNewSubcategory(subcategory);
+        await addNewSubcategory(subcategory);
       }
     });
     return firebaseObjects;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     let totalSubcategories = clickedSubcategoriesNutrition.concat(
       clickedSubcategoriesRelaxation,
@@ -472,9 +370,9 @@ export default function Uploadscreen(props) {
 
     if (type === "Audio") {
       let fileName = title + Math.random().toString(36);
-      uploadFileToFirebaseStorage(audioFile, fileName).then(() => {
-        getFileReference(fileName).then((ref) => {
-          let firebaseObjects = constructFirebaseObjects(
+      uploadFileToFirebaseStorage(audioFile, fileName).then(async () => {
+        await getFileReference(fileName).then(async (ref) => {
+          let firebaseObjects = await constructFirebaseObjects(
             audioLength,
             ref,
             totalSubcategories,
@@ -496,7 +394,7 @@ export default function Uploadscreen(props) {
       } else {
         source = textInput;
       }
-      let firebaseObjects = constructFirebaseObjects(
+      let firebaseObjects = await constructFirebaseObjects(
         length,
         source,
         totalSubcategories,
@@ -521,7 +419,7 @@ export default function Uploadscreen(props) {
   };
   const handleCloseCancelDialogPositive = () => {
     setOpenCancelDialog(false);
-    window.location.reload(false);
+    // window.location.reload(false);
   };
 
   return (
@@ -652,7 +550,18 @@ export default function Uploadscreen(props) {
           </Grid>
         </Grid>
         <Divider className={classes.divider} variant="middle" />
-        {handleContentShown(value)}
+        {HandleContentShown(
+          value,
+          urlVideoInput,
+          handleUrlVideoInput,
+          lengthVideoInput,
+          handleLengthVideoInput,
+          textInput,
+          handleTextInput,
+          handleAudioInput,
+          lengthAudioInput,
+          handleLengthAudioInput
+        )}
         <Divider className={classes.divider} variant="middle" />
         <Grid container spacing={1}>
           <Grid item xs={1}>

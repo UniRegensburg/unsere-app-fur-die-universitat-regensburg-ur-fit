@@ -83,25 +83,27 @@ export const getFileReference = (fileName) => {
 
 export const uploadContentToFirestorage = (contentItems) => {
   return Promise.all(
-    contentItems.map((item) => {
+    contentItems.map(async (item) => {
       let id = Math.random().toString(36).substring(2);
       item.id = id;
-      database.collection("contents").doc(id).set(item);
-      return "success";
+      await database.collection("contents").doc(id).set(item);
+      return id;
     })
   );
 };
 
-export const addNewSubcategory = (subcategory) => {
-  return database
-    .collection("structure")
-    .doc(subcategory.category)
-    .update({
-      subcategories: firebase.firestore.FieldValue.arrayUnion({
-        category: subcategory.category,
-        description: subcategory.description,
-        title: subcategory.title,
-        value: subcategory.value,
-      }),
-    });
+export const addNewSubcategory = async (subcategory) => {
+  Promise.all(
+    database
+      .collection("structure")
+      .doc(subcategory.category)
+      .update({
+        subcategories: firebase.firestore.FieldValue.arrayUnion({
+          category: subcategory.category,
+          description: subcategory.description,
+          title: subcategory.title,
+          value: subcategory.value,
+        }),
+      })
+  );
 };
