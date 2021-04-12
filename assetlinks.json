@@ -1,0 +1,20 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+        "namespace": "android_app",
+        "package_name": "urfit.twa",
+        "sha256_cert_fingerprints": [
+            "71:E0:9B:4B:98:DF:71:42:02:D9:1F:30:63:56:16:0B:75:D1:AF:25:40:AC:A7:EB:F9:41:12:10:8E:29:08:78"
+        ]
+    }
+},
+{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+        "namespace": "android_app",
+        "package_name": "urfit.twa",
+        "sha256_cert_fingerprints": [
+            "FA:AD:D5:59:E1:7C:D1:F5:3B:35:62:21:93:4D:57:B9:6C:85:38:3F:A1:CE:9F:D4:85:6F:2D:B5:F5:89:14:C3"
+        ]
+    }
+}]
