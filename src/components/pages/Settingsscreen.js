@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Grid, makeStyles } from "@material-ui/core/";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -20,18 +19,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Settingsscreen() {
   const classes = useStyles();
-  const [openUsername, setUsernameOpen] = React.useState(false);
   const [openDelete, setDeleteOpen] = React.useState(false);
-
-  const handleUsername = () => {
-    setUsernameOpen(true);
-  };
-  const handleCloseDialogUsername = () => {
-    setUsernameOpen(false);
-  };
 
   const handleDelete = () => {
     setDeleteOpen(true);
+    // todo: delete account (entry in user db) and logout (redirect to login) + show feedback (snackbar)
   };
   const handleCloseDialogDelete = () => {
     setDeleteOpen(false);
@@ -42,51 +34,6 @@ export default function Settingsscreen() {
       <TopAppBar data-testid="appbar" title="Einstellungen" favIcon="visible" />
       <div className={classes.container}>
         <Grid container direction="column" spacing={3}>
-          <Grid item>
-            <Button
-              className={classes.buttons}
-              variant="contained"
-              color="default"
-              onClick={handleUsername}
-            >
-              Umbennen
-            </Button>
-            <Dialog
-              open={openUsername}
-              onClose={handleCloseDialogUsername}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">
-                Nutzername ändern
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Bitte geben sie einen neuen Nutzernamen ein.
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Nutzername"
-                  type="text"
-                  value="Viktor"
-                  fullWidth
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseDialogUsername} color="primary">
-                  Abbrechen
-                </Button>
-                <Button
-                  onClick={handleCloseDialogUsername}
-                  color="primary"
-                  autoFocus
-                >
-                  Bestätigen
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </Grid>
           <Grid item>
             <Button
               className={classes.buttons}
@@ -103,16 +50,16 @@ export default function Settingsscreen() {
               aria-describedby="alert-dialog-description"
             >
               <DialogTitle id="alert-dialog-title">
-                Möchten Sie ihr Konto wirklich löschen?
+                Möchten Sie Ihr Konto wirklich löschen?
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  Wenn Sie ihr konto löschen, werden alle Ihre Daten
+                  Wenn Sie Ihr Konto löschen, werden alle Ihre Daten
                   unwiderruflich gelöscht. Dies kann nicht mehr rückgängig
                   gemacht werden!
                   <br></br>
                   <br></br>
-                  Sind Sie sicher, dass Sie ihr Konto löschen wollen?
+                  Sind Sie sicher, dass Sie Ihr Konto löschen wollen?
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
@@ -121,10 +68,10 @@ export default function Settingsscreen() {
                   color="primary"
                   autoFocus
                 >
-                  Zurück
+                  Abbrechen
                 </Button>
                 <Button onClick={handleCloseDialogDelete} color="secondary">
-                  Ja
+                  Löschen
                 </Button>
               </DialogActions>
             </Dialog>

@@ -8,8 +8,6 @@ import InfoMessageCard from "../pageComponents/InfoMessageCard";
 import BottomNavigationBar from "../pageComponents/BottomNavigationBar";
 import { useAuthState } from "../hooks/useAuthState";
 
-const username = "Viktor"; // get from db
-
 const useStyles = makeStyles((theme) => ({
   container: {
     marginStart: "16px",
@@ -63,7 +61,7 @@ export default function Homescreen() {
           variant="subtitle1"
           className={classes.text}
         >
-          Hallo {username}! Willkommen bei URfit.
+          Hallo! Willkommen bei URfit.
         </Typography>
         {loading ? (
           <CircularProgress />
