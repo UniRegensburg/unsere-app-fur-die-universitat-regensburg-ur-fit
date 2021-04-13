@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   ListItem,
@@ -41,15 +41,17 @@ export default function SubcategoryList({
   const classes = useStyles();
 
   const reducer = (accumulator, currentValue) => {
-    let wert = Object.assign(accumulator, { [currentValue.value]: false });
-    return wert;
+    let valueCheckboxes = Object.assign(accumulator, {
+      [currentValue.value]: false,
+    });
+    return valueCheckboxes;
   };
 
   let subcategoriesObject = {};
 
   subcategories.reduce(reducer, subcategoriesObject);
 
-  const [stateSubcategory, setStateCategory] = React.useState({
+  const [stateSubcategory, setStateCategory] = useState({
     subcategoriesObject,
   });
   const handleChangeSubcategory = (subcategory, event) => {
@@ -60,18 +62,15 @@ export default function SubcategoryList({
     onSubcategoryChange(subcategory, event.target.checked);
   };
 
-  // dialog
-  const [open, setOpen] = React.useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleSubcategoryAddClick = () => {
+    setDialogOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleDialogClose = () => {
+    setDialogOpen(false);
   };
-  // todo: einpflegen Datenbank
-  //neues array dann wieder in den State
   const handleAddSubcategory = () => {
     let subcategoryList = subcategories;
     let newSubcategory = {};
@@ -82,14 +81,14 @@ export default function SubcategoryList({
     newSubcategory.new = true;
     subcategoryList.push(newSubcategory);
     setSubcategory(subcategoryList);
-    setOpen(false);
+    setDialogOpen(false);
   };
 
-  const [inputSubcategoryTitle, setInputSubcategoryTitle] = React.useState("");
+  const [inputSubcategoryTitle, setInputSubcategoryTitle] = useState("");
   const [
     inputSubcategoryDescription,
     setInputSubcategoryDescription,
-  ] = React.useState("");
+  ] = useState("");
 
   const handleinputSubcategoryTitle = (event) => {
     setInputSubcategoryTitle(event.target.value);
@@ -125,23 +124,23 @@ export default function SubcategoryList({
           />
         </ListItem>
       ))}
-      <ListItem button onClick={handleClickOpen}>
+      <ListItem button onClick={handleSubcategoryAddClick}>
         <ListItemIcon className={classes.addIcon}>
           <AddIcon />
         </ListItemIcon>
-        <ListItemText primary="Subcategorie hinzufügen" />
+        <ListItemText primary="Subkategorie hinzufügen" />
       </ListItem>
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={dialogOpen}
+        onClose={handleDialogClose}
         aria-labelledby="add-subcategory-dialog-title"
       >
         <DialogTitle id="add-subcategory-dialog-title">
-          Subkategorie hienzufügen
+          Subkategorie hinzufügen
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Geben sie eine neue Subkategorie ein:
+            Geben Sie eine neue Subkategorie ein:
           </DialogContentText>
           <TextField
             autoFocus
@@ -154,7 +153,6 @@ export default function SubcategoryList({
             fullWidth
           />
           <TextField
-            autoFocus
             value={inputSubcategoryDescription}
             onChange={handleinputSubcategoryDescription}
             margin="dense"
@@ -165,7 +163,7 @@ export default function SubcategoryList({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleDialogClose} color="secondary">
             abbrechen
           </Button>
           <Button onClick={handleAddSubcategory} color="secondary">

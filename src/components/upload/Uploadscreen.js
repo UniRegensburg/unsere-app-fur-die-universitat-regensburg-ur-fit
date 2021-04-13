@@ -29,10 +29,8 @@ import {
   uploadContentToFirestorage,
   addNewSubcategory,
 } from "../services/contentProvider";
-import HandleContentShown from "../pageComponents/UploadscreenContent";
-
-import * as Constants from "../../constants/constants.js";
-import SubcategoryList from "../pageComponents/SubcategoryList";
+import HandleContentShown from "./UploadscreenContent";
+import SubcategoryList from "./SubcategoryList";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -61,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "120%",
     textAligh: "end",
   },
-  input_title: {
+  inputTitle: {
     maxWidth: "350px",
     margin: "8px",
     display: "flex",
@@ -69,28 +67,18 @@ const useStyles = makeStyles((theme) => ({
   radioButton: {
     display: "flex",
   },
-  form_Button: {
+  formButton: {
     margin: "16px",
     color: theme.palette.secondary.main,
   },
-  add_Tag_Button: {
+  addTagButton: {
     textTransform: "none",
     color: "#000000",
     fontWeight: "normal",
   },
-  textarea: {
-    borderColor: theme.palette.primary.main,
-    width: "100%",
-  },
-  input_Audio: {
-    marginTop: "8px",
-  },
-  input_url: {
-    minWidth: "400px",
-  },
 }));
 
-export default function Uploadscreen(props) {
+export default function Uploadscreen() {
   const classes = useStyles();
   const [
     clickedSubcategoriesRelaxation,
@@ -116,18 +104,13 @@ export default function Uploadscreen(props) {
   const [subcategoryWellbeing, setSubcategoryWellbeing] = useState([]);
   const [formChanges, setFormChanges] = useState(0);
 
-  // reducer for generated Checkboxes
+  // reducer: transforms SubcategoryArry to AubcategoryCheckboxListState
   const reducer = (accumulator, currentValue) => {
-    let wert = Object.assign(accumulator, { [currentValue.value]: false });
-    return wert;
+    let valueCheckboxes = Object.assign(accumulator, {
+      [currentValue.value]: false,
+    });
+    return valueCheckboxes;
   };
-
-  let categories = [
-    Constants.pages.relaxation.title,
-    Constants.pages.fitness.title,
-    Constants.pages.wellbeing.title,
-    Constants.pages.nutrition.title,
-  ];
 
   useEffect(() => {
     getStructureOnce().then((structure) => {
@@ -251,14 +234,13 @@ export default function Uploadscreen(props) {
     }
   }
 
-  // radio-buttons
-  const [value, setValue] = useState("Video");
+  // radio-buttons: which input field is displayed
+  const [radioButtonValue, setRadioButtonValue] = useState("Video");
 
   const handleChangeRadio = (event) => {
-    setValue(event.target.value);
+    setRadioButtonValue(event.target.value);
   };
 
-  //title-input
   const [titleInput, setTitleInput] = useState("");
 
   const handleTitleInput = (event) => {
@@ -277,15 +259,15 @@ export default function Uploadscreen(props) {
       event.target.checked
     );
   };
-  // tag-dialog
-  const [open, setOpen] = React.useState(false);
+
+  const [tagDialogOpen, setTagDialogOpen] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setTagDialogOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setTagDialogOpen(false);
   };
 
   const handleAddTag = () => {
@@ -293,7 +275,7 @@ export default function Uploadscreen(props) {
     newTagList.push(inputTag);
     setNewTags(newTagList);
     setFormChanges(formChanges + 1);
-    setOpen(false);
+    setTagDialogOpen(false);
   };
 
   const [inputTag, setInputTag] = useState("");
@@ -302,30 +284,27 @@ export default function Uploadscreen(props) {
     setInputTag(event.target.value);
   };
 
-  //--Text
-  const [textInput, setTextInput] = React.useState("");
+  const [textInput, setTextInput] = useState("");
   const handleTextInput = (event) => {
     setTextInput(event.target.value);
   };
 
-  //--Audio
-  const [selectedAudio, setSelectedAudio] = React.useState();
+  const [selectedAudio, setSelectedAudio] = useState();
   const handleAudioInput = (event) => {
     setSelectedAudio(event.target.files[0]);
   };
 
-  const [lengthAudioInput, setLengthAudioInput] = React.useState("");
+  const [lengthAudioInput, setLengthAudioInput] = useState("");
   const handleLengthAudioInput = (event) => {
     setLengthAudioInput(event.target.value);
   };
 
-  //--Video
-  const [urlVideoInput, setUrlVideoInput] = React.useState("");
+  const [urlVideoInput, setUrlVideoInput] = useState("");
   const handleUrlVideoInput = (event) => {
     setUrlVideoInput(event.target.value);
   };
 
-  const [lengthVideoInput, setLengthVideoInput] = React.useState("");
+  const [lengthVideoInput, setLengthVideoInput] = useState("");
   const handleLengthVideoInput = (event) => {
     setLengthVideoInput(event.target.value);
   };
@@ -362,7 +341,7 @@ export default function Uploadscreen(props) {
       clickedSubcategoriesWellbeing,
       clickedSubcategoriesFitness
     );
-    let type = value;
+    let type = radioButtonValue;
     let title = titleInput;
     let tags = allClickedTags;
     let audioFile = selectedAudio;
@@ -408,7 +387,7 @@ export default function Uploadscreen(props) {
     }
   };
   // dialog cancel-button
-  const [openCancelDialog, setOpenCancelDialog] = React.useState(false);
+  const [openCancelDialog, setOpenCancelDialog] = useState(false);
 
   const handleClickOpenCancelDialog = () => {
     setOpenCancelDialog(true);
@@ -419,7 +398,7 @@ export default function Uploadscreen(props) {
   };
   const handleCloseCancelDialogPositive = () => {
     setOpenCancelDialog(false);
-    // window.location.reload(false);
+    window.location.reload(false);
   };
 
   return (
@@ -442,7 +421,7 @@ export default function Uploadscreen(props) {
                     onSubcategoryChange={handleSubcategoryChangeRelaxation}
                     subcategories={subcategoryRelaxation}
                     setSubcategory={setSubcategoryRelaxation}
-                    category={categories[0]}
+                    category={"Entspannung"}
                   ></SubcategoryList>
                 </ul>
               </li>
@@ -456,7 +435,7 @@ export default function Uploadscreen(props) {
                     onSubcategoryChange={handleSubcategoryChangeFitness}
                     subcategories={subcategoryFitness}
                     setSubcategory={setSubcategoryFitness}
-                    category={categories[1]}
+                    category={"Fitness"}
                   ></SubcategoryList>
                 </ul>
               </li>
@@ -470,7 +449,7 @@ export default function Uploadscreen(props) {
                     onSubcategoryChange={handleSubcategoryChangeWellbeing}
                     subcategories={subcategoryWellbeing}
                     setSubcategory={setSubcategoryWellbeing}
-                    category={categories[2]}
+                    category={"Wohlbefinden"}
                   ></SubcategoryList>
                 </ul>
               </li>
@@ -484,7 +463,7 @@ export default function Uploadscreen(props) {
                     onSubcategoryChange={handleSubcategoryChangeNutrition}
                     subcategories={subcategoryNutrition}
                     setSubcategory={setSubcategoryNutrition}
-                    category={categories[3]}
+                    category={"Ernährung"}
                   ></SubcategoryList>
                 </ul>
               </li>
@@ -507,7 +486,7 @@ export default function Uploadscreen(props) {
                 row
                 aria-label="inputType"
                 name="inputType"
-                value={value}
+                value={radioButtonValue}
                 onChange={handleChangeRadio}
               >
                 <FormControlLabel
@@ -542,16 +521,16 @@ export default function Uploadscreen(props) {
               onChange={handleTitleInput}
               required
               id="title-input"
-              label="Geben sie den Titel an"
+              label="Geben Sie den Titel an"
               defaultValue="title"
               fullWidth
-              className={classes.input_title}
+              className={classes.inputTitle}
             />
           </Grid>
         </Grid>
         <Divider className={classes.divider} variant="middle" />
         {HandleContentShown(
-          value,
+          radioButtonValue,
           urlVideoInput,
           handleUrlVideoInput,
           lengthVideoInput,
@@ -589,7 +568,7 @@ export default function Uploadscreen(props) {
             <Button
               color="secondary"
               size="large"
-              className={classes.add_Tag_Button}
+              className={classes.addTagButton}
               onClick={handleClickOpen}
               startIcon={<AddIcon color={"secondary"} />}
             >
@@ -598,13 +577,15 @@ export default function Uploadscreen(props) {
           </Grid>
         </Grid>
         <Dialog
-          open={open}
+          open={tagDialogOpen}
           onClose={handleClose}
           aria-labelledby="add-tag-dialog-title"
         >
-          <DialogTitle id="add-tag-dialog-title">Tag hienzufügen</DialogTitle>
+          <DialogTitle id="add-tag-dialog-title">Tag hinzufügen</DialogTitle>
           <DialogContent>
-            <DialogContentText>Geben sie eine neue Tag ein:</DialogContentText>
+            <DialogContentText>
+              Geben Sie einen neuen Tag ein:
+            </DialogContentText>
             <TextField
               autoFocus
               value={inputTag}
@@ -628,7 +609,7 @@ export default function Uploadscreen(props) {
         <Button
           variant="text"
           color="secondary"
-          className={classes.form_Button}
+          className={classes.formButton}
           onClick={handleClickOpenCancelDialog}
         >
           Abbrechen
@@ -639,7 +620,7 @@ export default function Uploadscreen(props) {
           aria-labelledby="cansel-dialog-title"
         >
           <DialogTitle id="cansel-dialog-title">
-            {"Wollen sie die Eingaben löschen?"}
+            {"Wollen Sie die Eingaben löschen?"}
           </DialogTitle>
           <DialogActions>
             <Button onClick={handleCloseCancelDialogPositive} color="primary">
@@ -654,7 +635,7 @@ export default function Uploadscreen(props) {
             </Button>
           </DialogActions>
         </Dialog>
-        <Button variant="text" type="submit" className={classes.form_Button}>
+        <Button variant="text" type="submit" className={classes.formButton}>
           Content absenden
         </Button>
       </form>

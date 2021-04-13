@@ -10,16 +10,17 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.primary.main,
     width: "100%",
   },
-  input_Audio: {
+  inputAudio: {
     marginTop: "8px",
   },
-  input_url: {
-    minWidth: "400px",
+  inputUrl: {
+    minWidth: "200px",
+    maxWidth: "500px",
   },
 }));
 
 export default function HandleContentShown(
-  aktiveRadio,
+  activeRadio,
   urlVideoInput,
   handleUrlVideoInput,
   lengthVideoInput,
@@ -31,7 +32,7 @@ export default function HandleContentShown(
   handleLengthAudioInput
 ) {
   const classes = useStyles();
-  switch (aktiveRadio) {
+  switch (activeRadio) {
     case "Video":
       return (
         <div>
@@ -46,10 +47,11 @@ export default function HandleContentShown(
                 value={urlVideoInput}
                 onChange={handleUrlVideoInput}
                 id="urlVideoInput"
-                label="Geben sie die URL des Videos an"
+                label="Geben Sie die URL des Videos an"
+                helperText='Navigieren Sie in Youtube zu dem Video, das Sie einbetten m&ouml;chten. Klicken Sie unter dem Video auf den "Teilen"-Button (englisch: "Share"). Nun werden die Optionen zum Teilen des Videos angezeigt. Klicken Sie auf "Einbetten" (englisch: "Embed"). Kopieren Sie aus dem angezeigten Text nun die URL und f&uuml;gen Sie sie hier ein.'
                 defaultValue="url"
                 shrink
-                className={classes.input_url}
+                className={classes.inputUrl}
               />
             </Grid>
             <Grid item>
@@ -80,8 +82,7 @@ export default function HandleContentShown(
                 value={textInput}
                 onChange={handleTextInput}
                 id="textInput"
-                label="Bitte fügen sie hier ihren Text ein."
-                defaultValue="Text"
+                label="Bitte fügen Sie hier Ihren Text ein."
                 fullWidth
                 multiline
                 className={classes.textarea}
@@ -107,7 +108,7 @@ export default function HandleContentShown(
                 type="file"
                 name="audioInput"
                 onChange={handleAudioInput}
-                className={classes.input_Audio}
+                className={classes.inputAudio}
               ></input>
             </Grid>
             <Grid item>
