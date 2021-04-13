@@ -19,6 +19,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@material-ui/core/";
+import CustomSnackbar from "../pageComponents/CustomSnackbar";
 import AddIcon from "@material-ui/icons/Add";
 import {
   getContentsBySubcategories,
@@ -103,6 +104,7 @@ export default function Uploadscreen() {
   const [subcategoryNutrition, setSubcategoryNutrition] = useState([]);
   const [subcategoryWellbeing, setSubcategoryWellbeing] = useState([]);
   const [formChanges, setFormChanges] = useState(0);
+  const [successSnackbarOpen, setSuccessSnackbarOpen] = useState(false);
 
   // reducer: transforms SubcategoryArry to AubcategoryCheckboxListState
   const reducer = (accumulator, currentValue) => {
@@ -110,6 +112,14 @@ export default function Uploadscreen() {
       [currentValue.value]: false,
     });
     return valueCheckboxes;
+  };
+
+  const closeSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccessSnackbarOpen(false);
   };
 
   useEffect(() => {
@@ -359,8 +369,11 @@ export default function Uploadscreen() {
             title,
             type
           );
-          uploadContentToFirestorage(firebaseObjects).then(() => {
-            window.location.reload(false);
+          await uploadContentToFirestorage(firebaseObjects).then(() => {
+            setSuccessSnackbarOpen(true);
+            setTimeout(() => {
+              window.location.reload(false);
+            }, 2000);
           });
         });
       });
@@ -382,7 +395,10 @@ export default function Uploadscreen() {
         type
       );
       uploadContentToFirestorage(firebaseObjects).then(() => {
-        window.location.reload(false);
+        setSuccessSnackbarOpen(true);
+        setTimeout(() => {
+          window.location.reload(false);
+        }, 2000);
       });
     }
   };
@@ -639,6 +655,12 @@ export default function Uploadscreen() {
           Content absenden
         </Button>
       </form>
+      <CustomSnackbar
+        open={successSnackbarOpen}
+        onClose={closeSnackbar}
+        message="Inhalt wurde erfolgreich hochgeladen!"
+        type="success"
+      />
     </div>
   );
 }
