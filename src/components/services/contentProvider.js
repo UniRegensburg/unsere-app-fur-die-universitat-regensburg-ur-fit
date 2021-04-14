@@ -107,3 +107,7 @@ export const addNewSubcategory = async (subcategory) => {
       })
   );
 };
+
+export const deleteUserAccount = (userid) => {
+  return database.collection("users").doc(userid).delete();
+};
