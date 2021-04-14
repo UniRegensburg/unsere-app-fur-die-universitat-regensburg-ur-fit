@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, Typography, CircularProgress } from "@material-ui/core/";
 import { ArrowBack as ArrowBackIcon } from "@material-ui/icons";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+// import FormControl from "@material-ui/core/FormControl";
+// import Select from "@material-ui/core/Select";
 import TopAppBar from "../pageComponents/TopAppBar";
 import ContentCard from "../pageComponents/ContentCard";
 import { Link } from "react-router-dom";
@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Contentlistscreen(props) {
   const classes = useStyles();
   const userId = useAuthState();
-  const [sort, setSort] = useState("Länge");
   const [contentList, setContentList] = useState([]);
   const [loading, setLoading] = useState(true);
   const { match } = props;
@@ -94,10 +93,17 @@ export default function Contentlistscreen(props) {
     return () => unsubscribe();
   }, [subcategory, category, userId]);
 
+  /* 
+  for continuing the work: 
+  the possibility to sort the content by diffrent criteria would be a benefit to the user.
+  we did not implement this but left the ui for a select-form in place.
+  just remove the comments and finish the implementation.
+ 
   const handleSortChange = (event) => {
     setSort(event.target.value);
     // todo: sort content accordingly
-  };
+
+  }; */
 
   return (
     <div className="Contentlistscreen">
@@ -114,7 +120,7 @@ export default function Contentlistscreen(props) {
           <Link to={`/category/${match.params.category}`} replace>
             <ArrowBackIcon className={classes.back} />
           </Link>
-          <FormControl className={classes.select}>
+          {/* <FormControl className={classes.select}>
             <Select
               native
               value={sort}
@@ -128,7 +134,7 @@ export default function Contentlistscreen(props) {
               <option>Alphabet</option>
               <option>Favorit</option>
             </Select>
-          </FormControl>
+          </FormControl> */}
         </div>
         {loading ? (
           <CircularProgress />
