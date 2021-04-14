@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Grid, makeStyles } from "@material-ui/core/";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import CustomSnackbar from "../pageComponents/CustomSnackbar";
+import { deleteUserAccount } from "../services/contentProvider";
+import { useAuthState } from "../hooks/useAuthState";
+import auth from "../services/authService";
 
 import TopAppBar from "../pageComponents/TopAppBar";
 
@@ -19,14 +23,37 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Settingsscreen() {
   const classes = useStyles();
-  const [openDelete, setDeleteOpen] = React.useState(false);
+  const userId = useAuthState();
+  const [openDelete, setDeleteOpen] = useState(false);
+  const [errorSnackbarOpen, setErrorSnackbarOpen] = useState(false);
+  let snackbarErrorMessage = "";
 
   const handleDelete = () => {
     setDeleteOpen(true);
     // todo: delete account (entry in user db) and logout (redirect to login) + show feedback (snackbar)
   };
-  const handleCloseDialogDelete = () => {
+  const handleCloseDialogAbortDeletion = () => {
     setDeleteOpen(false);
+  };
+
+  const handleCloseDialogDeleteAccount = () => {
+    deleteUserAccount(userId)
+      .then(() => {
+        auth.logout();
+      })
+      .catch((error) => {
+        snackbarErrorMessage = `Failed to delete account! Try again later. ${error}`;
+        setErrorSnackbarOpen(true);
+      });
+    setDeleteOpen(false);
+  };
+
+  const closeSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setErrorSnackbarOpen(false);
   };
 
   return (
@@ -45,7 +72,7 @@ export default function Settingsscreen() {
             </Button>
             <Dialog
               open={openDelete}
-              onClose={handleCloseDialogDelete}
+              onClose={handleCloseDialogAbortDeletion}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
@@ -64,13 +91,16 @@ export default function Settingsscreen() {
               </DialogContent>
               <DialogActions>
                 <Button
-                  onClick={handleCloseDialogDelete}
+                  onClick={handleCloseDialogAbortDeletion}
                   color="primary"
                   autoFocus
                 >
                   Abbrechen
                 </Button>
-                <Button onClick={handleCloseDialogDelete} color="secondary">
+                <Button
+                  onClick={handleCloseDialogDeleteAccount}
+                  color="secondary"
+                >
                   Löschen
                 </Button>
               </DialogActions>
@@ -78,6 +108,12 @@ export default function Settingsscreen() {
           </Grid>
         </Grid>
       </div>
+      <CustomSnackbar
+        open={errorSnackbarOpen}
+        onClose={closeSnackbar}
+        message={snackbarErrorMessage}
+        type="error"
+      />
     </div>
   );
 }
