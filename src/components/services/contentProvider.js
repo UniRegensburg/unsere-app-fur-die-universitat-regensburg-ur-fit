@@ -92,6 +92,13 @@ export const uploadContentToFirestorage = (contentItems) => {
   );
 };
 
+export const getSubcategory = (subcategoryValue) => {
+  return database
+    .collection("structure")
+    .where("value", "==", subcategoryValue)
+    .get();
+};
+
 export const addNewSubcategory = async (subcategory) => {
   Promise.all(
     database
