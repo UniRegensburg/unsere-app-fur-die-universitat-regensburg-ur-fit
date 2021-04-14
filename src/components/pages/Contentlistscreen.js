@@ -53,8 +53,8 @@ export default function Contentlistscreen(props) {
       getStructureOnce().then((structure) => {
         Promise.all(structure.docs.map((content) => content.data())).then(
           (appStructure) => {
-            appStructure.map((categoryInst) => {
-              categoryInst.subcategories.map((subcategoryInst) => {
+            appStructure.forEach((categoryInst) => {
+              categoryInst.subcategories.forEach((subcategoryInst) => {
                 if (subcategoryInst.value === subcategory) {
                   setTitle(subcategoryInst.title);
                 }
