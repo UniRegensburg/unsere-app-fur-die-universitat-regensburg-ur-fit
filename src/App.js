@@ -11,6 +11,7 @@ import Loginscreen from "./components/pages/Loginscreen";
 import Imprintscreen from "./components/pages/Imprintscreen";
 import ConditionsOfUseScreen from "./components/pages/ConditionsOfUsescreen";
 import Settingsscreen from "./components/pages/Settingsscreen";
+import Uploadscreen from "./components/upload/Uploadscreen";
 
 import {
   Category,
@@ -53,6 +54,11 @@ function App() {
               exact
               path="/category/:category/:subcategory/:contentId"
               component={Content}
+            />
+            <ProtectedRoute
+              exact
+              path="/ndsoiwenf0932ndshv24/upload"
+              component={Uploadscreen}
             />
           </Switch>
         </div>
