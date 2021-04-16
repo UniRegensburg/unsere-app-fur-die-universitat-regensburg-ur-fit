@@ -1,0 +1,13 @@
+module.exports = {
+  auth: {
+    mail: "mail@dummy.com",
+    password: "1234abc",
+  },
+  service: "dummy",
+  mailOptions: {
+    from: "mail@dummy.com",
+    to: "ur.fit.app@mailman.uni-regensburg.de",
+    subject: "Feedback for URfit-App",
+    text: "Warning: Empty message",
+  },
+};
