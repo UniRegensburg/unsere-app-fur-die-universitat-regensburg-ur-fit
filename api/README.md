@@ -25,6 +25,7 @@ module.exports = {
     mail: "mail@dummy.com",
     password: "1234abc",
   },
+  service: "dummy", // Email service provider for service account (sender).
   mailOptions: {
     from: "mail@dummy.com", // Account from auth property.
     to: "ur.fit.app@mailman.uni-regensburg.de", // Email distributor (e.g. mailman).

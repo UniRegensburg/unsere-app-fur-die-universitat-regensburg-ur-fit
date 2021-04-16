@@ -3,6 +3,7 @@ module.exports = {
     mail: "mail@dummy.com",
     password: "1234abc",
   },
+  service: "dummy",
   mailOptions: {
     from: "mail@dummy.com",
     to: "ur.fit.app@mailman.uni-regensburg.de",
