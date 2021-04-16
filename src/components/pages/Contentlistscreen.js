@@ -10,6 +10,7 @@ import {
   getContentItemsBySubcategory,
   getContentItemsByCategory,
   getUserFavoritesOnce,
+  getStructureOnce,
 } from "../services/contentProvider";
 import { useAuthState } from "../hooks/useAuthState";
 
@@ -38,10 +39,31 @@ export default function Contentlistscreen(props) {
   const classes = useStyles();
   const userId = useAuthState();
   const [contentList, setContentList] = useState([]);
+  const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(true);
   const { match } = props;
   let subcategory = match.params.subcategory;
   let category = match.params.category;
+
+  useEffect(() => {
+    if (subcategory === "allContents") {
+      setTitle("Alle Inhalte");
+    } else {
+      getStructureOnce().then((structure) => {
+        Promise.all(structure.docs.map((content) => content.data())).then(
+          (appStructure) => {
+            appStructure.forEach((categoryInst) => {
+              categoryInst.subcategories.forEach((subcategoryInst) => {
+                if (subcategoryInst.value === subcategory) {
+                  setTitle(subcategoryInst.title);
+                }
+              });
+            });
+          }
+        );
+      });
+    }
+  }, [subcategory]);
 
   useEffect(() => {
     const checkFavorite = async (contents) => {
@@ -107,14 +129,7 @@ export default function Contentlistscreen(props) {
 
   return (
     <div className="Contentlistscreen">
-      <TopAppBar
-        data-testid="appbar"
-        title={
-          match.params.subcategory.charAt(0).toUpperCase() +
-          match.params.subcategory.slice(1)
-        }
-        favIcon="visible"
-      />
+      <TopAppBar data-testid="appbar" title={title} favIcon="visible" />
       <div className={classes.container}>
         <div className={classes.header}>
           <Link to={`/category/${match.params.category}`} replace>
