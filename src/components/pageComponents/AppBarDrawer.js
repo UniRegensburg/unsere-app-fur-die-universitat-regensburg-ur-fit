@@ -12,7 +12,7 @@ import {
 import { Link } from "react-router-dom";
 
 import Logo from "../../assets/images/URFitLogo.png";
-import * as Constants from "../../constants/constants.js";
+import { pages } from "../../constants/constants.js";
 import auth from "../services/authService";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,19 +54,19 @@ export default function AppBarDrawer(props) {
   };
 
   let contentPages = [
-      Constants.pages.relaxation,
-      Constants.pages.fitness,
-      Constants.pages.wellbeing,
-      Constants.pages.nutrition,
+      pages.relaxation,
+      pages.fitness,
+      pages.wellbeing,
+      pages.nutrition,
     ],
     otherPages = [
-      Constants.pages.settings,
-      Constants.pages.feedback,
-      Constants.pages.imprint,
-      Constants.pages.conditions,
+      pages.settings,
+      pages.feedback,
+      pages.imprint,
+      pages.conditions,
     ],
-    homeEntry = Constants.pages.home,
-    logoutEntry = Constants.pages.logout;
+    homeEntry = pages.home,
+    logoutEntry = pages.logout;
 
   return (
     <Drawer
@@ -145,8 +145,6 @@ export default function AppBarDrawer(props) {
             ))}
             <ListItem
               button
-              // component={Link}
-              // to={item.value}
               onClick={handleOnLogoutEntryClick}
               key={logoutEntry.value}
               data-testid="drawer-listitem"
