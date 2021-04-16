@@ -33,7 +33,7 @@ Students are not only exposed to enormous stress during exam time, but also repe
 
 The URfit app is a web-based application where students of the [University of Regensburg](https://www.ur.de/) can find offers for a healthier daily study routine in the forms of exercise, fitness and relaxation videos as well as audio files. A link to the universities cafeteria offerings is also included.
 
-![Screenshots of URfit.](public\assets\final-Inked_all-screenshots_LI.jpg)
+![Screenshots of URfit.](public/assets/final-Inked_all-screenshots_LI.jpg)
 
 ## Progressive Web App
 
@@ -70,7 +70,7 @@ As a user you can
 
 As a content provider you can upload new content in form of video, audio or text. To get access to the upload area please contact the app team.
 
-![Screenshot of upload screen.](public\assets\uploadscreen.png)
+![Screenshot of upload screen.](public/assets/uploadscreen.png)
 
 ## How to get started (as a developer)
 
